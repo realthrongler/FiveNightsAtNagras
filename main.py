@@ -3,8 +3,8 @@
 # Description: Five Night's at Freddy's but with Mr.Nagra and us
 
 import pygame
-from pygame import *
-from pygame.sprite import *
+from pygame import * # type: ignore
+from pygame.sprite import * # type: ignore
 
 # define colour constants
 WHITE = (255, 255, 255)
@@ -16,13 +16,15 @@ BLUE = (0, 0, 255)
 
 # define system constants
 FPS = 60
-WIDTH = 640
-HEIGHT = 480
+WIDTH = 1280
+HEIGHT = 720
 BGCOLOUR = BLACK ### CHANGE AS NEEDED ###
+CAPTION = "Five Nights at Mr.Thong's"
 
 # initialize pygame, create window, start the clock
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption(CAPTION)
 clock = pygame.time.Clock()
 
 ### ADD YOUR SPRITE CLASSES HERE ###
@@ -48,6 +50,103 @@ clock = pygame.time.Clock()
 
 # group sprites
 allSprites = pygame.sprite.Group()
+
+def StudioIntroduction():
+    pass
+
+def MenuScreen():
+    pass
+
+def NewGamePressed():
+    pass
+
+def SettingsPressed():
+    pass
+
+def StoryIntroduction():
+    pass
+
+def DrawOfficeScreen():
+    pass
+
+def LookAtDoor():
+    pass
+
+def RunToDoor():
+    pass
+
+def RunToComputer():
+    pass
+
+def RunToWindow():
+    pass
+
+def OpenCameras():
+    pass
+
+def SwitchCameras(camera):
+    pass
+
+def CloseCameras():
+    pass
+
+def Flashlight():
+    pass
+
+def LoganMovement():
+    pass
+
+def MaxMovement():
+    pass
+
+def NoahMovement():
+    pass
+
+def NagraMovement():
+    pass
+
+def LoganJumpscare():
+    pass
+
+def MaxWindowBreak():
+    pass
+
+def MaxJumpscare():
+    pass
+
+def NoahAppear():
+    pass
+
+def ComputerShutoff():
+    pass
+
+def ComputerPowerOn():
+    pass
+
+def NagraJumpscare():
+    pass
+
+def CloseDoor():
+    pass
+
+def ShutOffMusic():
+    pass
+
+def PlayMusic():
+    #DJ toenail here
+    pass
+
+def GameOverScreen():
+    pass
+
+def RetryButtonPressed():
+    pass
+
+def NightWin():
+    pass
+
+def NightStart():
+    pass
 
 # game loop
 running = True
