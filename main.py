@@ -2,10 +2,11 @@
 # Date: 29/05/25
 # Description: Five Night's at Freddy's but with Mr.Nagra and us
 
-import pygame
 from pygame import * # type: ignore
 from pygame.sprite import * # type: ignore
+from functions import *
 
+import random
 # define colour constants
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -51,102 +52,7 @@ clock = pygame.time.Clock()
 # group sprites
 allSprites = pygame.sprite.Group()
 
-def StudioIntroduction():
-    pass
-
-def MenuScreen():
-    pass
-
-def NewGamePressed():
-    pass
-
-def SettingsPressed():
-    pass
-
-def StoryIntroduction():
-    pass
-
-def DrawOfficeScreen():
-    pass
-
-def LookAtDoor():
-    pass
-
-def RunToDoor():
-    pass
-
-def RunToComputer():
-    pass
-
-def RunToWindow():
-    pass
-
-def OpenCameras():
-    pass
-
-def SwitchCameras(camera):
-    pass
-
-def CloseCameras():
-    pass
-
-def Flashlight():
-    pass
-
-def LoganMovement():
-    pass
-
-def MaxMovement():
-    pass
-
-def NoahMovement():
-    pass
-
-def NagraMovement():
-    pass
-
-def LoganJumpscare():
-    pass
-
-def MaxWindowBreak():
-    pass
-
-def MaxJumpscare():
-    pass
-
-def NoahAppear():
-    pass
-
-def ComputerShutoff():
-    pass
-
-def ComputerPowerOn():
-    pass
-
-def NagraJumpscare():
-    pass
-
-def CloseDoor():
-    pass
-
-def ShutOffMusic():
-    pass
-
-def PlayMusic():
-    #DJ toenail here
-    pass
-
-def GameOverScreen():
-    pass
-
-def RetryButtonPressed():
-    pass
-
-def NightWin():
-    pass
-
-def NightStart():
-    pass
+StudioIntroduction()
 
 # game loop
 running = True
@@ -162,7 +68,7 @@ while running:
         
     # game loop updates (including movement)
     ### ADD ANY GAME LOOP UPDATES HERE ###
-    
+
     # check for keypresses
     #keys = pygame.key.get_pressed()
     
@@ -176,9 +82,7 @@ while running:
     
     # background fill
     screen.fill(BGCOLOUR)
-    
     # update position of sprites
-    
     
     # render sprites on screen
     allSprites.draw(screen)
