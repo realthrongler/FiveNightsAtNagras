@@ -9,6 +9,16 @@ PoweredBy = pygame.image.load("PoweredBySource.jpg").convert_alpha()
 IntroImage = pygame.image.load("ValveIntro.jpg").convert_alpha()
 #PoweredBy = pygame.image.load("PoweredBySource.jpg").convert_alpha()
 def StudioIntroduction():
+import pygame
+from pygame.locals import *
+import sys
+import random
+from time import sleep
+import time
+
+pygame.init()
+pygame.mixer.init()
+
 # Load music
 pygame.mixer.music.load("Valve_intro.mp3")
 music_length = pygame.mixer.Sound("Valve_intro.mp3").get_length()
@@ -83,7 +93,6 @@ while running:
     pygame.display.flip()
 
     clock.tick(60)
-
 def MenuScreen():
     pass
 
