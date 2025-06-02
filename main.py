@@ -82,8 +82,44 @@ image_rect = image.get_rect(center=(1280 // 2, 720 // 2))
 
 clock = pygame.time.Clock()
 
-def MenuScreen():
-    pass
+def DrawMenuScreen():
+        pygame.font.get_fonts()
+        pygame.font.SysFont("Sans.ttf", 56, bold=False, italic=False)
+
+        red = (200, 50, 0)
+        blue = (0, 0, 255)
+        white = (255, 255, 255)
+
+        screen = pygame.display.set_mode((1280, 720))
+        font = pygame.font.Font("Sans.ttf", 56)
+        text1 = font.render("Five", True, (red))
+        text_rect = text1.get_rect(center=(90, 50))
+        text2 = font.render("Nights", True, (red))
+        text_rect2 = text2.get_rect(center=(120, 125))
+        text3 = font.render("At", True, (red))
+        text_rect3 = text3.get_rect(center=(60, 200))
+        text4 = font.render("Mr. Nagras", True, (red))
+        text_rect4 = text4.get_rect(center=(175, 275))
+        text5 = font.render("Start Game", True, (red))
+        text_rect5 = text5.get_rect(center=(185, 450))
+        text6 = font.render("Quit", True, (red))
+        text_rect6 = text6.get_rect(center=(80, 550))
+
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    running = False
+
+            screen.fill((0, 0, 0))
+            screen.blit(text1, text_rect)
+            screen.blit(text2, text_rect2)
+            screen.blit(text3, text_rect3)
+            screen.blit(text4, text_rect4)
+            screen.blit(text5, text_rect5)
+            screen.blit(text6, text_rect6)
+
+            pygame.display.flip()
 
 def NewGamePressed():
     pass
