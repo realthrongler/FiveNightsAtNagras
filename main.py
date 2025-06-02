@@ -95,7 +95,7 @@ DoorClosed = False
 MusicBlaring = False
 #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "INTRODUCTION"
 State = ""
-def MenuScreen():
+def DrawMenuScreen():
         State = "MENU"
         pygame.font.get_fonts()
         pygame.font.SysFont("Sans.ttf", 56, bold=False, italic=False)
