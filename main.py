@@ -1,4 +1,3 @@
-
 # Programmer(s): Max, Logan, Noah
 # Date: 29/05/25
 # Description: Five Night's at Freddy's but with Mr.Nagra and us
@@ -88,9 +87,13 @@ CanWindow = False
 CanDoor = False
 CanCamera = False
 CanClose = False
+CanDisableMusic = False
 CanFlashlight = False
 LookingAtDoor = False
-#Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", and "MENU"
+FlashlightActive = False
+DoorClosed = False
+MusicBlaring = False
+#Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "INTRODUCTION"
 State = ""
 def MenuScreen():
         State = "MENU"
@@ -127,37 +130,54 @@ def MenuScreen():
             pygame.display.flip()
 
 def NewGamePressed():
-    pass
+    State = "INTRODUCTION"
+    StoryIntroduction()
 
 def StoryIntroduction():
     pass
 
-def DrawOfficeScreen():
+def DrawDeskScreen():
     pass
 
 def LookAtDoor():
-    pass
+    CanCamera = False
+    CanFlashlight = True
+    #Draw looking over here
 
 def RunToDoor():
-    pass
+    State = "DOOR"
+    CanCamera = False
+    #Draw door here
 
 def RunToComputer():
-    pass
+    #Disable player and play running sound
+
+    DrawDeskScreen()
 
 def RunToWindow():
-    pass
+    #Disable player and play running sound
+
+    State = "WINDOW"
+    CanFlashlight = True
+    CanCamera = False
 
 def OpenCameras():
-    pass
+    State = "CAMERA"
+    CanDoor = False
+    CanWindow = False
 
 def SwitchCameras(camera):
     pass
 
 def CloseCameras():
-    pass
+    State = "DESK"
+    DrawDeskScreen()
+    CanDisableMusic = False
+    CanCamera = True
+    
 
 def Flashlight():
-    pass
+    FlashlightActive = True
 
 def LoganMovement():
     pass
@@ -175,16 +195,16 @@ def LoganJumpscare():
     pass
 
 def MaxWindowBreak():
-    pass
+    CanWindow = False
 
 def MaxJumpscare():
     pass
 
 def NoahAppear():
-    pass
+    CanCamera = False
 
 def ComputerShutoff():
-    pass
+    CanCamera = False
 
 def ComputerPowerOn():
     pass
@@ -193,13 +213,16 @@ def NagraJumpscare():
     pass
 
 def CloseDoor():
-    pass
+    CanCamera = False
+    CanFlashlight = False
 
 def ShutOffMusic():
-    pass
+    if State == "CAMERAS":
+        MusicBlaring = False
+        
 
 def PlayMusic():
-    #DJ toenail here
+    MusicBlaring = True
     pass
 
 def GameOverScreen():
@@ -219,6 +242,9 @@ def NightStart():
 
     State = "DESK"
     CanCamera = True
+    CanWindow = True
+    CanDoor = True
+
 
         
 running = True
