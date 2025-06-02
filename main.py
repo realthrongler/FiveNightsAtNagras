@@ -4,7 +4,7 @@
 import pygame
 from pygame import * # type: ignore
 from pygame.sprite import * # type: ignore
-from functions import *
+
 import time
 import random
 # define colour constants
@@ -77,7 +77,7 @@ screen = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Valve Intro")
 
 # Load image and center it
-image = pygame.image.load("ValveIntro.png").convert_alpha()
+image = pygame.image.load("ValveIntro.jpg").convert_alpha()
 image_rect = image.get_rect(center=(1280 // 2, 720 // 2))
 
 clock = pygame.time.Clock()
@@ -87,16 +87,16 @@ CanWindow = False
 CanDoor = False
 CanCamera = False
 CanClose = False
+CanLook = False
 CanDisableMusic = False
 CanFlashlight = False
 LookingAtDoor = False
 FlashlightActive = False
 DoorClosed = False
 MusicBlaring = False
-#Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "INTRODUCTION"
+#Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "INTRODUCTION", "LOOKING", "WIN"
 State = ""
 def DrawMenuScreen():
-        State = "MENU"
         pygame.font.get_fonts()
         pygame.font.SysFont("Sans.ttf", 56, bold=False, italic=False)
 
@@ -137,21 +137,31 @@ def StoryIntroduction():
     pass
 
 def DrawDeskScreen():
-    pass
-
+    State = "DESK"
+    CanLook = True
+    CanCamera = True
+    
 def LookAtDoor():
+    State = "LOOKING"
     CanCamera = False
     CanFlashlight = True
-    #Draw looking over here
+    
+def DrawLookingOver():
+    pass
 
 def RunToDoor():
     State = "DOOR"
     CanCamera = False
-    #Draw door here
+    
+def DrawAtDoor():
+    pass
 
 def RunToComputer():
-    #Disable player and play running sound
-
+    CanWindow = False
+    CanFlashlight = False
+    CanClose = False
+    CanDoor = False
+    #Play running sound here
     DrawDeskScreen()
 
 def RunToWindow():
@@ -175,7 +185,6 @@ def CloseCameras():
     CanDisableMusic = False
     CanCamera = True
     
-
 def Flashlight():
     FlashlightActive = True
 
@@ -217,10 +226,8 @@ def CloseDoor():
     CanFlashlight = False
 
 def ShutOffMusic():
-    if State == "CAMERAS":
-        MusicBlaring = False
+    pass
         
-
 def PlayMusic():
     MusicBlaring = True
     pass
@@ -232,7 +239,17 @@ def RetryButtonPressed():
     pass
 
 def NightWin():
-    pass
+    CanLook = False
+    CanClose = False
+    CanCamera = False
+    CanDisableMusic = False
+    MusicBlaring = False
+    CanDoor = False
+    CanWindow = False
+    CanFlashlight = False
+    State = "WIN"
+    #Play winning music here
+    #Draw clock or something here
 
 NightActive = False
 def NightStart():
@@ -246,56 +263,7 @@ def NightStart():
     CanDoor = True
 
 
-        
-running = True
-while running:
-    current_ticks = pygame.time.get_ticks()
-    elapsed_seconds = (current_ticks - start_ticks) / 1000.0
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    # === Audio Fade-In ===
-    if elapsed_seconds < audio_fade_in_duration:
-        audio_progress = elapsed_seconds / audio_fade_in_duration
-        volume = min(1.0, audio_progress)
-    else:
-        volume = 1.0
-
-    # === Audio Fade-Out ===
-    if elapsed_seconds >= music_length - fade_out_duration:
-        fade_out_progress = (elapsed_seconds - (music_length - fade_out_duration)) / fade_out_duration
-        volume = max(0.0, 1.0 - fade_out_progress)
-
-    # === Image Alpha (Fade-In with Delay) ===
-    image_alpha = 255  # default to full opacity
-
-    if elapsed_seconds < image_fade_in_delay:
-        image_alpha = 0  # completely hidden before fade starts
-    elif elapsed_seconds < image_fade_in_delay + image_fade_in_duration:
-        fade_progress = (elapsed_seconds - image_fade_in_delay) / image_fade_in_duration
-        image_alpha = int(min(255, fade_progress * 255))
-
-    # === Image Fade-Out (Start Early) ===
-    image_fade_out_start = music_length - fade_out_duration - image_fade_out_early
-    if elapsed_seconds >= image_fade_out_start:
-        fade_progress = (elapsed_seconds - image_fade_out_start) / fade_out_duration
-        image_alpha = int(max(0, (1.0 - fade_progress) * 255))
-
-    # Apply audio and image settings
-    pygame.mixer.music.set_volume(volume)
-    image.set_alpha(image_alpha)
-
-    # Draw
-    screen.fill((0, 0, 0))
-    screen.blit(image, image_rect)
-    pygame.display.flip()
-
-    clock.tick(60)
-
-
-# game loop
+# MAIN GAME LOOP
 running = True
 while running:
     # keep loop running at the right speed 
@@ -306,7 +274,8 @@ while running:
             running = False
         
         ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ###
-        
+    while State == "MENU":
+        DrawMenuScreen()
     # game loop updates (including movement)
     ### ADD ANY GAME LOOP UPDATES HERE ###
 
