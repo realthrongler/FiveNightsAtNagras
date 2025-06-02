@@ -1,11 +1,12 @@
+
 # Programmer(s): Max, Logan, Noah
 # Date: 29/05/25
 # Description: Five Night's at Freddy's but with Mr.Nagra and us
-
+import pygame
 from pygame import * # type: ignore
 from pygame.sprite import * # type: ignore
 from functions import *
-
+import time
 import random
 # define colour constants
 WHITE = (255, 255, 255)
@@ -82,13 +83,21 @@ image_rect = image.get_rect(center=(1280 // 2, 720 // 2))
 
 clock = pygame.time.Clock()
 
-def DrawMenuScreen():
+#Variables for determining whether the play can perform certain actions
+CanWindow = False
+CanDoor = False
+CanCamera = False
+CanClose = False
+CanFlashlight = False
+LookingAtDoor = False
+#Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", and "MENU"
+State = ""
+def MenuScreen():
+        State = "MENU"
         pygame.font.get_fonts()
         pygame.font.SysFont("Sans.ttf", 56, bold=False, italic=False)
 
         red = (200, 50, 0)
-        blue = (0, 0, 255)
-        white = (255, 255, 255)
 
         screen = pygame.display.set_mode((1280, 720))
         font = pygame.font.Font("Sans.ttf", 56)
@@ -105,12 +114,8 @@ def DrawMenuScreen():
         text6 = font.render("Quit", True, (red))
         text_rect6 = text6.get_rect(center=(80, 550))
 
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    running = False
 
+        while State == "MENU":
             screen.fill((0, 0, 0))
             screen.blit(text1, text_rect)
             screen.blit(text2, text_rect2)
@@ -122,9 +127,6 @@ def DrawMenuScreen():
             pygame.display.flip()
 
 def NewGamePressed():
-    pass
-
-def SettingsPressed():
     pass
 
 def StoryIntroduction():
@@ -209,7 +211,14 @@ def RetryButtonPressed():
 def NightWin():
     pass
 
+NightActive = False
 def NightStart():
+    NightActive = True
+    StartTime = pygame.time.get_ticks()
+    EndTime = StartTime + 270000
+
+    State = "DESK"
+    CanCamera = True
 
         
 running = True
