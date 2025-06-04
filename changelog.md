@@ -21,4 +21,5 @@
 04/06/25
 - Assets resized and edited (Thanks Max!) and uploaded to github
 - Introduction fixed
-- Fixing transition from introduction to menu
+- Fixed transistion from introduction to Menu
+- Added menu image and music
