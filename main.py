@@ -4,6 +4,7 @@
 import pygame
 from pygame import * # type: ignore
 from pygame.sprite import * # type: ignore
+from functions import *
 import time
 import random
 # define colour constants
@@ -64,11 +65,7 @@ FlashlightActive = False
 DoorClosed = False
 MusicBlaring = False
 #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "INTRODUCTION", "LOOKING", "WIN", "LOSS"
-State = ""
-
-import pygame
-from pygame.locals import *
-import time
+State = "MENU"
 
 def play_valve_intro():
     pygame.init()
@@ -76,7 +73,7 @@ def play_valve_intro():
 
     # Load music and image
     audio_path = "Valve_intro.mp3"
-    image_path = "ValveIntro.png"
+    image_path = "ValveIntro.jpg"
     pygame.mixer.music.load(audio_path)
     music_length = pygame.mixer.Sound(audio_path).get_length()
 
@@ -89,7 +86,6 @@ def play_valve_intro():
 
     # Set up display
     screen = pygame.display.set_mode((1280, 720))
-    pygame.display.set_caption("Valve Intro")
     image = pygame.image.load(image_path).convert_alpha()
     image_rect = image.get_rect(center=(1280 // 2, 720 // 2))
 
@@ -141,16 +137,18 @@ def play_valve_intro():
 
         clock.tick(60)
 
-    pygame.mixer.music.stop()
-    pygame.quit() 
+    pygame.mixer.music.pause()
+    State = "MENU"
+    pygame.mixer_music.unload()
+    pygame.mixer_music.set_volume(1.0)
         
 def DrawMenuScreen():
         pygame.font.get_fonts()
         pygame.font.SysFont("Sans.ttf", 56, bold=False, italic=False)
-
+        MenuImage = pygame.image.load("MenuScreen.png").convert_alpha()
+        Image_Rect = MenuImage.get_rect()
         red = (200, 50, 0)
 
-        screen = pygame.display.set_mode((1280, 720))
         font = pygame.font.Font("Sans.ttf", 56)
         text1 = font.render("Five", True, (red))
         text_rect = text1.get_rect(center=(90, 50))
@@ -164,18 +162,18 @@ def DrawMenuScreen():
         text_rect5 = text5.get_rect(center=(185, 450))
         text6 = font.render("Quit", True, (red))
         text_rect6 = text6.get_rect(center=(80, 550))
+        
+        screen.fill(BLACK)
 
+        screen.blit(MenuImage, Image_Rect)
+        screen.blit(text1, text_rect)
+        screen.blit(text2, text_rect2)
+        screen.blit(text3, text_rect3)
+        screen.blit(text4, text_rect4)
+        screen.blit(text5, text_rect5)
+        screen.blit(text6, text_rect6)
 
-        while State == "MENU":
-            screen.fill((0, 0, 0))
-            screen.blit(text1, text_rect)
-            screen.blit(text2, text_rect2)
-            screen.blit(text3, text_rect3)
-            screen.blit(text4, text_rect4)
-            screen.blit(text5, text_rect5)
-            screen.blit(text6, text_rect6)
-
-            pygame.display.flip()
+        pygame.display.flip()
 
 def NewGamePressed():
     #While loop in game loop, that breaks when state changes from menu
@@ -313,9 +311,12 @@ def NightStart():
     CanLook = True
     DrawDeskScreen()
 
+play_valve_intro()
+MenuSong = pygame.mixer_music.load("MenuTheme.mp3")
+
 # MAIN GAME LOOP
 running = True
-while running:
+while running:  
     # keep loop running at the right speed 
     clock.tick(FPS)
     # process input (events)
@@ -324,8 +325,11 @@ while running:
             running = False
         
         ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ###
-    while State == "MENU":
+    if State == "MENU":
         DrawMenuScreen()
+    
+    if State == "MENU" and pygame.mixer_music.get_busy() == False:
+        pygame.mixer_music.play()
 
     while State == "DESK":
         DrawDeskScreen()
@@ -347,8 +351,6 @@ while running:
     # game loop drawing
     ### ADD ANY GAME LOOP DRAWINGS HERE ###
     
-    # background fill
-    screen.fill(BGCOLOUR)
     # update position of sprites
     
     # render sprites on screen
