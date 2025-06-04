@@ -52,36 +52,6 @@ clock = pygame.time.Clock()
 # group sprites
 allSprites = pygame.sprite.Group()
 
-pygame.mixer.init()
-
-# Load music
-pygame.mixer.music.load("Valve_intro.mp3")
-music_length = pygame.mixer.Sound("Valve_intro.mp3").get_length()
-
-# Fade settings
-audio_fade_in_duration = 4.0
-fade_out_duration = 3.0
-
-# Image-specific timing
-image_fade_in_duration = 6.0
-image_fade_in_delay = 2.0         # Delay image fade-in by 2 seconds
-image_fade_out_early = 2.0        # Start fade-out 2 sec *before* audio fade-out
-
-# Start music
-pygame.mixer.music.set_volume(0.0)
-pygame.mixer.music.play(loops=0)
-start_ticks = pygame.time.get_ticks()
-
-# Display setup
-screen = pygame.display.set_mode((1280, 720))
-pygame.display.set_caption("Valve Intro")
-
-# Load image and center it
-image = pygame.image.load("ValveIntro.jpg").convert_alpha()
-image_rect = image.get_rect(center=(1280 // 2, 720 // 2))
-
-clock = pygame.time.Clock()
-
 #Variables for determining whether the play can perform certain actions
 CanWindow = False
 CanDoor = False
@@ -96,6 +66,85 @@ DoorClosed = False
 MusicBlaring = False
 #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "INTRODUCTION", "LOOKING", "WIN", "LOSS"
 State = ""
+
+import pygame
+from pygame.locals import *
+import time
+
+def play_valve_intro():
+    pygame.init()
+    pygame.mixer.init()
+
+    # Load music and image
+    audio_path = "Valve_intro.mp3"
+    image_path = "ValveIntro.png"
+    pygame.mixer.music.load(audio_path)
+    music_length = pygame.mixer.Sound(audio_path).get_length()
+
+    # Fade timings
+    audio_fade_in_duration = 4.0
+    fade_out_duration = 3.0
+    image_fade_in_duration = 6.0
+    image_fade_in_delay = 2.0
+    image_fade_out_early = 2.0
+
+    # Set up display
+    screen = pygame.display.set_mode((1280, 720))
+    pygame.display.set_caption("Valve Intro")
+    image = pygame.image.load(image_path).convert_alpha()
+    image_rect = image.get_rect(center=(1280 // 2, 720 // 2))
+
+    pygame.mixer.music.set_volume(0.0)
+    pygame.mixer.music.play(loops=0)
+
+    clock = pygame.time.Clock()
+    start_time = time.time()
+
+    running = True
+    while running:
+        elapsed = time.time() - start_time
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                break
+
+        # === Audio Fade Logic ===
+        if elapsed < audio_fade_in_duration:
+            volume = elapsed / audio_fade_in_duration
+        elif elapsed >= music_length - fade_out_duration:
+            fade_out_progress = (elapsed - (music_length - fade_out_duration)) / fade_out_duration
+            volume = max(0.0, 1.0 - fade_out_progress)
+        else:
+            volume = 1.0
+
+        pygame.mixer.music.set_volume(volume)
+
+        # === Image Alpha Logic ===
+        if elapsed < image_fade_in_delay:
+            image_alpha = 0
+        elif elapsed < image_fade_in_delay + image_fade_in_duration:
+            progress = (elapsed - image_fade_in_delay) / image_fade_in_duration
+            image_alpha = int(min(255, progress * 255))
+        elif elapsed > music_length - fade_out_duration - image_fade_out_early:
+            progress = (elapsed - (music_length - fade_out_duration - image_fade_out_early)) / fade_out_duration
+            image_alpha = int(max(0, (1 - progress) * 255))
+        else:
+            image_alpha = 255
+
+        image.set_alpha(image_alpha)
+        screen.fill((0, 0, 0))
+        screen.blit(image, image_rect)
+        pygame.display.flip()
+
+        if elapsed >= music_length:
+            running = False
+
+        clock.tick(60)
+
+    pygame.mixer.music.stop()
+    pygame.quit() 
+        
 def DrawMenuScreen():
         pygame.font.get_fonts()
         pygame.font.SysFont("Sans.ttf", 56, bold=False, italic=False)
