@@ -4,7 +4,7 @@
 import pygame
 from pygame import * # type: ignore
 from pygame.sprite import * # type: ignore
-
+from functions import *
 import time
 import random
 # define colour constants
@@ -94,7 +94,7 @@ LookingAtDoor = False
 FlashlightActive = False
 DoorClosed = False
 MusicBlaring = False
-#Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "INTRODUCTION", "LOOKING", "WIN"
+#Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "INTRODUCTION", "LOOKING", "WIN", "LOSS"
 State = ""
 def DrawMenuScreen():
         pygame.font.get_fonts()
@@ -130,22 +130,27 @@ def DrawMenuScreen():
             pygame.display.flip()
 
 def NewGamePressed():
+    #While loop in game loop, that breaks when state changes from menu
     State = "INTRODUCTION"
     StoryIntroduction()
 
 def StoryIntroduction():
-    pass
+    #Draw the stuff here
+    NightStart()
 
 def DrawDeskScreen():
     State = "DESK"
     CanLook = True
     CanCamera = True
+
+def DrawWindow():
+    pass
     
 def LookAtDoor():
     State = "LOOKING"
     CanCamera = False
     CanFlashlight = True
-    
+
 def DrawLookingOver():
     pass
 
@@ -239,6 +244,7 @@ def RetryButtonPressed():
     pass
 
 def NightWin():
+    NightActive = False
     CanLook = False
     CanClose = False
     CanCamera = False
@@ -249,19 +255,15 @@ def NightWin():
     CanFlashlight = False
     State = "WIN"
     #Play winning music here
-    #Draw clock or something here
+    #Draw winning clock or something here
 
 NightActive = False
 def NightStart():
     NightActive = True
-    StartTime = pygame.time.get_ticks()
-    EndTime = StartTime + 270000
-
     State = "DESK"
     CanCamera = True
-    CanWindow = True
-    CanDoor = True
-
+    CanLook = True
+    DrawDeskScreen()
 
 # MAIN GAME LOOP
 running = True
@@ -276,6 +278,13 @@ while running:
         ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ###
     while State == "MENU":
         DrawMenuScreen()
+
+    while State == "DESK":
+        DrawDeskScreen()
+
+    while State == "WINDOW":
+        DrawWindow()
+        
     # game loop updates (including movement)
     ### ADD ANY GAME LOOP UPDATES HERE ###
 
