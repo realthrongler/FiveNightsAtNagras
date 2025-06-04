@@ -4,7 +4,6 @@
 import pygame
 from pygame import * # type: ignore
 from pygame.sprite import * # type: ignore
-from functions import *
 import time
 import random
 # define colour constants
