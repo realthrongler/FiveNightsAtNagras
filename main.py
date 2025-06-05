@@ -65,7 +65,6 @@ DoorClosed = False
 MusicBlaring = False
 #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "INTRODUCTION", "LOOKING", "WIN", "LOSS"
 State = "MENU"
-
 def play_valve_intro():
     pygame.init()
     pygame.mixer.init()
@@ -178,10 +177,12 @@ def NewGamePressed():
     #While loop in game loop, that breaks when state changes from menu
     State = "INTRODUCTION"
     StoryIntroduction()
-
+global Night
+Night = 1
 def StoryIntroduction():
-    #Draw the stuff here
-    NightStart()
+    #Draw the newspaper here
+    #fade in and out with a for loop so it only runs once or twice (we can have 2 for loops)
+    NightStart(Night)
 
 def DrawDeskScreen():
     State = "DESK"
@@ -290,6 +291,8 @@ def RetryButtonPressed():
 
 def NightWin():
     NightActive = False
+    global Night
+    Night += 1
     CanLook = False
     CanClose = False
     CanCamera = False
@@ -303,7 +306,7 @@ def NightWin():
     #Draw winning clock or something here
 
 NightActive = False
-def NightStart():
+def NightStart(night):
     NightActive = True
     State = "DESK"
     CanCamera = True
@@ -323,12 +326,17 @@ while running:
         if event.type == QUIT:
             running = False                
     if pygame.mouse.get_pressed()[0]:
+        red = (200, 50, 0)
+        font = pygame.font.Font("Sans.ttf", 56)
+        text5 = font.render("Start Game", True, (red))
+        text_rect5 = text5.get_rect(center=(185, 450))
+        text6 = font.render("Quit", True, (red))
+        text_rect6 = text6.get_rect(center=(80, 550))
         mouse_pos = pygame.mouse.get_pos()
-        if text_rect5.collidepoint(mouse_pos):
-                running = True
-    elif text_rect6.collidepoint(mouse_pos):
-        print("Quit")
-        running = False    
+        if text_rect5.collidepoint(mouse_pos) and NightActive != True:
+            StoryIntroduction()
+        elif text_rect6.collidepoint(mouse_pos):
+            running = False    
         ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ###
     if State == "MENU":
         DrawMenuScreen()
