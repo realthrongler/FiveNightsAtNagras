@@ -202,8 +202,17 @@ def DrawLookingOver():
     pass
 
 def RunToDoor():
+    actions["CanCamera"] = False
+    actions["CanFlashlight"] = False
+    actions["CanDisableMusic"] = False
+    actions["CanClose"] = False
+    actions["CanLook"] = False
+    #color screen black/draw fading rectangle that covers entire screen while playing running sound
+
+    #After running
     actions["State"] = "DOOR"
     actions["CanCamera"] = False
+    actions["CanFlashlight"] = True
     
 def DrawAtDoor():
     pass
