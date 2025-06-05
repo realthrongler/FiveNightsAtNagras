@@ -52,19 +52,22 @@ clock = pygame.time.Clock()
 allSprites = pygame.sprite.Group()
 
 #Variables for determining whether the play can perform certain actions
-CanWindow = False
-CanDoor = False
-CanCamera = False
-CanClose = False
-CanLook = False
-CanDisableMusic = False
-CanFlashlight = False
-LookingAtDoor = False
-FlashlightActive = False
-DoorClosed = False
-MusicBlaring = False
+actions = {"CanWindow":False,
+"CanDoor":False,
+"CanCamera":False,
+"CanClose":False,
+"CanLook":False,
+"CanDisableMusic":False,
+"CanFlashlight":False,
+"LookingAtDoor":False,
+"FlashlightActive":False,
+"DoorClosed":False,
+"MusicBlaring":False,
+"State": "MENU",
+"NightActive":False,
+"Night": 1}
 #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "INTRODUCTION", "LOOKING", "WIN", "LOSS"
-State = "MENU"
+
 def play_valve_intro():
     pygame.init()
     pygame.mixer.init()
@@ -136,7 +139,6 @@ def play_valve_intro():
         clock.tick(60)
 
     pygame.mixer.music.pause()
-    State = "MENU"
     pygame.mixer_music.unload()
     pygame.mixer_music.set_volume(1.0)
         
@@ -175,69 +177,66 @@ def DrawMenuScreen():
 
 def NewGamePressed():
     #While loop in game loop, that breaks when state changes from menu
-    State = "INTRODUCTION"
+    actions["State"] = "INTRODUCTION"
     StoryIntroduction()
-global Night
-Night = 1
+
 def StoryIntroduction():
     #Draw the newspaper here
     #fade in and out with a for loop so it only runs once or twice (we can have 2 for loops)
-    NightStart(Night)
+    NightStart(actions["Night"])
 
 def DrawDeskScreen():
-    State = "DESK"
-    CanLook = True
-    CanCamera = True
+    actions["State"] = "DESK"
+    actions["CanLook"] = True
+    actions["CanCamera"] = True
 
 def DrawWindow():
     pass
     
 def LookAtDoor():
-    State = "LOOKING"
-    CanCamera = False
-    CanFlashlight = True
+    actions["State"] = "LOOKING"
+    actions["CanCamera"] = False
+    actions["CanFlashlight"] = True
 
 def DrawLookingOver():
     pass
 
 def RunToDoor():
-    State = "DOOR"
-    CanCamera = False
+    actions["State"] = "DOOR"
+    actions["CanCamera"] = False
     
 def DrawAtDoor():
     pass
 
 def RunToComputer():
-    CanWindow = False
-    CanFlashlight = False
-    CanClose = False
-    CanDoor = False
+    actions["CanWindow"] = False
+    actions["CanFlashlight"] = False
+    actions["CanClose"] = False
+    actions["CanDoor"] = False
     #Play running sound here
     DrawDeskScreen()
 
 def RunToWindow():
     #Disable player and play running sound
 
-    State = "WINDOW"
-    CanFlashlight = True
-    CanCamera = False
+    actions["State"] = "WINDOW"
+    actions["CanFlashlight"] = True
+    actions["CanCamera"] = False
 
 def OpenCameras():
-    State = "CAMERA"
-    CanDoor = False
-    CanWindow = False
+    actions["State"] = "CAMERA"
+    actions["CanDoor"] = False
+    actions["CanWindow"] = False
 
 def SwitchCameras(camera):
     pass
 
 def CloseCameras():
-    State = "DESK"
+    actions["State"] = "DESK"
     DrawDeskScreen()
-    CanDisableMusic = False
-    CanCamera = True
     
 def Flashlight():
-    FlashlightActive = True
+    actions["FlashlightActive"] = True
 
 def LoganMovement():
     pass
@@ -255,16 +254,16 @@ def LoganJumpscare():
     pass
 
 def MaxWindowBreak():
-    CanWindow = False
+    actions["CanWindow"] = False
 
 def MaxJumpscare():
     pass
 
 def NoahAppear():
-    CanCamera = False
+    actions["CanCamera"] = False
 
 def ComputerShutoff():
-    CanCamera = False
+    actions["CanCamera"] = False
 
 def ComputerPowerOn():
     pass
@@ -273,14 +272,14 @@ def NagraJumpscare():
     pass
 
 def CloseDoor():
-    CanCamera = False
-    CanFlashlight = False
+    actions["CanCamera"] = False
+    actions["CanFlashlight"] = False
 
 def ShutOffMusic():
     pass
         
 def PlayMusic():
-    MusicBlaring = True
+    actions["MusicBlaring"] = True
     pass
 
 def GameOverScreen():
@@ -290,27 +289,25 @@ def RetryButtonPressed():
     pass
 
 def NightWin():
-    NightActive = False
-    global Night
-    Night += 1
-    CanLook = False
-    CanClose = False
-    CanCamera = False
-    CanDisableMusic = False
-    MusicBlaring = False
-    CanDoor = False
-    CanWindow = False
-    CanFlashlight = False
-    State = "WIN"
+    actions["NightActive"] = False
+    #Increase night here
+    actions["CanLook"] = False
+    actions["CanClose"] = False
+    actions["CanCamera"] = False
+    actions["CanDisableMusic"] = False
+    actions["MusicBlaring"] = False
+    actions["CanDoor"] = False
+    actions["CanWindow"] = False
+    actions["CanFlashlight"] = False
+    actions["State"] = "WIN"
     #Play winning music here
     #Draw winning clock or something here
 
-NightActive = False
 def NightStart(night):
-    NightActive = True
-    State = "DESK"
-    CanCamera = True
-    CanLook = True
+    actions["NightActive"] = True
+    actions["State"] = "DESK"
+    actions["CanCamera"] = True
+    actions["CanLook"] = True
     DrawDeskScreen()
 
 play_valve_intro()
@@ -333,21 +330,21 @@ while running:
         text6 = font.render("Quit", True, (red))
         text_rect6 = text6.get_rect(center=(80, 550))
         mouse_pos = pygame.mouse.get_pos()
-        if text_rect5.collidepoint(mouse_pos) and NightActive != True:
+        if text_rect5.collidepoint(mouse_pos) and actions["NightActive"] != True:
             StoryIntroduction()
         elif text_rect6.collidepoint(mouse_pos):
             running = False    
         ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ###
-    if State == "MENU":
+    if actions["State"] == "MENU":
         DrawMenuScreen()
     
-    if State == "MENU" and pygame.mixer_music.get_busy() == False:
+    if actions["State"] == "MENU" and pygame.mixer_music.get_busy() == False:
         pygame.mixer_music.play()
 
-    while State == "DESK":
+    if actions["State"] == "DESK":
         DrawDeskScreen()
 
-    while State == "WINDOW":
+    if actions["State"] == "WINDOW":
         DrawWindow()
         
     # game loop updates (including movement)
@@ -369,7 +366,7 @@ while running:
     # render sprites on screen
     allSprites.draw(screen)
     
-    # ***AFTER*** drawing everthing, flip (update) the display
+    # ***AFTER*** drawing everything, flip (update) the display
     pygame.display.flip()
     
 pygame.quit()
