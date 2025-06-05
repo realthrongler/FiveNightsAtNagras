@@ -322,8 +322,14 @@ while running:
     # process input (events)
     for event in pygame.event.get():
         if event.type == QUIT:
-            running = False
-        
+            running = False                
+    if pygame.mouse.get_pressed()[0]:
+        mouse_pos = pygame.mouse.get_pos()
+        if text_rect5.collidepoint(mouse_pos):
+                running = True
+    elif text_rect6.collidepoint(mouse_pos):
+        print("Quit")
+        running = False    
         ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ###
     if State == "MENU":
         DrawMenuScreen()
