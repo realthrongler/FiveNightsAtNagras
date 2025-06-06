@@ -82,6 +82,7 @@ animatronicHandler = {
     "MaxInterval": 0, #Empty numbers for storing the start time of the night (since it's relative) plus the attack intervals in milliseconds
     "NagraInterval": 0, #For example, Mr.Nagra's interval for checking movement is 5 seconds, so we'll take the time started and add 5000 milliseconds
     "LoganInterval": 0, #If the current time is equal to the interval or greater, roll for movement.
+    "NoahInterval": 0
 }
 
 def play_valve_intro():
@@ -217,7 +218,6 @@ def DrawWindow():
     actions["CanCamera"] = False
     actions["CanDoor"] = False
     #Draw window here
-    pass
     
 def RunToDoor():
     actions["State"] = "RUNNING"
@@ -277,14 +277,26 @@ def LoganMovement():
 def MaxMovement():
     pass
 
-def NoahMovement():
+def NagraMovement():
     pass
 
-def NagraMovement():
+def NoahMovement():
     pass
 
 def LoganJumpscare():
     pass
+
+def CheckInterval():
+    time = pygame.time.get_ticks()
+    
+    if time >= animatronicHandler["NagraInterval"]: #5 second intervals
+        NagraMovement()
+    elif time >= animatronicHandler["LoganInterval"]: #15 second intervals
+        LoganMovement()
+    elif time >= animatronicHandler["MaxInterval"]: #10 second intervals
+        MaxMovement()
+    elif time >= animatronicHandler["NoahInterval"]: #15 second intervals
+        NoahMovement()
 
 def MaxWindowBreak():
     animatronicHandler["WindowBroken"] = True
@@ -293,6 +305,8 @@ def MaxJumpscare():
     pass
 
 def NoahAppear():
+    AppearChance = random.randint(0, 40)
+    #put some stuff here future me
     actions["CanCamera"] = False
 
 def ComputerShutoff():
@@ -321,7 +335,7 @@ def GameOverScreen():
     pass
 
 def RetryButtonPressed():
-    pass
+    NightStart(actions["Night"])
 
 def NightWin():
     actions["NightActive"] = False
@@ -344,6 +358,10 @@ def NightStart(night):
     actions["CanCamera"] = True
     actions["CanLook"] = True
     actions["StartTime"] = pygame.time.get_ticks()
+    animatronicHandler["MaxInterval"] = actions["StartTime"] + 10000
+    animatronicHandler["NagraInterval"] = actions["StartTime"] + 5000
+    animatronicHandler["LoganInterval"] = actions["StartTime"] + 15000
+    
     DrawDeskScreen()
 
 
