@@ -220,9 +220,20 @@ def DrawWindow():
 def LookAtDoor():
     actions["LookingAtDoor"] = True
     actions["CanCamera"] = False
-    actions["CanFlashlight"] = True
+    actions["CanFlashlight"] = True    
 
-def DrawLookingOver():
+def RunToDoor():
+    actions["State"] = "RUNNING"
+    #color screen black/draw fading rectangle that covers entire screen while playing running sound
+
+    #for loop so rectangle fades in and out (maybe 2 for loops)
+    #After running
+    DrawAtDoor()
+    
+def DrawAtDoor():
+    actions["State"] = "DOOR"
+    actions["CanCamera"] = False
+    actions["CanWindow"] = False
     #Draw door here
     if animatronicHandler["LoganAtDoor"] == True:
         #Draw logan at open door image here
@@ -236,22 +247,6 @@ def DrawLookingOver():
     elif animatronicHandler["LoganAtDoor"] == False and animatronicHandler["NagraAttacking"] == False:
         #Draw empty, open door here
         pass
-
-def RunToDoor():
-    actions["CanCamera"] = False
-    actions["CanFlashlight"] = False
-    actions["CanDisableMusic"] = False
-    actions["CanClose"] = False
-    actions["CanLook"] = False
-    #color screen black/draw fading rectangle that covers entire screen while playing running sound
-
-    #After running
-    actions["State"] = "DOOR"
-    actions["CanCamera"] = False
-    actions["CanFlashlight"] = True
-    
-def DrawAtDoor():
-    pass
 
 def RunToComputer():
     actions["State"] = "RUNNING"
