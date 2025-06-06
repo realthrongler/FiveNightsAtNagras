@@ -52,22 +52,37 @@ clock = pygame.time.Clock()
 allSprites = pygame.sprite.Group()
 
 #Variables for determining whether the play can perform certain actions
-actions = {"CanWindow":False,
-"CanDoor":False,
-"CanCamera":False,
-"CanClose":False,
-"CanLook":False,
-"CanDisableMusic":False,
-"CanFlashlight":False,
-"LookingAtDoor":False,
-"FlashlightActive":False,
-"DoorClosed":False,
-"MusicBlaring":False,
-"NightActive":False,
-"State": "MENU",
+actions = {"CanWindow": False,
+"CanDoor": False,
+"CanCamera": False,
+"CanClose": False,
+"CanLook": False,
+"CanDisableMusic": False,
+"CanFlashlight": False,
+"LookingAtDoor": False,
+"FlashlightActive": False,
+"DoorClosed": False,
+"MusicBlaring": False,
+"NightActive": False,
+"ComputerOff": False,
+"State": "MENU", #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "LOOKING", "WIN", "LOSS"
 "Night": 1,
-"StartTime":0.00}
-#Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "INTRODUCTION", "LOOKING", "WIN", "LOSS"
+"StartTime": 0.00}
+
+animatronicHandler = {
+    "MaxProgress": 0.00, #Percentage values, 1.00 being full progress and triggering an attack, after which is reset to zero (except Logan)
+    "NagraProgress": 0.00,
+    "LoganProgress": 0.00,
+    "NoahChance": 0,
+    "MaxAttacking": False, #Booleans for drawing the correct image when each enemy is attacking
+    "NagraAttacking": False,
+    "NoahAttacking": False, #Logan has no attacking variable because he cannot be stopped
+    "WindowBroken": False,
+    "MaxInterval": 0, #Empty numbers for storing the start time of the night (since it's relative) plus the attack intervals in milliseconds
+    "NagraInterval": 0, #For example, Mr.Nagra's interval for checking movement is 5 seconds, so we'll take the time started and add 5000 milliseconds
+    "LoganInterval": 0, #If the current time is equal to the interval or greater, roll for movement.
+    
+}
 
 def play_valve_intro():
     pygame.init()
@@ -177,11 +192,13 @@ def DrawMenuScreen():
         pygame.display.flip()
 
 def NewGamePressed():
-    #While loop in game loop, that breaks when state changes from menu
     actions["State"] = "INTRODUCTION"
     StoryIntroduction()
 
 def StoryIntroduction():
+    #Cleaning up
+    pygame.mixer_music.fadeout(3000)
+    pygame.mixer_music.unload()
     #Draw the newspaper here
     #fade in and out with a for loop so it only runs once or twice (we can have 2 for loops)
     NightStart(actions["Night"])
@@ -190,6 +207,8 @@ def DrawDeskScreen():
     actions["State"] = "DESK"
     actions["CanLook"] = True
     actions["CanCamera"] = True
+    actions["CanWindow"] = True
+    actions["CanDoor"] = True
 
 def DrawWindow():
     pass
@@ -219,19 +238,15 @@ def DrawAtDoor():
     pass
 
 def RunToComputer():
-    actions["CanWindow"] = False
-    actions["CanFlashlight"] = False
-    actions["CanClose"] = False
-    actions["CanDoor"] = False
+    actions["State"] = "RUNNING"
     #Play running sound here
     DrawDeskScreen()
 
 def RunToWindow():
-    #Disable player and play running sound
+    actions["State"] = "RUNNING"
+    #Running sound
 
     actions["State"] = "WINDOW"
-    actions["CanFlashlight"] = True
-    actions["CanCamera"] = False
 
 def OpenCameras():
     actions["State"] = "CAMERA"
@@ -242,8 +257,8 @@ def SwitchCameras(camera):
     pass
 
 def CloseCameras():
+    actions["CanDisableMusic"] = False
     actions["State"] = "DESK"
-    DrawDeskScreen()
     
 def Flashlight():
     actions["FlashlightActive"] = True
@@ -264,7 +279,7 @@ def LoganJumpscare():
     pass
 
 def MaxWindowBreak():
-    actions["CanWindow"] = False
+    animatronicHandler["WindowBroken"] = True
 
 def MaxJumpscare():
     pass
@@ -273,10 +288,12 @@ def NoahAppear():
     actions["CanCamera"] = False
 
 def ComputerShutoff():
-    actions["CanCamera"] = False
+    actions["ComputerOff"] = True
 
 def ComputerPowerOn():
-    pass
+    #Play computer startup sound
+    #Computer cannot be used for a little bit, 5 seconds maybe?
+    actions["ComputerOff"] = False
 
 def NagraJumpscare():
     pass
@@ -321,6 +338,7 @@ def NightStart(night):
     actions["StartTime"] = pygame.time.get_ticks()
     DrawDeskScreen()
 
+
 def CheckWin():
     if pygame.time.get_ticks() >= actions["StartTime"] + 270000:
         NightWin()
@@ -336,7 +354,8 @@ while running:
     # process input (events)
     for event in pygame.event.get():
         if event.type == QUIT:
-            running = False                
+            running = False      
+    ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ### 
     if pygame.mouse.get_pressed()[0]:
         red = (200, 50, 0)
         font = pygame.font.Font("Assets/Sprites/Sans.ttf", 56)
@@ -349,7 +368,6 @@ while running:
             StoryIntroduction()
         elif text_rect6.collidepoint(mouse_pos):
             running = False    
-        ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ###
     if actions["State"] == "MENU":
         DrawMenuScreen()
     
