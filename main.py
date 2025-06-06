@@ -65,7 +65,7 @@ actions = {"CanWindow": False,
 "MusicBlaring": False,
 "NightActive": False,
 "ComputerOff": False,
-"State": "MENU", #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "LOOKING", "WIN", "LOSS"
+"State": "MENU", #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "WIN", "LOSS"
 "Night": 1,
 "Camera": 1, #Defaults to Logan's hall
 "StartTime": 0.00} #Float for storing the time the night started in milliseconds
@@ -77,7 +77,8 @@ animatronicHandler = {
     "NoahChance": 0,
     "MaxAttacking": False, #Booleans for drawing the correct image when each enemy is attacking
     "NagraAttacking": False,
-    "NoahAttacking": False, #Logan has no attacking variable because he cannot be stopped
+    "NoahAttacking": False,
+    "LoganAtDoor": False, #It does not matter if the door is open or closed, this is just for drawing purposes (logan cannot be stopped)
     "WindowBroken": False,
     "MaxInterval": 0, #Empty numbers for storing the start time of the night (since it's relative) plus the attack intervals in milliseconds
     "NagraInterval": 0, #For example, Mr.Nagra's interval for checking movement is 5 seconds, so we'll take the time started and add 5000 milliseconds
@@ -192,14 +193,12 @@ def DrawMenuScreen():
         pygame.display.flip()
 
 def NewGamePressed():
-    print("Newgame")
     actions["State"] = ""
     screen.fill(BLACK)
     pygame.display.flip()
     StoryIntroduction()
 
 def StoryIntroduction():
-    print("intro")
     #Cleaning up
     pygame.mixer_music.fadeout(2000)
     pygame.mixer_music.unload()
@@ -215,15 +214,28 @@ def DrawDeskScreen():
     actions["CanDoor"] = True
 
 def DrawWindow():
+    #Draw window here
     pass
     
 def LookAtDoor():
-    actions["State"] = "LOOKING"
+    actions["LookingAtDoor"] = True
     actions["CanCamera"] = False
     actions["CanFlashlight"] = True
 
 def DrawLookingOver():
-    pass
+    #Draw door here
+    if animatronicHandler["LoganAtDoor"] == True:
+        #Draw logan at open door image here
+        pass
+    elif animatronicHandler["LoganAtDoor"] == True and animatronicHandler["NagraAttacking"] == True:
+        #Draw logan and Mr.Nagra at the door image here
+        pass
+    elif animatronicHandler["LoganAtDoor"] == False and animatronicHandler["NagraAttacking"] == True:
+        #Draw Mr.Nagra image here
+        pass
+    elif animatronicHandler["LoganAtDoor"] == False and animatronicHandler["NagraAttacking"] == False:
+        #Draw empty, open door here
+        pass
 
 def RunToDoor():
     actions["CanCamera"] = False
