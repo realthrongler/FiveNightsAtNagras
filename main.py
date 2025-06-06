@@ -210,17 +210,15 @@ def DrawDeskScreen():
     actions["CanCamera"] = True
     actions["CanWindow"] = True
     actions["CanDoor"] = True
+    actions["CanDisableMusic"] = False
 
 def DrawWindow():
-
+    actions["State"] = "WINDOW"
+    actions["CanCamera"] = False
+    actions["CanDoor"] = False
     #Draw window here
     pass
     
-def LookAtDoor():
-    actions["LookingAtDoor"] = True
-    actions["CanCamera"] = False
-    actions["CanFlashlight"] = True    
-
 def RunToDoor():
     actions["State"] = "RUNNING"
     #color screen black/draw fading rectangle that covers entire screen while playing running sound
