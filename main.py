@@ -63,9 +63,10 @@ actions = {"CanWindow":False,
 "FlashlightActive":False,
 "DoorClosed":False,
 "MusicBlaring":False,
-"State": "MENU",
 "NightActive":False,
-"Night": 1}
+"State": "MENU",
+"Night": 1,
+"StartTime":0.00}
 #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "INTRODUCTION", "LOOKING", "WIN", "LOSS"
 
 def play_valve_intro():
@@ -73,8 +74,8 @@ def play_valve_intro():
     pygame.mixer.init()
 
     # Load music and image
-    audio_path = "Valve_intro.mp3"
-    image_path = "ValveIntro.jpg"
+    audio_path = "Assets/Audio/Valve_intro.mp3"
+    image_path = "Assets/Sprites/ValveIntro.jpg"
     pygame.mixer.music.load(audio_path)
     music_length = pygame.mixer.Sound(audio_path).get_length()
 
@@ -144,12 +145,12 @@ def play_valve_intro():
         
 def DrawMenuScreen():
         pygame.font.get_fonts()
-        pygame.font.SysFont("Sans.ttf", 56, bold=False, italic=False)
-        MenuImage = pygame.image.load("MenuScreen.png").convert_alpha()
+        pygame.font.SysFont("Assets/Sprites/Sans.ttf", 56, bold=False, italic=False)
+        MenuImage = pygame.image.load("Assets/Sprites/MenuScreen.png").convert_alpha()
         Image_Rect = MenuImage.get_rect()
         red = (200, 50, 0)
 
-        font = pygame.font.Font("Sans.ttf", 56)
+        font = pygame.font.Font("Assets/Sprites/Sans.ttf", 56)
         text1 = font.render("Five", True, (red))
         text_rect = text1.get_rect(center=(90, 50))
         text2 = font.render("Nights", True, (red))
@@ -299,7 +300,7 @@ def RetryButtonPressed():
 
 def NightWin():
     actions["NightActive"] = False
-    #Increase night here
+    actions["Night"] += 1
     actions["CanLook"] = False
     actions["CanClose"] = False
     actions["CanCamera"] = False
@@ -317,10 +318,15 @@ def NightStart(night):
     actions["State"] = "DESK"
     actions["CanCamera"] = True
     actions["CanLook"] = True
+    actions["StartTime"] = pygame.time.get_ticks()
     DrawDeskScreen()
 
+def CheckWin():
+    if pygame.time.get_ticks() >= actions["StartTime"] + 270000:
+        NightWin()
+
 play_valve_intro()
-MenuSong = pygame.mixer_music.load("MenuTheme.mp3")
+MenuSong = pygame.mixer_music.load("Assets/Audio/MenuTheme.mp3")
 
 # MAIN GAME LOOP
 running = True
@@ -333,7 +339,7 @@ while running:
             running = False                
     if pygame.mouse.get_pressed()[0]:
         red = (200, 50, 0)
-        font = pygame.font.Font("Sans.ttf", 56)
+        font = pygame.font.Font("Assets/Sprites/Sans.ttf", 56)
         text5 = font.render("Start Game", True, (red))
         text_rect5 = text5.get_rect(center=(185, 450))
         text6 = font.render("Quit", True, (red))
@@ -366,7 +372,7 @@ while running:
         # do something
     #if keys[K_RIGHT]:
         # do something 
-    
+    CheckWin()
     # game loop drawing
     ### ADD ANY GAME LOOP DRAWINGS HERE ###
     
