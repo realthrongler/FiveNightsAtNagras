@@ -56,7 +56,6 @@ actions = {"CanWindow": False,
 "CanDoor": False,
 "CanCamera": False,
 "CanClose": False,
-"CanLook": False,
 "CanDisableMusic": False,
 "CanFlashlight": False,
 "LookingAtDoor": False,
@@ -208,12 +207,12 @@ def StoryIntroduction():
 
 def DrawDeskScreen():
     actions["State"] = "DESK"
-    actions["CanLook"] = True
     actions["CanCamera"] = True
     actions["CanWindow"] = True
     actions["CanDoor"] = True
 
 def DrawWindow():
+
     #Draw window here
     pass
     
