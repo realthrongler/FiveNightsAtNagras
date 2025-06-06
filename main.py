@@ -67,7 +67,8 @@ actions = {"CanWindow": False,
 "ComputerOff": False,
 "State": "MENU", #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "LOOKING", "WIN", "LOSS"
 "Night": 1,
-"StartTime": 0.00}
+"Camera": 1, #Defaults to Logan's hall
+"StartTime": 0.00} #Float for storing the time the night started in milliseconds
 
 animatronicHandler = {
     "MaxProgress": 0.00, #Percentage values, 1.00 being full progress and triggering an attack, after which is reset to zero (except Logan)
@@ -81,7 +82,6 @@ animatronicHandler = {
     "MaxInterval": 0, #Empty numbers for storing the start time of the night (since it's relative) plus the attack intervals in milliseconds
     "NagraInterval": 0, #For example, Mr.Nagra's interval for checking movement is 5 seconds, so we'll take the time started and add 5000 milliseconds
     "LoganInterval": 0, #If the current time is equal to the interval or greater, roll for movement.
-    
 }
 
 def play_valve_intro():
@@ -192,12 +192,16 @@ def DrawMenuScreen():
         pygame.display.flip()
 
 def NewGamePressed():
-    actions["State"] = "INTRODUCTION"
+    print("Newgame")
+    actions["State"] = ""
+    screen.fill(BLACK)
+    pygame.display.flip()
     StoryIntroduction()
 
 def StoryIntroduction():
+    print("intro")
     #Cleaning up
-    pygame.mixer_music.fadeout(3000)
+    pygame.mixer_music.fadeout(2000)
     pygame.mixer_music.unload()
     #Draw the newspaper here
     #fade in and out with a for loop so it only runs once or twice (we can have 2 for loops)
@@ -365,7 +369,7 @@ while running:
         text_rect6 = text6.get_rect(center=(80, 550))
         mouse_pos = pygame.mouse.get_pos()
         if text_rect5.collidepoint(mouse_pos) and actions["NightActive"] != True:
-            StoryIntroduction()
+           NewGamePressed()
         elif text_rect6.collidepoint(mouse_pos):
             running = False    
     if actions["State"] == "MENU":
