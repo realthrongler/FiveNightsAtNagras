@@ -290,12 +290,16 @@ def CheckInterval():
     time = pygame.time.get_ticks()
     
     if time >= animatronicHandler["NagraInterval"]: #5 second intervals
+        animatronicHandler["NagraInterval"] += 5000
         NagraMovement()
     elif time >= animatronicHandler["LoganInterval"]: #15 second intervals
+        animatronicHandler["LoganInterval"] += 15000
         LoganMovement()
     elif time >= animatronicHandler["MaxInterval"]: #10 second intervals
+        animatronicHandler["MaxInterval"] += 10000
         MaxMovement()
     elif time >= animatronicHandler["NoahInterval"]: #15 second intervals
+        animatronicHandler["NoahInterval"] += 15000
         NoahMovement()
 
 def MaxWindowBreak():
