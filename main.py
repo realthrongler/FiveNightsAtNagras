@@ -256,7 +256,7 @@ def DrawAtDoor():
     elif animatronicHandler["LoganAtDoor"] == False and animatronicHandler["NagraAttacking"] == True:
         #Draw Mr.Nagra image here
         pass
-    elif animatronicHandler["LoganAtDoor"] == False and animatronicHandler["NagraAttacking"] == False:
+    else:
         #Drawing empty, open door
         image = pygame.image.load("Assets/Sprites/Door_Opened.png")
         rect = image.get_rect()
