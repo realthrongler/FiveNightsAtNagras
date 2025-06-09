@@ -208,7 +208,7 @@ def StoryIntroduction():
     pygame.mixer_music.unload()
     image = pygame.image.load("Assets/sprites/Intro_Poster.png")
     screen.fill(BLACK)
-    introposter_rect = pygame.image.load("Assets/sprites/Intro_Poster.png").get_rect()
+    introposter_rect = image.get_rect()
     screen.blit(image, introposter_rect)
     pygame.display.flip()
     time.sleep(10)
@@ -220,12 +220,19 @@ def DrawDeskScreen():
     actions["CanWindow"] = True
     actions["CanDoor"] = True
     actions["CanDisableMusic"] = False
+    #Drawing desk
+    image = pygame.image.load("Assets/Sprites/Full_Room.png")
+    rect = image.get_rect()
+    screen.blit(image, rect)
 
 def DrawWindow():
     actions["State"] = "WINDOW"
     actions["CanCamera"] = False
     actions["CanDoor"] = False
-    #Draw window here
+    
+    image = pygame.image.load("Assets/Sprites/Window.png")
+    rect = image.get_rect()
+    screen.blit(image, rect)
     
 def RunToDoor():
     actions["State"] = "RUNNING"
@@ -250,8 +257,10 @@ def DrawAtDoor():
         #Draw Mr.Nagra image here
         pass
     elif animatronicHandler["LoganAtDoor"] == False and animatronicHandler["NagraAttacking"] == False:
-        #Draw empty, open door here
-        pass
+        #Drawing empty, open door
+        image = pygame.image.load("Assets/Sprites/Door_Opened.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
 
 def RunToComputer():
     actions["State"] = "RUNNING"
@@ -283,7 +292,6 @@ def DrawCameras():
     elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0:
         #Draw Logan hall with logan at the end of the hall here
         pass
-
 
 def DownCameras():
     camera = actions["Camera"]
@@ -437,17 +445,22 @@ while running:
 
     if actions["State"] == "WINDOW":
         DrawWindow()
+
+    if actions["State"] == "DOOR":
+        DrawAtDoor()
         
     # game loop updates (including movement)
     ### ADD ANY GAME LOOP UPDATES HERE ###
 
     # check for keypresses
-    #keys = pygame.key.get_pressed()
+    keys = pygame.key.get_pressed()
     
-    #if keys[K_LEFT]:
-        # do something
-    #if keys[K_RIGHT]:
-        # do something 
+    if keys[K_LEFT] and actions["State"] == "DESK":
+        DrawAtDoor()
+    if keys[K_UP] and actions["State"] == "DESK":
+        DrawWindow()
+    if keys[K_DOWN] and actions["State"] == "WINDOW" or actions["State"] == "DOOR":
+        DrawDeskScreen()
     CheckWin()
     # game loop drawing
     ### ADD ANY GAME LOOP DRAWINGS HERE ###
