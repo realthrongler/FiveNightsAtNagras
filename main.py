@@ -206,8 +206,12 @@ def StoryIntroduction():
     #Cleaning up
     pygame.mixer_music.fadeout(2000)
     pygame.mixer_music.unload()
-    #Draw the newspaper here
-    #fade in and out with a for loop so it only runs once or twice (we can have 2 for loops)
+    image = pygame.image.load("Assets/sprites/Intro_Poster.png")
+    screen.fill(BLACK)
+    introposter_rect = pygame.image.load("Assets/sprites/Intro_Poster.png").get_rect()
+    screen.blit(image, introposter_rect)
+    pygame.display.flip()
+    time.sleep(10)
     NightStart(actions["Night"])
 
 def DrawDeskScreen():
