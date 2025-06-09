@@ -220,6 +220,8 @@ def DrawDeskScreen():
     actions["CanWindow"] = True
     actions["CanDoor"] = True
     actions["CanDisableMusic"] = False
+
+    screen.fill(BGCOLOUR)
     #Drawing desk
     image = pygame.image.load("Assets/Sprites/Full_Room.png")
     rect = image.get_rect()
@@ -230,6 +232,7 @@ def DrawWindow():
     actions["CanCamera"] = False
     actions["CanDoor"] = False
     
+    screen.fill(BGCOLOUR)
     image = pygame.image.load("Assets/Sprites/Window.png")
     rect = image.get_rect()
     screen.blit(image, rect)
@@ -246,19 +249,9 @@ def DrawAtDoor():
     actions["State"] = "DOOR"
     actions["CanCamera"] = False
     actions["CanWindow"] = False
-    #Draw door here
-    if animatronicHandler["LoganAtDoor"] == True:
-        #Draw logan at open door image here
-        pass
-    elif animatronicHandler["LoganAtDoor"] == True and animatronicHandler["NagraAttacking"] == True:
-        #Draw logan and Mr.Nagra at the door image here
-        pass
-    elif animatronicHandler["LoganAtDoor"] == False and animatronicHandler["NagraAttacking"] == True:
-        #Draw Mr.Nagra image here
-        pass
     
-    #Drawing empty, open door
-    image = pygame.image.load("Assets/Sprites/Door_Opened.png")
+    screen.fill(BGCOLOUR)
+    image = pygame.image.load("Assets/Sprites/Door_Closed.png")
     rect = image.get_rect()
     screen.blit(image, rect)
 
@@ -458,8 +451,8 @@ while running:
     if keys[K_LEFT] and actions["CanDoor"] == True:
         actions["State"] = "DOOR"
     if keys[K_UP] and actions["State"] == "DESK":
-        DrawWindow()
-    if keys[K_DOWN] and actions["State"] == "WINDOW" or actions["State"] == "DOOR":
+        actions["State"] = "WINDOW"
+    if keys[K_DOWN] and (actions["State"] == "WINDOW" or actions["State"] == "DOOR"):
         DrawDeskScreen()
     CheckWin()
     # game loop drawing
