@@ -256,11 +256,11 @@ def DrawAtDoor():
     elif animatronicHandler["LoganAtDoor"] == False and animatronicHandler["NagraAttacking"] == True:
         #Draw Mr.Nagra image here
         pass
-    else:
-        #Drawing empty, open door
-        image = pygame.image.load("Assets/Sprites/Door_Opened.png")
-        rect = image.get_rect()
-        screen.blit(image, rect)
+    
+    #Drawing empty, open door
+    image = pygame.image.load("Assets/Sprites/Door_Opened.png")
+    rect = image.get_rect()
+    screen.blit(image, rect)
 
 def RunToComputer():
     actions["State"] = "RUNNING"
@@ -422,7 +422,7 @@ while running:
         if event.type == QUIT:
             running = False      
     ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ### 
-    if pygame.mouse.get_pressed()[0]:
+    if pygame.mouse.get_pressed()[0] and actions["State"] == "MENU":
         red = (200, 50, 0)
         font = pygame.font.Font("Assets/Sprites/Sans.ttf", 56)
         text5 = font.render("Start Game", True, (red))
@@ -455,8 +455,8 @@ while running:
     # check for keypresses
     keys = pygame.key.get_pressed()
     
-    if keys[K_LEFT] and actions["State"] == "DESK":
-        DrawAtDoor()
+    if keys[K_LEFT] and actions["CanDoor"] == True:
+        actions["State"] = "DOOR"
     if keys[K_UP] and actions["State"] == "DESK":
         DrawWindow()
     if keys[K_DOWN] and actions["State"] == "WINDOW" or actions["State"] == "DOOR":
