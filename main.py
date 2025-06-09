@@ -74,6 +74,10 @@ animatronicHandler = {
     "NagraProgress": 0.00,
     "LoganProgress": 0.00,
     "NoahChance": 0,
+    "MaxLevel": 0, #AI levels, an integer in between 0 and 20
+    "NagraLevel": 0,
+    "LoganLevel": 0,
+    "NoahLevel": 0,
     "MaxAttacking": False, #Booleans for drawing the correct image when each enemy is attacking
     "NagraAttacking": False,
     "NoahAttacking": False,
@@ -267,6 +271,15 @@ def UpCameras():
         actions["Camera"] = 1
     else:
         actions["Camera"] += 1
+
+def DrawCameras():
+    if actions["Camera"] == 1: 
+        #Draw Logan hall camera (empty)
+        pass
+    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0:
+        #Draw Logan hall with logan at the end of the hall here
+        pass
+
 
 def DownCameras():
     camera = actions["Camera"]
