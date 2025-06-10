@@ -283,8 +283,10 @@ def UpCameras():
     camera = actions["Camera"]
     if camera + 1 == 6:
         actions["Camera"] = 1
+        pygame.display.flip()
     else:
         actions["Camera"] += 1
+        pygame.display.flip()
 
 def DrawCameras():
     #Logan hall camera
@@ -343,8 +345,10 @@ def DownCameras():
     camera = actions["Camera"]
     if camera - 1 == 0:
         actions["Camera"] = 5
+        pygame.display.flip()
     else:
         actions["Camera"] -= 1
+        pygame.display.flip()
 
 def CloseCameras():
     actions["CanDisableMusic"] = False
