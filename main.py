@@ -251,7 +251,6 @@ def RunToDoor():
     actions["State"] = "RUNNING"
     Running_transition()
 
-    
 def DrawAtDoor():
     actions["State"] = "DOOR"
     actions["CanCamera"] = False
