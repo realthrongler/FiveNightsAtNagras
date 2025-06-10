@@ -250,7 +250,6 @@ def RunToDoor():
 
     fade_surface = pygame.Surface((screen.get_width(), screen.get_height()))
     fade_surface.fill((0, 0, 0))
-
     # Fade to black (metallica reference?)
     for alpha in range(0, 256, 5): 
         fade_surface.set_alpha(alpha)
