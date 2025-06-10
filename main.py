@@ -334,6 +334,14 @@ def DrawCameras():
     elif actions["Camera"] == 2 and animatronicHandler["NagraProgress"] > 50:
         #Draw empty hallway here
         pass
+    
+    #Bench camera
+    if actions["Camera"] == 3 and animatronicHandler["NagraProgress"] > 50:
+        #Draw mr nagra at the bench here
+        pass
+    elif actions["Camera"] == 3 and animatronicHandler["NagraProgress"] > 75:
+        #Draw empty bench here
+        pass
 
 def DownCameras():
     camera = actions["Camera"]
@@ -533,7 +541,7 @@ while running:
         DrawWindow()
 
     if actions["State"] == "DOOR":
-        DrawAtDoor()
+        RunToDoor()
         
     # game loop updates (including movement)
     ### ADD ANY GAME LOOP UPDATES HERE ###
