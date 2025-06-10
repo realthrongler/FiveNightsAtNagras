@@ -78,9 +78,9 @@ actions = {"CanWindow": False,
 "StartTime": 0.00} #Float for storing the time the night started in milliseconds
 
 animatronicHandler = {
-    "MaxProgress": 0.00, #Percentage values, 1.00 being full progress and triggering an attack, after which is reset to zero (except Logan)
-    "NagraProgress": 0.00,
-    "LoganProgress": 0.00,
+    "MaxProgress": 0, #Percentage values, 100 being full progress and triggering an attack, after which is reset to zero (except Logan)
+    "NagraProgress": 0,
+    "LoganProgress": 0.00, #Logan's value is a float so he can make progress as soon as the music starts playing, and not at an interval
     "NoahChance": 0,
     "MaxLevel": 0, #AI levels, an integer in between 0 and 20
     "NagraLevel": 0,
@@ -298,6 +298,7 @@ def UpCameras():
         actions["Camera"] += 1
 
 def DrawCameras():
+    actions["State"] = "CAMERA"
     #Logan hall camera
     if actions["Camera"] == 1 and animatronicHandler["LoganLevel"] == 0: 
         #Draw Logan hall camera (empty)
@@ -305,18 +306,34 @@ def DrawCameras():
     elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 25:
         #Draw Logan hall 1 here
         pass
-    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 50:
+    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 50 and animatronicHandler["LoganProgress"] > 25:
         #Draw Logan hall 2 here
         pass
-    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 75:
+    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 75 and animatronicHandler["LoganProgress"] > 50:
         #Draw logan hall 3 here
         pass
-    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] > 75:
+    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] > 75 and animatronicHandler["LoganProgress"] < 90:
         #Draw logan hall 4 here
         pass
-    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] >= 90:
+    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] >= 90 and animatronicHandler["LoganProgress"] < 100:
         #Draw empty hall again (Logan will be at the door if his progress is 90 and above)
-        pass 
+        pass
+
+    #Storage room camera
+    if actions["Camera"] == 2 and animatronicHandler["NagraProgress"] <= 25:
+        #Draw Mr.Nagra in the storage room here
+        pass
+    elif actions["Camera"] == 2 and animatronicHandler["NagraProgress"] > 25:
+        #Draw empty storage room here
+        pass
+
+    #Hallway camera
+    if actions["Camera"] == 2 and animatronicHandler["NagraProgress"] > 25 and animatronicHandler["NagraProgress"] <= 50:
+        #Draw Mr.nagra in the hallway here
+        pass
+    elif actions["Camera"] == 2 and animatronicHandler["NagraProgress"] > 50:
+        #Draw empty hallway here
+        pass
 
 def DownCameras():
     camera = actions["Camera"]
@@ -530,6 +547,8 @@ while running:
         actions["State"] = "WINDOW"
     if keys[K_DOWN] and (actions["State"] == "WINDOW" or actions["State"] == "DOOR"):
         DrawDeskScreen()
+    if keys[K_SPACE] and actions["State"] == "DESK" and actions["CanCamera"] == True:
+        DrawCameras()
     CheckWin()
     # game loop drawing
     ### ADD ANY GAME LOOP DRAWINGS HERE ###
