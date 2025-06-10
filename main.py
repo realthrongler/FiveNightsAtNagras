@@ -206,13 +206,21 @@ def StoryIntroduction():
     #Cleaning up
     pygame.mixer_music.fadeout(2000)
     pygame.mixer_music.unload()
-    image = pygame.image.load("Assets/sprites/Intro_Poster.png")
+    image = pygame.image.load("Assets/sprites/Opening_Poster.png")
     screen.fill(BLACK)
     introposter_rect = image.get_rect()
     screen.blit(image, introposter_rect)
     pygame.display.flip()
-    time.sleep(10)
+    time.sleep(25)
     NightStart(actions["Night"])
+
+def Nightstart():
+    screen.fill(BLACK)
+    text7 = font.render("Night 1" + str(actions["Night"]), True, (red))
+    text_rect7 = text7.get_rect(center=(640, 360))
+    screen.blit(text7, text_rect7)
+    pygame.display.flip()
+    time.sleep(5)
 
 def DrawDeskScreen():
     actions["State"] = "DESK"
@@ -239,10 +247,21 @@ def DrawWindow():
     
 def RunToDoor():
     actions["State"] = "RUNNING"
-    #color screen black/draw fading rectangle that covers entire screen while playing running sound
 
-    #for loop so rectangle fades in and out (maybe 2 for loops)
-    #After running
+    fade_surface = pygame.Surface((screen.get_width(), screen.get_height()))
+    fade_surface.fill((0, 0, 0))
+
+    # Fade to black (metallica reference?)
+    for alpha in range(0, 256, 5): 
+        fade_surface.set_alpha(alpha)
+        screen.blit(fade_surface, (0, 0))
+        pygame.display.update()
+        pygame.time.delay(30)  # fade speed, can change later
+
+    # holds the black screen for a sec, can change later
+    pygame.time.delay(1000)
+
+    # Goes to next screen
     DrawAtDoor()
     
 def DrawAtDoor():
