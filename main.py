@@ -514,7 +514,7 @@ def Running_transition():
         pygame.time.delay(30)  # fade speed, can change later
 
     # holds the black screen for a sec, can change later
-    #pygame.time.delay(1000)
+    pygame.time.delay(1000)
 
     for alpha in range(255, 0, -5): 
         fade_surface.set_alpha(alpha)
