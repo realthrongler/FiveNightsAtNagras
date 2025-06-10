@@ -328,52 +328,66 @@ def UpCameras():
 def DrawCameras():
     #Logan hall camera
     if actions["Camera"] == 1 and animatronicHandler["LoganLevel"] == 0: 
-        #Draw Logan hall camera (empty)
-        pass
+        image = pygame.image.load("Assets/Sprites/LoganHall1.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
     elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 25:
-        #Draw Logan hall 2 here
-        pass
+        image = pygame.image.load("Assets/Sprites/LoganHall2.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
     elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 50 and animatronicHandler["LoganProgress"] > 25:
-        #Draw Logan hall 3 here
-        pass
+        image = pygame.image.load("Assets/Sprites/LoganHall3.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
     elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 75 and animatronicHandler["LoganProgress"] > 50:
-        #Draw logan hall 4 here
-        pass
+        image = pygame.image.load("Assets/Sprites/LoganHall4.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
     elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] >= 90 and animatronicHandler["LoganProgress"] < 100:
-        #Draw empty hall again (Logan will be at the door if his progress is 90 and above)
-        pass
+        image = pygame.image.load("Assets/Sprites/LoganHall1.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
 
     #Storage room camera
     if actions["Camera"] == 2 and animatronicHandler["NagraProgress"] <= 25:
-        #Draw Mr.Nagra in the storage room here
-        pass
+        image = pygame.image.load("Assets/Sprites/NagraStorage1.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
     elif actions["Camera"] == 2 and animatronicHandler["NagraProgress"] > 25:
-        #Draw empty storage room here
-        pass
+        image = pygame.image.load("Assets/Sprites/NagraStorage2.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
 
     #Hallway camera
     if actions["Camera"] == 2 and animatronicHandler["NagraProgress"] > 25 and animatronicHandler["NagraProgress"] <= 50:
-        #Draw Mr.nagra in the hallway here
-        pass
+        image = pygame.image.load("Assets/Sprites/NagraHall1.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
     elif actions["Camera"] == 2 and animatronicHandler["NagraProgress"] > 50:
-        #Draw empty hallway here
-        pass
+        image = pygame.image.load("Assets/Sprites/NagraHall3.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
     
     #Bench camera
     if actions["Camera"] == 3 and animatronicHandler["NagraProgress"] > 50:
-        #Draw mr nagra at the bench here
-        pass
+        image = pygame.image.load("Assets/Sprites/NagraBench1.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
     elif actions["Camera"] == 3 and animatronicHandler["NagraProgress"] > 75:
-        #Draw empty bench here
-        pass
+        image = pygame.image.load("Assets/Sprites/NagraBench4.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
     
     #Chair camera
     if actions["Camera"] == 3 and animatronicHandler["NagraProgress"] > 75:
-        #Draw mr.Nagra on the chair here
-        pass
+        image = pygame.image.load("Assets/Sprites/NagraChair3.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
     elif actions["Camera"] == 3 and animatronicHandler["NagraProgress"] == 100:
-        #Draw empty chair here, Mr.Nagra is now at the door
-        pass
+        image = pygame.image.load("Assets/Sprites/NagraChair1.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
+        #Mr.Nagra is now at the door
 
 def DownCameras():
     camera = actions["Camera"]
