@@ -281,7 +281,19 @@ def RunToComputer():
 
 def RunToWindow():
     actions["State"] = "RUNNING"
-    #Running sound
+
+    fade_surface = pygame.Surface((screen.get_width(), screen.get_height()))
+    fade_surface.fill((0, 0, 0))
+
+    # Fade to black (metallica reference?)
+    for alpha in range(0, 256, 5): 
+        fade_surface.set_alpha(alpha)
+        screen.blit(fade_surface, (0, 0))
+        pygame.display.update()
+        pygame.time.delay(30)  # fade speed, can change later
+
+    # holds the black screen for a sec, can change later
+    pygame.time.delay(1000)
 
     actions["State"] = "WINDOW"
 
@@ -549,7 +561,7 @@ while running:
         DrawWindow()
 
     if actions["State"] == "DOOR":
-        DrawAtDoor()
+        RunToDoor()
         
     # game loop updates (including movement)
     ### ADD ANY GAME LOOP UPDATES HERE ###
@@ -558,9 +570,9 @@ while running:
     keys = pygame.key.get_pressed()
     
     if keys[K_LEFT] and actions["CanDoor"] == True:
-        RunToDoor()
+        actions["State"] = "DOOR"
     if keys[K_UP] and actions["State"] == "DESK":
-        RunToWindow()
+        actions["State"] = "WINDOW"
     if keys[K_DOWN] and (actions["State"] == "WINDOW" or actions["State"] == "DOOR"):
         DrawDeskScreen()
     if keys[K_SPACE] and actions["State"] == "DESK" and actions["CanCamera"] == True:
