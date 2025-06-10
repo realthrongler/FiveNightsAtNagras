@@ -221,7 +221,7 @@ def StoryIntroduction():
     introposter_rect = image.get_rect()
     screen.blit(image, introposter_rect)
     pygame.display.flip()
-    pygame.time.wait(2000)
+    pygame.time.wait(25000)
     NightStart(actions["Night"])  
 
 def DrawDeskScreen():
@@ -250,6 +250,7 @@ def DrawWindow():
 def RunToDoor():
     actions["State"] = "RUNNING"
     Running_transition()
+    DrawAtDoor()
 
 def DrawAtDoor():
     actions["State"] = "DOOR"
@@ -269,8 +270,7 @@ def RunToComputer():
 def RunToWindow():
     actions["State"] = "RUNNING"
     Running_transition()
-
-    actions["State"] = "WINDOW"
+    DrawWindow()
 
 def OpenCameras():
     actions["State"] = "CAMERA"
@@ -497,7 +497,6 @@ def NightStart(night):
         animatronicHandler["LoganLevel"] = 17
     DrawDeskScreen()
 
-
 def CheckWin():
     if pygame.time.get_ticks() >= actions["StartTime"] + 270000:
         NightWin()
@@ -507,20 +506,20 @@ def Running_transition():
     fade_surface.fill((0, 0, 0))
     footsteps = pygame.mixer.Sound("Assets/Audio/footsteps.mp3")
     FOOTSTEPS_CHANNEL.play(footsteps)
-# Fade to black (metallica reference?)
+    # Fade to black (metallica reference?)
     for alpha in range(0, 256, 5): 
         fade_surface.set_alpha(alpha)
         screen.blit(fade_surface, (0, 0))
-        pygame.display.update()
+        pygame.display.flip()
         pygame.time.delay(30)  # fade speed, can change later
 
     # holds the black screen for a sec, can change later
-    pygame.time.delay(1000)
+    #pygame.time.delay(1000)
 
-    for alpha in range(255, -1, -5): 
+    for alpha in range(255, 0, -5): 
         fade_surface.set_alpha(alpha)
         screen.blit(fade_surface, (0, 0))
-        pygame.display.update()
+        pygame.display.flip()
         pygame.time.delay(30)  # Fade-out speed
 
 play_valve_intro()
