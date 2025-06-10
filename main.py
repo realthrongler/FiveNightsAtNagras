@@ -6,6 +6,7 @@ from pygame import * # type: ignore
 from pygame.sprite import * # type: ignore
 import time
 import random
+pygame.mixer.init()
 # define colour constants
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -20,6 +21,7 @@ WIDTH = 1280
 HEIGHT = 720
 BGCOLOUR = BLACK ### CHANGE AS NEEDED ###
 CAPTION = "Five Nights at Mr.Thong's"
+pygame.mixer.set_num_channels(9)
 MUSIC_CHANNEL = pygame.mixer.Channel(1)  #For playing Logan's music
 JUMPSCARE_CHANNEL = pygame.mixer.Channel(2) #For playing any jumpscare sound (no way multiple of them happen at once)
 AMBIENCE_CHANNEL = pygame.mixer.Channel(3) #For playing the spooky ambience
@@ -247,21 +249,8 @@ def DrawWindow():
     
 def RunToDoor():
     actions["State"] = "RUNNING"
+    Running_transition()
 
-    fade_surface = pygame.Surface((screen.get_width(), screen.get_height()))
-    fade_surface.fill((0, 0, 0))
-    # Fade to black (metallica reference?)
-    for alpha in range(0, 256, 5): 
-        fade_surface.set_alpha(alpha)
-        screen.blit(fade_surface, (0, 0))
-        pygame.display.update()
-        pygame.time.delay(30)  # fade speed, can change later
-
-    # holds the black screen for a sec, can change later
-    pygame.time.delay(1000)
-
-    # Goes to next screen
-    DrawAtDoor()
     
 def DrawAtDoor():
     actions["State"] = "DOOR"
@@ -275,24 +264,12 @@ def DrawAtDoor():
 
 def RunToComputer():
     actions["State"] = "RUNNING"
-    #Play running sound here
+    Running_transition()
     DrawDeskScreen()
 
 def RunToWindow():
     actions["State"] = "RUNNING"
-
-    fade_surface = pygame.Surface((screen.get_width(), screen.get_height()))
-    fade_surface.fill((0, 0, 0))
-
-    # Fade to black (metallica reference?)
-    for alpha in range(0, 256, 5): 
-        fade_surface.set_alpha(alpha)
-        screen.blit(fade_surface, (0, 0))
-        pygame.display.update()
-        pygame.time.delay(30)  # fade speed, can change later
-
-    # holds the black screen for a sec, can change later
-    pygame.time.delay(1000)
+    Running_transition()
 
     actions["State"] = "WINDOW"
 
@@ -521,6 +498,27 @@ def NightStart(night):
 def CheckWin():
     if pygame.time.get_ticks() >= actions["StartTime"] + 270000:
         NightWin()
+
+def Running_transition():
+    fade_surface = pygame.Surface((screen.get_width(), screen.get_height()))
+    fade_surface.fill((0, 0, 0))
+    footsteps = pygame.mixer.Sound("Assets/Audio/footsteps.mp3")
+    FOOTSTEPS_CHANNEL.play(footsteps)
+# Fade to black (metallica reference?)
+    for alpha in range(0, 256, 5): 
+        fade_surface.set_alpha(alpha)
+        screen.blit(fade_surface, (0, 0))
+        pygame.display.update()
+        pygame.time.delay(30)  # fade speed, can change later
+
+    # holds the black screen for a sec, can change later
+    pygame.time.delay(1000)
+
+    for alpha in range(255, -1, -5): 
+        fade_surface.set_alpha(alpha)
+        screen.blit(fade_surface, (0, 0))
+        pygame.display.update()
+        pygame.time.delay(30)  # Fade-out speed
 
 play_valve_intro()
 MenuSong = pygame.mixer_music.load("Assets/Audio/MenuTheme.mp3")
