@@ -301,6 +301,7 @@ def OpenCameras():
     actions["State"] = "CAMERA"
     actions["CanDoor"] = False
     actions["CanWindow"] = False
+    DrawCameras()
 
 def UpCameras():
     camera = actions["Camera"]
@@ -310,7 +311,6 @@ def UpCameras():
         actions["Camera"] += 1
 
 def DrawCameras():
-    actions["State"] = "CAMERA"
     #Logan hall camera
     if actions["Camera"] == 1 and animatronicHandler["LoganLevel"] == 0: 
         #Draw Logan hall camera (empty)
@@ -561,7 +561,7 @@ while running:
         DrawWindow()
 
     if actions["State"] == "DOOR":
-        RunToDoor()
+        DrawAtDoor()
         
     # game loop updates (including movement)
     ### ADD ANY GAME LOOP UPDATES HERE ###
@@ -569,14 +569,23 @@ while running:
     # check for keypresses
     keys = pygame.key.get_pressed()
     
+    #Running around the room
     if keys[K_LEFT] and actions["CanDoor"] == True:
-        actions["State"] = "DOOR"
+        RunToDoor()
     if keys[K_UP] and actions["State"] == "DESK":
-        actions["State"] = "WINDOW"
+        RunToWindow()
     if keys[K_DOWN] and (actions["State"] == "WINDOW" or actions["State"] == "DOOR"):
         DrawDeskScreen()
+    
+    #Camera system
     if keys[K_SPACE] and actions["State"] == "DESK" and actions["CanCamera"] == True:
         DrawCameras()
+    if keys[K_SPACE] and actions["State"] == "CAMERA":
+        DrawDeskScreen()
+    if keys[K_LEFT] and actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
+        DownCameras()
+    if keys[K_RIGHT] and actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
+        UpCameras()
     CheckWin()
     # game loop drawing
     ### ADD ANY GAME LOOP DRAWINGS HERE ###
