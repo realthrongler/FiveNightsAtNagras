@@ -20,14 +20,14 @@ WIDTH = 1280
 HEIGHT = 720
 BGCOLOUR = BLACK ### CHANGE AS NEEDED ###
 CAPTION = "Five Nights at Mr.Thong's"
-MUSIC_CHANNEL = 1  #For playing Logan's music
-JUMPSCARE_CHANNEL = 2 #For playing any jumpscare sound (no way multiple of them happen at once)
-AMBIENCE_CHANNEL = 3 #For playing the spooky ambience
-GLASS_CHANNEL = 4 #For playing Max's glass tapping/glass breaking noises
-LOGAN_CHANNEL = 5 #For playing Logan's voicelines
-STATIC_CHANNEL = 6 #For playing Noah's static
-FOOTSTEPS_CHANNEL = 7 #For playing the footsteps sound effects when running
-ENDING_CHANNEL = 8 #For playing the winning music and also Mr.Nagra's rubble and voiceline sounds
+MUSIC_CHANNEL = pygame.mixer.Channel(1)  #For playing Logan's music
+JUMPSCARE_CHANNEL = pygame.mixer.Channel(2) #For playing any jumpscare sound (no way multiple of them happen at once)
+AMBIENCE_CHANNEL = pygame.mixer.Channel(3) #For playing the spooky ambience
+GLASS_CHANNEL = pygame.mixer.Channel(4) #For playing Max's glass tapping/glass breaking noises
+LOGAN_CHANNEL = pygame.mixer.Channel(5) #For playing Logan's voicelines
+STATIC_CHANNEL = pygame.mixer.Channel(6) #For playing Noah's static
+FOOTSTEPS_CHANNEL = pygame.mixer.Channel(7) #For playing the footsteps sound effects when running
+ENDING_CHANNEL = pygame.mixer.Channel(8) #For playing the winning music and also Mr.Nagra's rubble and voiceline sounds
 
 # initialize pygame, create window, start the clock
 pygame.init()
@@ -300,6 +300,7 @@ def OpenCameras():
     actions["State"] = "CAMERA"
     actions["CanDoor"] = False
     actions["CanWindow"] = False
+    DrawCameras()
 
 def UpCameras():
     camera = actions["Camera"]
@@ -309,7 +310,6 @@ def UpCameras():
         actions["Camera"] += 1
 
 def DrawCameras():
-    actions["State"] = "CAMERA"
     #Logan hall camera
     if actions["Camera"] == 1 and animatronicHandler["LoganLevel"] == 0: 
         #Draw Logan hall camera (empty)
@@ -387,7 +387,7 @@ def MaxMovement():
 def NagraMovement():
     pass
 
-def NoahMovement():
+def NoahAttack():
     pass
 
 def LoganJumpscare():
@@ -407,7 +407,7 @@ def CheckInterval():
         MaxMovement()
     elif time >= animatronicHandler["NoahInterval"]: #15 second intervals
         animatronicHandler["NoahInterval"] += 15000
-        NoahMovement()
+        NoahAttack()
 
 def MaxWindowBreak():
     animatronicHandler["WindowBroken"] = True
@@ -560,7 +560,7 @@ while running:
         DrawWindow()
 
     if actions["State"] == "DOOR":
-        RunToDoor()
+        DrawAtDoor()
         
     # game loop updates (including movement)
     ### ADD ANY GAME LOOP UPDATES HERE ###
@@ -568,14 +568,23 @@ while running:
     # check for keypresses
     keys = pygame.key.get_pressed()
     
+    #Running around the room
     if keys[K_LEFT] and actions["CanDoor"] == True:
-        actions["State"] = "DOOR"
+        RunToDoor()
     if keys[K_UP] and actions["State"] == "DESK":
-        actions["State"] = "WINDOW"
+        RunToWindow()
     if keys[K_DOWN] and (actions["State"] == "WINDOW" or actions["State"] == "DOOR"):
         DrawDeskScreen()
+    
+    #Camera system
     if keys[K_SPACE] and actions["State"] == "DESK" and actions["CanCamera"] == True:
         DrawCameras()
+    if keys[K_SPACE] and actions["State"] == "CAMERA":
+        DrawDeskScreen()
+    if keys[K_LEFT] and actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
+        DownCameras()
+    if keys[K_RIGHT] and actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
+        UpCameras()
     CheckWin()
     # game loop drawing
     ### ADD ANY GAME LOOP DRAWINGS HERE ###
