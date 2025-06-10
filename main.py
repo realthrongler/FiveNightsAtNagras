@@ -327,6 +327,8 @@ def DownCameras():
 
 def CloseCameras():
     actions["CanDisableMusic"] = False
+    actions["CanDoor"] = True
+    actions["CanWindow"] = True
     actions["State"] = "DESK"
     
 def Flashlight():
