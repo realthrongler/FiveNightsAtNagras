@@ -257,10 +257,21 @@ def DrawAtDoor():
     actions["CanCamera"] = False
     actions["CanWindow"] = False
     
-    screen.fill(BGCOLOUR)
-    image = pygame.image.load("Assets/Sprites/Door_Closed.png")
-    rect = image.get_rect()
-    screen.blit(image, rect)
+    #Drawing different door image depending on who is there
+    if animatronicHandler["NagraAttacking"] == False and animatronicHandler["LoganAtDoor"] == False:
+        screen.fill(BGCOLOUR)
+        image = pygame.image.load("Assets/Sprites/Door_Open.png").convert()
+        rect = image.get_rect()
+        screen.blit(image, rect)
+    elif animatronicHandler["NagraAttacking"] == True and animatronicHandler["LoganAtDoor"] == False:
+        screen.fill(BGCOLOUR)
+        image = pygame.image.load("Assets/Sprites/NagraDoorOpen.jpg").convert()
+        rect = image.get_rect()
+        screen.blit(image, rect)
+    elif animatronicHandler["NagraAttacking"] == True and animatronicHandler["LoganAtDoor"] == True:
+        screen.fill(BGCOLOUR)
+        image = pygame.image.load("Assets/Sprites/")
+    
 
 def RunToComputer():
     actions["State"] = "RUNNING"
