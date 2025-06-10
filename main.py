@@ -541,7 +541,7 @@ while running:
         DrawWindow()
 
     if actions["State"] == "DOOR":
-        RunToDoor()
+        DrawAtDoor()
         
     # game loop updates (including movement)
     ### ADD ANY GAME LOOP UPDATES HERE ###
@@ -550,9 +550,9 @@ while running:
     keys = pygame.key.get_pressed()
     
     if keys[K_LEFT] and actions["CanDoor"] == True:
-        actions["State"] = "DOOR"
+        RunToDoor()
     if keys[K_UP] and actions["State"] == "DESK":
-        actions["State"] = "WINDOW"
+        RunToWindow()
     if keys[K_DOWN] and (actions["State"] == "WINDOW" or actions["State"] == "DOOR"):
         DrawDeskScreen()
     if keys[K_SPACE] and actions["State"] == "DESK" and actions["CanCamera"] == True:
