@@ -20,6 +20,14 @@ WIDTH = 1280
 HEIGHT = 720
 BGCOLOUR = BLACK ### CHANGE AS NEEDED ###
 CAPTION = "Five Nights at Mr.Thong's"
+MUSIC_CHANNEL = 1  #For playing Logan's music
+JUMPSCARE_CHANNEL = 2 #For playing any jumpscare sound (no way multiple of them happen at once)
+AMBIENCE_CHANNEL = 3 #For playing the spooky ambience
+GLASS_CHANNEL = 4 #For playing Max's glass tapping/glass breaking noises
+LOGAN_CHANNEL = 5 #For playing Logan's voicelines
+STATIC_CHANNEL = 6 #For playing Noah's static
+FOOTSTEPS_CHANNEL = 7 #For playing the footsteps sound effects when running
+ENDING_CHANNEL = 8 #For playing the winning music and also Mr.Nagra's rubble and voiceline sounds
 
 # initialize pygame, create window, start the clock
 pygame.init()
@@ -64,7 +72,7 @@ actions = {"CanWindow": False,
 "MusicBlaring": False,
 "NightActive": False,
 "ComputerOff": False,
-"State": "MENU", #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "WIN", "LOSS"
+"State": "MENU", #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "WIN"
 "Night": 1,
 "Camera": 1, #Defaults to Logan's hall, 2 is storage room, 3 is just outside storage room, 4 is bench, 5 is mr.nagra chair
 "StartTime": 0.00} #Float for storing the time the night started in milliseconds
@@ -290,12 +298,25 @@ def UpCameras():
         actions["Camera"] += 1
 
 def DrawCameras():
-    if actions["Camera"] == 1: 
+    #Logan hall camera
+    if actions["Camera"] == 1 and animatronicHandler["LoganLevel"] == 0: 
         #Draw Logan hall camera (empty)
         pass
-    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0:
-        #Draw Logan hall with logan at the end of the hall here
+    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 25:
+        #Draw Logan hall 1 here
         pass
+    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 50:
+        #Draw Logan hall 2 here
+        pass
+    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 75:
+        #Draw logan hall 3 here
+        pass
+    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] > 75:
+        #Draw logan hall 4 here
+        pass
+    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] >= 90:
+        #Draw empty hall again (Logan will be at the door if his progress is 90 and above)
+        pass 
 
 def DownCameras():
     camera = actions["Camera"]
@@ -369,14 +390,19 @@ def CloseDoor():
     actions["CanFlashlight"] = False
 
 def ShutOffMusic():
-    pass
+    if actions["State"] == "CAMERA" and actions["CanDisableMusic"] == True and actions["ComputerOff"] == False:
+        #Stop music playing here, and rewind it so it starts at the beginning when the song is started over
+        actions["MusicBlaring"] = False
         
 def PlayMusic():
     actions["MusicBlaring"] = True
-    pass
-
-def GameOverScreen():
-    pass
+    musicNumber = random.randint(1,2)
+    if musicNumber == 1:
+        pass
+        #Play DJ toenail here using a channel in the pygame mixer, not music mixer, just mixer
+    elif musicNumber == 2:
+        pass
+        #Play Thick of it by KSI here using a channel
 
 def RetryButtonPressed():
     NightStart(actions["Night"])
