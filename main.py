@@ -300,7 +300,6 @@ def DrawAtDoor():
         rect = image.get_rect()
         screen.blit(image, rect)
     
-
 def RunToComputer():
     actions["State"] = "RUNNING"
     Running_transition()
@@ -332,15 +331,12 @@ def DrawCameras():
         #Draw Logan hall camera (empty)
         pass
     elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 25:
-        #Draw Logan hall 1 here
-        pass
-    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 50 and animatronicHandler["LoganProgress"] > 25:
         #Draw Logan hall 2 here
         pass
-    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 75 and animatronicHandler["LoganProgress"] > 50:
-        #Draw logan hall 3 here
+    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 50 and animatronicHandler["LoganProgress"] > 25:
+        #Draw Logan hall 3 here
         pass
-    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] > 75 and animatronicHandler["LoganProgress"] < 90:
+    elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] <= 75 and animatronicHandler["LoganProgress"] > 50:
         #Draw logan hall 4 here
         pass
     elif actions["Camera"] == 1 and animatronicHandler["LoganLevel"] != 0 and animatronicHandler["LoganProgress"] >= 90 and animatronicHandler["LoganProgress"] < 100:
