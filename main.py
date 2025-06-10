@@ -20,14 +20,14 @@ WIDTH = 1280
 HEIGHT = 720
 BGCOLOUR = BLACK ### CHANGE AS NEEDED ###
 CAPTION = "Five Nights at Mr.Thong's"
-MUSIC_CHANNEL = 1  #For playing Logan's music
-JUMPSCARE_CHANNEL = 2 #For playing any jumpscare sound (no way multiple of them happen at once)
-AMBIENCE_CHANNEL = 3 #For playing the spooky ambience
-GLASS_CHANNEL = 4 #For playing Max's glass tapping/glass breaking noises
-LOGAN_CHANNEL = 5 #For playing Logan's voicelines
-STATIC_CHANNEL = 6 #For playing Noah's static
-FOOTSTEPS_CHANNEL = 7 #For playing the footsteps sound effects when running
-ENDING_CHANNEL = 8 #For playing the winning music and also Mr.Nagra's rubble and voiceline sounds
+MUSIC_CHANNEL = pygame.mixer.Channel(1)  #For playing Logan's music
+JUMPSCARE_CHANNEL = pygame.mixer.Channel(2) #For playing any jumpscare sound (no way multiple of them happen at once)
+AMBIENCE_CHANNEL = pygame.mixer.Channel(3) #For playing the spooky ambience
+GLASS_CHANNEL = pygame.mixer.Channel(4) #For playing Max's glass tapping/glass breaking noises
+LOGAN_CHANNEL = pygame.mixer.Channel(5) #For playing Logan's voicelines
+STATIC_CHANNEL = pygame.mixer.Channel(6) #For playing Noah's static
+FOOTSTEPS_CHANNEL = pygame.mixer.Channel(7) #For playing the footsteps sound effects when running
+ENDING_CHANNEL = pygame.mixer.Channel(8) #For playing the winning music and also Mr.Nagra's rubble and voiceline sounds
 
 # initialize pygame, create window, start the clock
 pygame.init()
@@ -388,7 +388,7 @@ def MaxMovement():
 def NagraMovement():
     pass
 
-def NoahMovement():
+def NoahAttack():
     pass
 
 def LoganJumpscare():
@@ -408,7 +408,7 @@ def CheckInterval():
         MaxMovement()
     elif time >= animatronicHandler["NoahInterval"]: #15 second intervals
         animatronicHandler["NoahInterval"] += 15000
-        NoahMovement()
+        NoahAttack()
 
 def MaxWindowBreak():
     animatronicHandler["WindowBroken"] = True
