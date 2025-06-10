@@ -28,7 +28,7 @@ AMBIENCE_CHANNEL = pygame.mixer.Channel(3) #For playing the spooky ambience
 GLASS_CHANNEL = pygame.mixer.Channel(4) #For playing Max's glass tapping/glass breaking noises
 LOGAN_CHANNEL = pygame.mixer.Channel(5) #For playing Logan's voicelines
 STATIC_CHANNEL = pygame.mixer.Channel(6) #For playing Noah's static
-FOOTSTEPS_CHANNEL = pygame.mixer.Channel(7) #For playing the footsteps sound effects when running
+ACTIONS_CHANNEL = pygame.mixer.Channel(7) #For playing the footsteps sound effects when running and closing the door (those 2 things never coincide)
 ENDING_CHANNEL = pygame.mixer.Channel(8) #For playing the winning music and also Mr.Nagra's rubble and voiceline sounds
 
 # initialize pygame, create window, start the clock
@@ -256,21 +256,49 @@ def DrawAtDoor():
     actions["State"] = "DOOR"
     actions["CanCamera"] = False
     actions["CanWindow"] = False
+    actions["CanClose"] = True
     
-    #Drawing different door image depending on who is there
-    if animatronicHandler["NagraAttacking"] == False and animatronicHandler["LoganAtDoor"] == False:
+    #Drawing different door image depending on who is there and door is open
+    if animatronicHandler["NagraAttacking"] == False and animatronicHandler["LoganAtDoor"] == False and actions["DoorClosed"] == False:
         screen.fill(BGCOLOUR)
         image = pygame.image.load("Assets/Sprites/Door_Open.png").convert()
         rect = image.get_rect()
         screen.blit(image, rect)
-    elif animatronicHandler["NagraAttacking"] == True and animatronicHandler["LoganAtDoor"] == False:
+    elif animatronicHandler["NagraAttacking"] == True and animatronicHandler["LoganAtDoor"] == False and actions["DoorClosed"] == False:
         screen.fill(BGCOLOUR)
         image = pygame.image.load("Assets/Sprites/NagraDoorOpen.jpg").convert()
         rect = image.get_rect()
         screen.blit(image, rect)
-    elif animatronicHandler["NagraAttacking"] == True and animatronicHandler["LoganAtDoor"] == True:
+    elif animatronicHandler["NagraAttacking"] == True and animatronicHandler["LoganAtDoor"] == True and actions["DoorClosed"] == False:
         screen.fill(BGCOLOUR)
-        image = pygame.image.load("Assets/Sprites/")
+        #Draw Mr.Nagra and Logan with the door OPEN here
+    elif animatronicHandler["NagraAttacking"] == False and animatronicHandler["LoganAtDoor"] == True and actions["DoorClosed"] == False:
+        screen.fill(BGCOLOUR)
+        image = pygame.image.load("Assets/Sprites/LoganDoorOpen.jpg").convert()
+        rect = image.get_rect()
+        screen.blit(image, rect)
+    
+    #Drawing different door image based on who is there and door is closed
+    if actions["DoorClosed"] == True and animatronicHandler["NagraAttacking"] == False and animatronicHandler["LoganAtDoor"] == False:
+        screen.fill(BGCOLOUR)
+        image = pygame.image.load("Assets/Sprites/Door_Close.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
+    elif actions["DoorClosed"] == True and animatronicHandler["NagraAttacking"] == True and animatronicHandler["LoganAtDoor"] == False:
+        screen.fill(BGCOLOUR)
+        image = pygame.image.load("Assets/Sprites/NagreDoorClosed.jpg")
+        rect = image.get_rect()
+        screen.blit(image, rect)
+    elif actions["DoorClosed"] == True and animatronicHandler["NagraAttacking"] == False and animatronicHandler["LoganAtDoor"] == True:
+        screen.fill(BGCOLOUR)
+        image = pygame.image.load("Assets/Sprites/LoganDoorClosed.jpg")
+        rect = image.get_rect()
+        screen.blit(image, rect)
+    elif actions["DoorClosed"] == True and animatronicHandler["NagraAttacking"] == True and animatronicHandler["LoganAtDoor"] == True:
+        screen.fill(BGCOLOUR)
+        image = pygame.image.load("Assets/Sprites/LoganNagraDoorClosed.jpg")
+        rect = image.get_rect()
+        screen.blit(image, rect)
     
 
 def RunToComputer():
@@ -441,9 +469,6 @@ def PlayMusic():
         pass
         #Play Thick of it by KSI here using a channel
 
-def RetryButtonPressed():
-    NightStart(actions["Night"])
-
 def NightWin():
     actions["NightActive"] = False
     actions["Night"] += 1
@@ -516,7 +541,7 @@ def Running_transition():
     fade_surface = pygame.Surface((screen.get_width(), screen.get_height()))
     fade_surface.fill((0, 0, 0))
     footsteps = pygame.mixer.Sound("Assets/Audio/footsteps.mp3")
-    FOOTSTEPS_CHANNEL.play(footsteps)
+    ACTIONS_CHANNEL.play(footsteps)
     # Fade to black (metallica reference?)
     for alpha in range(0, 256, 5): 
         fade_surface.set_alpha(alpha)
@@ -548,6 +573,8 @@ while running:
         #Detecting space bar input for the door
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and actions["CanClose"] == True and actions["State"] == "DOOR":
+                sound = pygame.mixer.Sound("Assets/Audio/DoorClose.mp3")
+                ACTIONS_CHANNEL.play(sound)
                 actions["DoorClosed"] = True
         #Detecting keyup on the spacebar for the door
         if event.type == pygame.KEYUP:
