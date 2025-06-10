@@ -1,4 +1,4 @@
-# Programmer(s): Max, Logan, Noah
+# Programmer(s): Noah, Logan, Max
 # Date: 29/05/25
 # Description: Five Night's at Freddy's but with Mr.Nagra and us
 import pygame
