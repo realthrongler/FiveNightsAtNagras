@@ -342,6 +342,14 @@ def DrawCameras():
     elif actions["Camera"] == 3 and animatronicHandler["NagraProgress"] > 75:
         #Draw empty bench here
         pass
+    
+    #Chair camera
+    if actions["Camera"] == 3 and animatronicHandler["NagraProgress"] > 75:
+        #Draw mr.Nagra on the chair here
+        pass
+    elif actions["Camera"] == 3 and animatronicHandler["NagraProgress"] == 100:
+        #Draw empty chair here, Mr.Nagra is now at the door
+        pass
 
 def DownCameras():
     camera = actions["Camera"]
