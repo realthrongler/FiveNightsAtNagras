@@ -314,7 +314,6 @@ def OpenCameras():
     actions["State"] = "CAMERA"
     actions["CanDoor"] = False
     actions["CanWindow"] = False
-    DrawCameras()
 
 def UpCameras():
     camera = actions["Camera"]
@@ -617,6 +616,10 @@ while running:
 
     if actions["State"] == "DOOR":
         DrawAtDoor()
+    
+    if actions["State"] == "CAMERA":
+        print("Function triggered") #DEBUGGING PURPOSES WILL REMOVE LATER
+        DrawCameras()
         
     # game loop updates (including movement)
     ### ADD ANY GAME LOOP UPDATES HERE ###
@@ -634,7 +637,7 @@ while running:
     
     #Camera system
     if keys[K_SPACE] and actions["State"] == "DESK" and actions["CanCamera"] == True:
-        DrawCameras()
+        OpenCameras()
     if keys[K_SPACE] and actions["State"] == "CAMERA":
         DrawDeskScreen()
     if keys[K_LEFT] and actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
