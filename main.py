@@ -544,7 +544,15 @@ while running:
     # process input (events)
     for event in pygame.event.get():
         if event.type == QUIT:
-            running = False      
+            running = False   
+        #Detecting space bar input for the door
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE and actions["CanClose"] == True and actions["State"] == "DOOR":
+                actions["DoorClosed"] = True
+        #Detecting keyup on the spacebar for the door
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_SPACE:
+                actions["DoorClosed"] = False
     ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ### 
     if pygame.mouse.get_pressed()[0] and actions["State"] == "MENU":
         red = (200, 50, 0)
@@ -596,6 +604,7 @@ while running:
         DownCameras()
     if keys[K_RIGHT] and actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
         UpCameras()
+
     CheckWin()
     # game loop drawing
     ### ADD ANY GAME LOOP DRAWINGS HERE ###
