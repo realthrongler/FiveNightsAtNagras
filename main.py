@@ -212,15 +212,7 @@ def StoryIntroduction():
     screen.blit(image, introposter_rect)
     pygame.display.flip()
     time.sleep(25)
-    NightStart(actions["Night"])
-
-def Nightstart():
-    screen.fill(BLACK)
-    text7 = font.render("Night 1" + str(actions["Night"]), True, (red))
-    text_rect7 = text7.get_rect(center=(640, 360))
-    screen.blit(text7, text_rect7)
-    pygame.display.flip()
-    time.sleep(5)
+    NightStart(actions["Night"])  
 
 def DrawDeskScreen():
     actions["State"] = "DESK"
@@ -409,6 +401,14 @@ def NightStart(night):
     actions["State"] = "DESK"
     actions["CanCamera"] = True
     actions["CanLook"] = True
+    screen.fill(BLACK)
+    font = pygame.font.Font("Assets/Sprites/Sans.ttf", 24)
+    text7 = font.render("Night "+ str(actions["Night"]), True, (red))
+    text_rect7 = text7.get_rect(center=(640, 360))
+    screen.blit(text7, text_rect7)
+    pygame.display.flip()
+    time.sleep(5)
+
     actions["StartTime"] = pygame.time.get_ticks()
     animatronicHandler["MaxInterval"] = actions["StartTime"] + 10000
     animatronicHandler["NagraInterval"] = actions["StartTime"] + 5000
