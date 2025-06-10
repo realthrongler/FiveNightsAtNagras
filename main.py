@@ -219,7 +219,7 @@ def StoryIntroduction():
     introposter_rect = image.get_rect()
     screen.blit(image, introposter_rect)
     pygame.display.flip()
-    time.sleep(25)
+    pygame.time.wait(2000)
     NightStart(actions["Night"])  
 
 def DrawDeskScreen():
@@ -485,7 +485,7 @@ def NightStart(night):
     text_rect7 = text7.get_rect(center=(640, 360))
     screen.blit(text7, text_rect7)
     pygame.display.flip()
-    time.sleep(5)
+    pygame.time.wait(5000)
     #Setting start time for tracking when the night is over (after 4 minutes and 30 seconds)
     actions["StartTime"] = pygame.time.get_ticks()
     #Updating initial intervals for animatronic movement checks
@@ -578,7 +578,7 @@ while running:
     if keys[K_UP] and actions["State"] == "DESK":
         RunToWindow()
     if keys[K_DOWN] and (actions["State"] == "WINDOW" or actions["State"] == "DOOR"):
-        DrawDeskScreen()
+        RunToComputer()
     
     #Camera system
     if keys[K_SPACE] and actions["State"] == "DESK" and actions["CanCamera"] == True:
