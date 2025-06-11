@@ -471,9 +471,6 @@ def MaxMovement():
         elif noisechoice == 2:
             sound = pygame.mixer.Sound("Assets/Audio/Glass_Knocking_2.mp3")
             GLASS_CHANNEL.play(sound)
-        
-    
-        
 
 def NagraMovement():
     pass
