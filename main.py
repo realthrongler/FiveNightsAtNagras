@@ -445,8 +445,10 @@ def LoganJumpscare():
     image = pygame.image.load("Assets/Sprites/LoganJumpscare.png")
     rect = image.get_rect()
     screen.blit(image, rect)
+    
     jumpscare = pygame.mixer.Sound("Assets/Audio/Logan_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
+    pygame.time.wait(int(jumpscare.get_length()))
 
 def CheckInterval():
     time = pygame.time.get_ticks()
@@ -472,8 +474,10 @@ def MaxJumpscare():
     image = pygame.image.load("Assets/Sprites/Max_Jumpscare4.png")
     rect = image.get_rect()
     screen.blit(image, rect)
+    
     jumpscare = pygame.mixer.Sound("Assets/Audio/Max_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
+    pygame.time.wait(int(jumpscare.get_length()))
 
 def NoahAppear():
     AppearChance = random.randint(0, 40)
