@@ -456,6 +456,12 @@ def MaybePlayMusic():
 def MaxMovement():
     chance = random.randint(0, 35) 
     print("max checked")
+
+    if animatronicHandler["MaxAttacking"] == True:
+        MaxWindowBreak()
+        pygame.time.wait(5000)
+        MaxJumpscare()
+
     if chance < animatronicHandler["MaxLevel"] and animatronicHandler["MaxAttacking"] == False:
         animatronicHandler["MaxAttacking"] = True
         noisechoice = random.randint(1,2)
@@ -466,10 +472,7 @@ def MaxMovement():
             sound = pygame.mixer.Sound("Assets/Audio/Glass_Knocking_2.mp3")
             GLASS_CHANNEL.play(sound)
         
-    if animatronicHandler["MaxAttacking"] == True:
-        MaxWindowBreak()
-        pygame.time.wait(5000)
-        MaxJumpscare()
+    
         
 
 def NagraMovement():
@@ -529,6 +532,7 @@ def MaxJumpscare():
     image = pygame.image.load("Assets/Sprites/Max_Jumpscare4.png")
     rect = image.get_rect()
     screen.blit(image, rect)
+    GameLoss()
     
     jumpscare = pygame.mixer.Sound("Assets/Audio/Max_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
