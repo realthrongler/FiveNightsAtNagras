@@ -318,7 +318,7 @@ def OpenCameras():
 
 def UpCameras():
     camera = actions["Camera"]
-    if camera + 1 == 4:
+    if camera + 1 == 6:
         actions["Camera"] = 1
         pygame.display.flip()
     else:
@@ -360,31 +360,31 @@ def DrawCameras():
         screen.blit(image, rect)
 
     #Hallway camera
-    if actions["Camera"] == 2 and animatronicHandler["NagraProgress"] > 25 and animatronicHandler["NagraProgress"] <= 50:
+    if actions["Camera"] == 3 and animatronicHandler["NagraProgress"] > 25 and animatronicHandler["NagraProgress"] <= 50:
         image = pygame.image.load("Assets/Sprites/NagraHall1.png")
         rect = image.get_rect()
         screen.blit(image, rect)
-    elif actions["Camera"] == 2 and animatronicHandler["NagraProgress"] > 50:
+    elif actions["Camera"] == 3 and (animatronicHandler["NagraProgress"] > 50 or animatronicHandler["NagraProgress"] < 25):
         image = pygame.image.load("Assets/Sprites/NagraHall3.png")
         rect = image.get_rect()
         screen.blit(image, rect)
     
     #Bench camera
-    if actions["Camera"] == 3 and animatronicHandler["NagraProgress"] > 50:
+    if actions["Camera"] == 4 and animatronicHandler["NagraProgress"] > 50 and animatronicHandler["NagraProgress"] < 75:
         image = pygame.image.load("Assets/Sprites/NagraBench1.png")
         rect = image.get_rect()
         screen.blit(image, rect)
-    elif actions["Camera"] == 3 and animatronicHandler["NagraProgress"] > 75:
+    elif actions["Camera"] == 4 and (animatronicHandler["NagraProgress"] > 75 or animatronicHandler["NagraProgress"] < 50):
         image = pygame.image.load("Assets/Sprites/NagraBench4.png")
         rect = image.get_rect()
         screen.blit(image, rect)
     
     #Chair camera
-    if actions["Camera"] == 3 and animatronicHandler["NagraProgress"] > 75:
+    if actions["Camera"] == 5 and animatronicHandler["NagraProgress"] > 75 and animatronicHandler["NagraProgress"] < 100:
         image = pygame.image.load("Assets/Sprites/NagraChair3.png")
         rect = image.get_rect()
         screen.blit(image, rect)
-    elif actions["Camera"] == 3 and animatronicHandler["NagraProgress"] == 100:
+    elif actions["Camera"] == 5 and (animatronicHandler["NagraProgress"] == 100 or animatronicHandler["NagraProgress"] < 75):
         image = pygame.image.load("Assets/Sprites/NagraChair1.png")
         rect = image.get_rect()
         screen.blit(image, rect)
@@ -393,7 +393,7 @@ def DrawCameras():
 def DownCameras():
     camera = actions["Camera"]
     if camera - 1 == 0:
-        actions["Camera"] = 3
+        actions["Camera"] = 5
         pygame.display.flip()
     else:
         actions["Camera"] -= 1
