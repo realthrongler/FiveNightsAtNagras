@@ -449,7 +449,7 @@ def MaxJumpscare():
 def NoahAppear():
     AppearChance = random.randint(0, 40)
     #put some stuff here future me
-    actions["CanCamera"] = False
+    
 
 def ComputerShutoff():
     actions["ComputerOff"] = True
@@ -458,6 +458,7 @@ def ComputerShutoff():
     ACTIONS_CHANNEL.play(ShutoffSound)
 
 def ComputerPowerOn():
+    
     actions["CanDoor"] = False
     actions["CanWindow"] = False
     StartSound1 = pygame.mixer.Sound("Assets/Audio/ComputerOn.mp3")
@@ -466,6 +467,7 @@ def ComputerPowerOn():
     ACTIONS_CHANNEL.play(StartSound1)
     ACTIONS_CHANNEL.queue(StartSound2)
     pygame.time.wait(int(StartSound2.get_length()))
+    
     actions["CanDoor"] = True
     actions["CanWindow"] = True
     actions["ComputerOff"] = False
@@ -619,7 +621,10 @@ while running:
                     denied = pygame.mixer.Sound("Assets/Audio/denied.mp3")
             #Detecting turning off cameras
             if event.key == pygame.K_x:
-                if actions["State"] == "CAMERA"
+                if actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
+                    ComputerShutoff()
+                elif actions["State"] == "DESK" and actions["ComputerOff"] == True:
+                    ComputerPowerOn()
             if event.key == pygame.K_DOWN:
                 if actions["State"] == "CAMERA":
                     DrawDeskScreen()
