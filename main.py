@@ -609,7 +609,7 @@ def NightWin():
     actions["State"] = "WIN"
 
     win_image = pygame.image.load("Assets/Sprites/Win_clock.png")
-    rect = image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+    rect = win_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
     sound = pygame.mixer.Sound("Assets/Audio/Alarm_Clock.mp3")
     sound.play()
 
@@ -617,13 +617,14 @@ def NightWin():
     flash_interval = 500  # ms (change to 100 for faster flashes)
     show = True
 
-    while pygame.time.get_ticks() - start_time < 10000:  # 10 seconds
+    while pygame.time.get_ticks() - actions["StartTime"] < 10000:  # 10 seconds
         screen.fill((0, 0, 0))
         if show:
-            screen.blit(image, rect)
+            screen.blit(win_image, rect)
         pygame.display.flip()
         pygame.time.delay(flash_interval)
         show = not show
+    NightStart(actions["Night"])
 
 def NightStart(night):
     #Setting variables
