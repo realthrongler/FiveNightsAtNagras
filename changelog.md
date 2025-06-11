@@ -29,6 +29,8 @@
 - More assets for the game being prepared
 - Coded some of the logic for switching between screens
 - Switched to a dictionary for storing player states/actions, meaning that functions can now properly access and change the player's available actions based on where they are
+
+
 - Added a parameter to the night() function in order to control AI levels, planned "animatronic" movement
 - Working menu buttons (Thanks Logan!) implemented
 
@@ -36,3 +38,9 @@
 - Refining of program
 - Code now accesses assets folder properly
 - Additional dictionary for enemy control and movement
+
+10/06/25
+- Added working door system
+- Bug fixes of camera system
+- Added actual drawing when switching between screens
+- Added lore introduction and screen that displays what night you're on
