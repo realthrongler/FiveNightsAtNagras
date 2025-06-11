@@ -245,9 +245,14 @@ def DrawWindow():
     actions["CanDoor"] = False
     
     screen.fill(BGCOLOUR)
-    image = pygame.image.load("Assets/Sprites/Window.png")
-    rect = image.get_rect()
-    screen.blit(image, rect)
+
+    if animatronicHandler["MaxAttacking"] == False:
+        image = pygame.image.load("Assets/Sprites/Window.png")
+        rect = image.get_rect()
+        screen.blit(image, rect)
+    elif animatronicHandler["MaxAttacking"] == True:
+        #Draw either max jumpscare one or two here using random.randint() and an if statement, just like logan's song choice
+        pass #<-- Delete this later
     
 def RunToDoor():
     actions["State"] = "RUNNING"
@@ -426,14 +431,30 @@ def MaybePlayMusic():
         PlayMusic()
 
 def MaxMovement():
-    pass
+    chance = random.randint(0, 35) 
+    print("max checked")
+    if chance < animatronicHandler["MaxLevel"] and animatronicHandler["MaxAttacking"] == False:
+        animatronicHandler["MaxAttacking"] = True
+        noisechoice = random.randint(1,2)
+        if noisechoice == 1:
+            sound = pygame.mixer.Sound("Assets/Audio/Glass_Knocking_1.mp3")
+            GLASS_CHANNEL.play(sound)
+        elif noisechoice == 2:
+            sound = pygame.mixer.Sound("Assets/Audio/Glass_Knocking_2.mp3")
+            GLASS_CHANNEL.play(sound)
+        
+    if animatronicHandler["MaxAttacking"] == True:
+        MaxWindowBreak()
+        pygame.time.wait(5000)
+        MaxJumpscare()
+        
 
 def NagraMovement():
     pass
 
 def NoahCheckAttack():
     chance = random.randint(0, 40)
-    if animatronicHandler["NoahLevel"] < chance:
+    if chance < animatronicHandler["NoahLevel"]:
         #Noah start appearing here
         pass
 
@@ -477,6 +498,8 @@ def CheckInterval():
 
 def MaxWindowBreak():
     animatronicHandler["WindowBroken"] = True
+    sound = pygame.mixer.Sound("Assets/Audio/GlassBreak.mp3")
+    GLASS_CHANNEL.play(sound)
 
 def MaxJumpscare():
     actions["State"] = "JUMPSCARE"
@@ -745,6 +768,7 @@ while running:
         RunToComputer()
     
     CheckWin()
+    CheckInterval()
 
     #Logan's attack mechanic
     if actions["MusicBlaring"] == True:
