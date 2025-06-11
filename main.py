@@ -416,7 +416,7 @@ def DrawCameras():
         image = pygame.image.load("Assets/Sprites/NagraChair3.png")
         rect = image.get_rect()
         screen.blit(image, rect)
-    elif actions["Camera"] == 5 and (animatronicHandler["NagraProgress"] >= 100 or animatronicHandler["NagraProgress"] < 75):
+    elif actions["Camera"] == 5 and (animatronicHandler["NagraProgress"] == 100 or animatronicHandler["NagraProgress"] < 75):
         image = pygame.image.load("Assets/Sprites/NagraChair1.png")
         rect = image.get_rect()
         screen.blit(image, rect)
@@ -455,6 +455,7 @@ def MaybePlayMusic():
 
 def MaxMovement():
     chance = random.randint(0, 35) 
+    print("max checked")
 
     if animatronicHandler["MaxAttacking"] == True:
         MaxWindowBreak()
@@ -470,6 +471,9 @@ def MaxMovement():
         elif noisechoice == 2:
             sound = pygame.mixer.Sound("Assets/Audio/Glass_Knocking_2.mp3")
             GLASS_CHANNEL.play(sound)
+        
+    
+        
 
 def NagraMovement():
     pass
@@ -505,16 +509,16 @@ def LoganJumpscare():
 def CheckInterval():
     time = pygame.time.get_ticks()
     
-    if time >= animatronicHandler["NagraInterval"] and actions["NightActive"] == True: #5 second intervals
+    if time >= animatronicHandler["NagraInterval"]: #5 second intervals
         animatronicHandler["NagraInterval"] += 5000
         NagraMovement()
-    elif time >= animatronicHandler["LoganInterval"] and actions["NightActive"] == True: #15 second intervals
+    elif time >= animatronicHandler["LoganInterval"]: #15 second intervals
         animatronicHandler["LoganInterval"] += 15000
         MaybePlayMusic()
-    elif time >= animatronicHandler["MaxInterval"] and actions["NightActive"] == True: #10 second intervals
+    elif time >= animatronicHandler["MaxInterval"]: #10 second intervals
         animatronicHandler["MaxInterval"] += 10000
         MaxMovement()
-    elif time >= animatronicHandler["NoahInterval"] and actions["NightActive"] == True: #15 second intervals
+    elif time >= animatronicHandler["NoahInterval"]: #15 second intervals
         animatronicHandler["NoahInterval"] += 15000
         NoahCheckAttack()
 
@@ -603,8 +607,23 @@ def NightWin():
     actions["CanWindow"] = False
     actions["CanFlashlight"] = False
     actions["State"] = "WIN"
-    #Play winning music here
-    #Draw winning clock or something here
+
+    win_image = pygame.image.load("Assets/Sprites/Win_clock.png")
+    rect = image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+    sound = pygame.mixer.Sound("Assets/Audio/Alarm_Clock.mp3")
+    sound.play()
+
+    start_time = pygame.time.get_ticks()
+    flash_interval = 500  # ms (change to 100 for faster flashes)
+    show = True
+
+    while pygame.time.get_ticks() - start_time < 10000:  # 10 seconds
+        screen.fill((0, 0, 0))
+        if show:
+            screen.blit(image, rect)
+        pygame.display.flip()
+        pygame.time.delay(flash_interval)
+        show = not show
 
 def NightStart(night):
     #Setting variables
