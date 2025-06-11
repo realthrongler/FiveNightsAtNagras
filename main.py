@@ -428,7 +428,16 @@ def NagraMovement():
     pass
 
 def NoahAttack():
-    pass
+    actions["State"] = "JUMPSCARE"
+    NoahAttackImage = pygame.image.load("Assets/Sprites/NoahAttack.png")
+    NoahAttackImageRect = NoahAttackImage.get_rect()
+    screen.blit(NoahAttackImage, NoahAttackImageRect)
+    pygame.display.flip()
+
+    NoahAttackSound = pygame.mixer.Sound("Assets/Audio/Noah_Buildup.mp3")
+    JUMPSCARE_CHANNEL.play(NoahAttackSound)
+    pygame.time.wait(int(NoahAttackSound.get_length()))
+    GameLoss()
 
 def LoganJumpscare():
     actions["State"] = "JUMPSCARE"
@@ -499,7 +508,7 @@ def NagraJumpscare():
     pygame.display.flip()
 
     NagraJumpscareSound = pygame.mixer.Sound("Assets/Audio/NagraJumpscare.mp3")
-    ACTIONS_CHANNEL.play(NagraJumpscareSound)
+    JUMPSCARE_CHANNEL.play(NagraJumpscareSound)
     pygame.time.wait(int(NagraJumpscareSound.get_length()))
     GameLoss()
 
