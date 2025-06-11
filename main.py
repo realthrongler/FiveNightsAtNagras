@@ -69,7 +69,7 @@ actions = {"CanWindow": False,
 "CanDisableMusic": False,
 "CanFlashlight": False,
 "LookingAtDoor": False,
-"FlashlightActive": False,
+"ScreamingAtMax": False,
 "DoorClosed": False,
 "MusicBlaring": False,
 "NightActive": False,
@@ -408,8 +408,9 @@ def CloseCameras():
     actions["CanWindow"] = True
     actions["State"] = "DESK"
     
-def Flashlight():
-    actions["FlashlightActive"] = True
+def ScreamAtMax():
+    actions["ScreamingAtMax"] = True
+    
 
 def LoganMovement():
     pass
@@ -541,17 +542,17 @@ def NightStart(night):
     elif night == 2:
         animatronicHandler["NagraLevel"] = 7
         animatronicHandler["MaxLevel"] = 10
-        animatronicHandler["NoahLevel"] = 5
+        animatronicHandler["NoahLevel"] = 0
         animatronicHandler["LoganLevel"] = 5
     elif night == 3:
         animatronicHandler["NagraLevel"] = 10
         animatronicHandler["MaxLevel"] = 12
-        animatronicHandler["NoahLevel"] = 10
+        animatronicHandler["NoahLevel"] = 5
         animatronicHandler["LoganLevel"] = 10
     elif night == 4:
         animatronicHandler["NagraLevel"] = 14
         animatronicHandler["MaxLevel"] = 15
-        animatronicHandler["NoahLevel"] = 13
+        animatronicHandler["NoahLevel"] = 10
         animatronicHandler["LoganLevel"] = 14
     elif night == 5:
         animatronicHandler["NagraLevel"] = 17
