@@ -453,13 +453,25 @@ def NoahAppear():
 
 def ComputerShutoff():
     actions["ComputerOff"] = True
+    actions["State"] = "DESK"
+    ShutoffSound = pygame.mixer.Sound("Assets/Audio/ComputerOff.mp3")
+    ACTIONS_CHANNEL.play(ShutoffSound)
 
 def ComputerPowerOn():
-    #Play computer startup sound
-    #Computer cannot be used for a little bit, 5 seconds maybe?
+    actions["CanDoor"] = False
+    actions["CanWindow"] = False
+    StartSound1 = pygame.mixer.Sound("Assets/Audio/ComputerOn.mp3")
+    StartSound2 = pygame.mixer.Sound("Assets/Audio/ComputerOnTwo.mp3")
+    
+    ACTIONS_CHANNEL.play(StartSound1)
+    ACTIONS_CHANNEL.queue(StartSound2)
+    pygame.time.wait(int(StartSound2.get_length()))
+    actions["CanDoor"] = True
+    actions["CanWindow"] = True
     actions["ComputerOff"] = False
 
 def NagraJumpscare():
+    print("Oh noes you dead now")
     pass
 
 def CloseDoor():
@@ -546,7 +558,7 @@ def NightStart(night):
     DrawDeskScreen()
 
 def CheckWin():
-    if pygame.time.get_ticks() >= actions["StartTime"] + 270000:
+    if pygame.time.get_ticks() >= actions["StartTime"] + 270000 and actions["NightActive"] == True:
         NightWin()
 
 def Running_transition():
@@ -570,6 +582,17 @@ def Running_transition():
         pygame.display.flip()
         pygame.time.delay(30)  # Fade-out speed
 
+def GameLoss():
+    actions["State"] = "MENU"
+    actions["NightActive"] = False
+    actions["CanCamera"] = False
+    actions["CanClose"] = False
+    actions["MusicBlaring"] = False
+    actions["CanDisableMusic"] = False
+    actions["ComputerOff"] = False
+    actions["CanWindow"] = False
+    actions["CanDoor"] = False
+
 play_valve_intro()
 MenuSong = pygame.mixer_music.load("Assets/Audio/MenuTheme.mp3")
 
@@ -588,9 +611,15 @@ while running:
                 sound = pygame.mixer.Sound("Assets/Audio/DoorClose.mp3")
                 ACTIONS_CHANNEL.play(sound)
                 actions["DoorClosed"] = True
+            #Detecting space bar input for the cameras
             if event.key == pygame.K_SPACE:
-                if actions["State"] == "DESK" and actions["CanCamera"] == True:
+                if actions["State"] == "DESK" and actions["CanCamera"] == True and actions["ComputerOff"] != True:
                     OpenCameras()
+                if actions["State"] == "DESK" and actions["CanCamera"] == True and actions["ComputerOff"] == True:
+                    denied = pygame.mixer.Sound("Assets/Audio/denied.mp3")
+            #Detecting turning off cameras
+            if event.key == pygame.K_x:
+                if actions["State"] == "CAMERA"
             if event.key == pygame.K_DOWN:
                 if actions["State"] == "CAMERA":
                     DrawDeskScreen()
