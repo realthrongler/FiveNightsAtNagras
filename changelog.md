@@ -28,7 +28,6 @@
 - More assets for the game being prepared
 - Coded some of the logic for switching between screens
 - Switched to a dictionary for storing player states/actions, meaning that functions can now properly access and change the player's available actions based on where they are
-
 - Added a parameter to the night() function in order to control AI levels, planned "animatronic" movement
 - Working menu buttons (Thanks Logan!) implemented
 
