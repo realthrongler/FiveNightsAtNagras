@@ -467,7 +467,7 @@ def ComputerPowerOn():
     ACTIONS_CHANNEL.play(StartSound1)
     ACTIONS_CHANNEL.queue(StartSound2)
     pygame.time.wait(int(StartSound2.get_length()))
-    
+
     actions["CanDoor"] = True
     actions["CanWindow"] = True
     actions["ComputerOff"] = False
@@ -489,11 +489,11 @@ def PlayMusic():
     actions["MusicBlaring"] = True
     musicNumber = random.randint(1,2)
     if musicNumber == 1:
-        pass
-        #Play DJ toenail here using a channel in the pygame mixer, not music mixer, just mixer
+        song = pygame.mixer.Sound("Assets/Audio/DJ_Toenail.mp3")
+        LOGAN_CHANNEL.play(song)
     elif musicNumber == 2:
-        pass
-        #Play Thick of it by KSI here using a channel
+        song = pygame.mixer.Sound("Assets/Audio/ThickOfIt.mp3")
+        LOGAN_CHANNEL.play(song)
 
 def NightWin():
     actions["NightActive"] = False
