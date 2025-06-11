@@ -318,7 +318,7 @@ def OpenCameras():
 
 def UpCameras():
     camera = actions["Camera"]
-    if camera + 1 == 6:
+    if camera + 1 == 4:
         actions["Camera"] = 1
         pygame.display.flip()
     else:
@@ -326,7 +326,7 @@ def UpCameras():
         pygame.display.flip()
 
 def DrawCameras():
-    screen.fill(BGCOLOUR)
+    print(actions["Camera"])
     #Logan hall camera
     if actions["Camera"] == 1 and animatronicHandler["LoganLevel"] == 0: 
         image = pygame.image.load("Assets/Sprites/LoganHall1.png")
@@ -393,12 +393,12 @@ def DrawCameras():
 def DownCameras():
     camera = actions["Camera"]
     if camera - 1 == 0:
-        actions["Camera"] = 5
+        actions["Camera"] = 3
         pygame.display.flip()
     else:
         actions["Camera"] -= 1
         pygame.display.flip()
-
+    
 def CloseCameras():
     actions["CanDisableMusic"] = False
     actions["CanDoor"] = True
@@ -596,6 +596,12 @@ while running:
             #Space bar input for cameras
             if event.key == pygame.K_SPACE and actions["CanCamera"] == True and actions["State"] == "CAMERA":
                 OpenCameras()
+            
+            #Arrow input for camera switching
+            if event.key == pygame.K_RIGHT and actions["State"] == "CAMERA":
+                UpCameras()
+            if event.key == pygame.K_LEFT and actions["State"] == "CAMERA":
+                DownCameras()
         #Detecting keyup on the spacebar for the door
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
@@ -645,12 +651,6 @@ while running:
     if keys[K_DOWN] and (actions["State"] == "WINDOW" or actions["State"] == "DOOR"):
         RunToComputer()
     
-    #Camera system
-    if keys[K_LEFT] and actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
-        DownCameras()
-    if keys[K_RIGHT] and actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
-        UpCameras()
-
     CheckWin()
     # game loop drawing
     ### ADD ANY GAME LOOP DRAWINGS HERE ###
