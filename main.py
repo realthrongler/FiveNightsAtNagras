@@ -410,7 +410,13 @@ def CloseCameras():
     
 def ScreamAtMax():
     actions["ScreamingAtMax"] = True
-    
+    Scream1 = pygame.mixer.Sound("Assets/Audio/PlayerScream1.mp3")
+    Scream2 = pygame.mixer.Sound("Assets/Audio/PlayerScream2.mp3")
+    choice = random.randint(1,2)
+    if choice == 1 and ACTIONS_CHANNEL.get_busy() == False:
+        ACTIONS_CHANNEL.play(Scream1)
+    elif choice == 2 and ACTIONS_CHANNEL.get_busy() == False:
+        ACTIONS_CHANNEL.play(Scream2)
 
 def LoganMovement():
     pass
