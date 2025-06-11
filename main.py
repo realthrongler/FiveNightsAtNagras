@@ -585,6 +585,17 @@ def Running_transition():
 
     # holds the black screen for a sec, can change later
 
+def GameLoss():
+    actions["State"] = "MENU"
+    actions["NightActive"] = False
+    actions["CanCamera"] = False
+    actions["CanClose"] = False
+    actions["MusicBlaring"] = False
+    actions["CanDisableMusic"] = False
+    actions["ComputerOff"] = False
+    actions["CanWindow"] = False
+    actions["CanDoor"] = False
+
 play_valve_intro()
 MenuSong = pygame.mixer_music.load("Assets/Audio/MenuTheme.mp3")
 
