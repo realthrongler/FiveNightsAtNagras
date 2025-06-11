@@ -416,7 +416,7 @@ def DrawCameras():
         image = pygame.image.load("Assets/Sprites/NagraChair3.png")
         rect = image.get_rect()
         screen.blit(image, rect)
-    elif actions["Camera"] == 5 and (animatronicHandler["NagraProgress"] == 100 or animatronicHandler["NagraProgress"] < 75):
+    elif actions["Camera"] == 5 and (animatronicHandler["NagraProgress"] >= 100 or animatronicHandler["NagraProgress"] < 75):
         image = pygame.image.load("Assets/Sprites/NagraChair1.png")
         rect = image.get_rect()
         screen.blit(image, rect)
