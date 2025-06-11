@@ -651,6 +651,15 @@ while running:
         RunToWindow()
     if keys[K_DOWN] and (actions["State"] == "WINDOW" or actions["State"] == "DOOR"):
         RunToComputer()
+
+    if AMBIENCE_CHANNEL.get_busy() == False and actions["NightActive"] == True:
+        song = random.randint(1, 2)
+        if song == 1:
+            file = pygame.mixer.Sound("Assets/Audio/Ambience.mp3")
+            AMBIENCE_CHANNEL.play(file)
+        elif song == 2:
+            file = pygame.mixer.Sound("Assets/Audio/BoneChillingAmbience.mp3")
+            AMBIENCE_CHANNEL.play(file)
     
     CheckWin()
     # game loop drawing
