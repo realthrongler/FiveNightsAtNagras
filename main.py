@@ -215,17 +215,40 @@ def NewGamePressed():
     StoryIntroduction()
 
 def StoryIntroduction():
-    #Cleaning up
     pygame.mixer_music.fadeout(2000)
     pygame.mixer_music.unload()
-    image = pygame.image.load("Assets/sprites/Opening_Poster.png")
+
+    image = pygame.image.load("Assets/Sprites/Opening_Poster.png")
     screen.fill(BLACK)
     introposter_rect = image.get_rect()
     screen.blit(image, introposter_rect)
     pygame.display.flip()
-    pygame.time.wait(25000)
-    NightStart(actions["Night"])  
 
+    font = pygame.font.Font("Assets/Sprites/Sans.ttf", 36)
+
+    start_time = pygame.time.get_ticks()
+    clicked = False
+
+    # Wait for click loop
+    while not clicked:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                clicked = True
+
+        current_time = pygame.time.get_ticks()
+
+        # Show text after 5 seconds
+        if (current_time - start_time) >= 5000:
+            text = font.render("Click anywhere to continue", True, (RED))
+            text_rect = text.get_rect(center=(screen.get_width() // 2, screen.get_height() - 25))
+            screen.blit(image, introposter_rect)  # Redraw background/poster
+            screen.blit(text, text_rect)
+            pygame.display.flip()
+
+    NightStart(actions["Night"])
 def DrawDeskScreen():
     actions["State"] = "DESK"
     actions["CanCamera"] = True
