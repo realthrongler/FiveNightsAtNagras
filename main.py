@@ -455,7 +455,6 @@ def MaybePlayMusic():
 
 def MaxMovement():
     chance = random.randint(0, 35) 
-    print("max checked")
 
     if animatronicHandler["MaxAttacking"] == True:
         MaxWindowBreak()
@@ -471,9 +470,6 @@ def MaxMovement():
         elif noisechoice == 2:
             sound = pygame.mixer.Sound("Assets/Audio/Glass_Knocking_2.mp3")
             GLASS_CHANNEL.play(sound)
-        
-    
-        
 
 def NagraMovement():
     pass
@@ -509,16 +505,16 @@ def LoganJumpscare():
 def CheckInterval():
     time = pygame.time.get_ticks()
     
-    if time >= animatronicHandler["NagraInterval"]: #5 second intervals
+    if time >= animatronicHandler["NagraInterval"] and actions["NightActive"] == True: #5 second intervals
         animatronicHandler["NagraInterval"] += 5000
         NagraMovement()
-    elif time >= animatronicHandler["LoganInterval"]: #15 second intervals
+    elif time >= animatronicHandler["LoganInterval"] and actions["NightActive"] == True: #15 second intervals
         animatronicHandler["LoganInterval"] += 15000
         MaybePlayMusic()
-    elif time >= animatronicHandler["MaxInterval"]: #10 second intervals
+    elif time >= animatronicHandler["MaxInterval"] and actions["NightActive"] == True: #10 second intervals
         animatronicHandler["MaxInterval"] += 10000
         MaxMovement()
-    elif time >= animatronicHandler["NoahInterval"]: #15 second intervals
+    elif time >= animatronicHandler["NoahInterval"] and actions["NightActive"] == True: #15 second intervals
         animatronicHandler["NoahInterval"] += 15000
         NoahCheckAttack()
 
