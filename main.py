@@ -469,7 +469,7 @@ def ComputerPowerOn():
     ACTIONS_CHANNEL.play(StartSound1)
     ACTIONS_CHANNEL.queue(StartSound2)
     pygame.time.wait(int(StartSound2.get_length()))
-
+    
     actions["CanDoor"] = True
     actions["CanWindow"] = True
     actions["ComputerOff"] = False
@@ -604,8 +604,11 @@ while running:
                 ACTIONS_CHANNEL.play(sound)
                 actions["DoorClosed"] = True
             if event.key == pygame.K_SPACE:
-                if actions["State"] == "DESK" and actions["CanCamera"] == True:
+                if actions["State"] == "DESK" and actions["CanCamera"] == True and actions["ComputerOff"] == False:
                     OpenCameras()
+                elif actions["State"] == "DESK" and actions["CanCamera"] == True and actions["ComputerOff"] == True:
+                    sound = pygame.mixer.Sound("Assets/Audio/denied.mp3")
+                    ACTIONS_CHANNEL.play(sound)
             if event.key == pygame.K_DOWN:
                 if actions["State"] == "CAMERA":
                     DrawDeskScreen()
@@ -613,11 +616,12 @@ while running:
             if event.key == pygame.K_SPACE and actions["CanCamera"] == True and actions["State"] == "CAMERA":
                 OpenCameras()
             #X key input for turning off the cameras
-            if event.key == pygame.K_x and actions["State"] == "CAMERA" and actions["ComputerOff"] != True:
-                ComputerShutoff()
-            elif event.key == pygame.K_x and actions["State"] == "DESK" and actions["ComputerOff"] == True:
-                ComputerPowerOn()
-            
+            if event.key == pygame.K_x:
+                if actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
+                    ComputerShutoff()
+                elif actions["State"] == "DESK" and actions["ComputerOff"] == True:
+                    ComputerPowerOn()
+
             #Arrow input for camera switching
             if event.key == pygame.K_RIGHT and actions["State"] == "CAMERA":
                 UpCameras()
