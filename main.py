@@ -507,7 +507,7 @@ def ComputerPowerOn():
 
 def NagraJumpscare():
     actions["State"] = "JUMPSCARE"
-    NagraJumpscareImage = pygame.image.load("Assets/Sprites/NagraJumpscareImage.png")
+    NagraJumpscareImage = pygame.image.load("Assets/Sprites/NagraJumpscare.png")
     NagraJumpscareImageRect = NagraJumpscareImage.get_rect()
     screen.blit(NagraJumpscareImage, NagraJumpscareImageRect)
     pygame.display.flip()
