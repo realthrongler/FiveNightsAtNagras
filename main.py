@@ -431,7 +431,12 @@ def NoahAttack():
     pass
 
 def LoganJumpscare():
-    pass
+    actions["State"] = "JUMPSCARE"
+    image = pygame.image.load("Assets/Sprites/LoganJumpscare.png")
+    rect = image.get_rect()
+    screen.blit(image, rect)
+    jumpscare = pygame.mixer.Sound("Assets/Audio/Logan_Jumpscare.mp3")
+    JUMPSCARE_CHANNEL.play(jumpscare)
 
 def CheckInterval():
     time = pygame.time.get_ticks()
@@ -453,7 +458,12 @@ def MaxWindowBreak():
     animatronicHandler["WindowBroken"] = True
 
 def MaxJumpscare():
-    pass
+    actions["State"] = "JUMPSCARE"
+    image = pygame.image.load("Assets/Sprites/Max_Jumpscare4.png")
+    rect = image.get_rect()
+    screen.blit(image, rect)
+    jumpscare = pygame.mixer.Sound("Assets/Audio/Max_Jumpscare.mp3")
+    JUMPSCARE_CHANNEL.play(jumpscare)
 
 def NoahAppear():
     AppearChance = random.randint(0, 40)
