@@ -457,8 +457,18 @@ def ComputerShutoff():
     actions["ComputerOff"] = True
 
 def ComputerPowerOn():
-    #Play computer startup sound
-    #Computer cannot be used for a little bit, 5 seconds maybe?
+    
+    actions["CanDoor"] = False
+    actions["CanWindow"] = False
+    StartSound1 = pygame.mixer.Sound("Assets/Audio/ComputerOn.mp3")
+    StartSound2 = pygame.mixer.Sound("Assets/Audio/ComputerOnTwo.mp3")
+    
+    ACTIONS_CHANNEL.play(StartSound1)
+    ACTIONS_CHANNEL.queue(StartSound2)
+    pygame.time.wait(int(StartSound2.get_length()))
+
+    actions["CanDoor"] = True
+    actions["CanWindow"] = True
     actions["ComputerOff"] = False
 
 def NagraJumpscare():
@@ -477,11 +487,11 @@ def PlayMusic():
     actions["MusicBlaring"] = True
     musicNumber = random.randint(1,2)
     if musicNumber == 1:
-        pass
-        #Play DJ toenail here using a channel in the pygame mixer, not music mixer, just mixer
+        song = pygame.mixer.Sound("Assets/Audio/DJ_Toenail.mp3")
+        LOGAN_CHANNEL.play(song)
     elif musicNumber == 2:
-        pass
-        #Play Thick of it by KSI here using a channel
+        song = pygame.mixer.Sound("Assets/Audio/ThickOfIt.mp3")
+        LOGAN_CHANNEL.play(song)
 
 def NightWin():
     actions["NightActive"] = False
