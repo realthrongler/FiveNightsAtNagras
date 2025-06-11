@@ -243,7 +243,7 @@ def StoryIntroduction():
         # Show text after 5 seconds
         if (current_time - start_time) >= 5000:
             text = font.render("Click anywhere to continue", True, (RED))
-            text_rect = text.get_rect(center=(screen.get_width() // 2, screen.get_height() - 50))
+            text_rect = text.get_rect(center=(screen.get_width() // 2, screen.get_height() - 25))
             screen.blit(image, introposter_rect)  # Redraw background/poster
             screen.blit(text, text_rect)
             pygame.display.flip()
