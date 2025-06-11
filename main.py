@@ -455,6 +455,10 @@ def NoahAppear():
 
 def ComputerShutoff():
     actions["ComputerOff"] = True
+    actions["State"] = "DESK"
+
+    ShutoffSound = pygame.mixer.Sound("Assets/Audio/ComputerOff.mp3")
+    ACTIONS_CHANNEL.play(ShutoffSound)
 
 def ComputerPowerOn():
     
