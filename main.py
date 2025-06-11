@@ -420,7 +420,8 @@ def ScreamAtMax():
     animatronicHandler["MaxAttacking"] = False
 
 def LoganMovement():
-    pass
+    if actions["MusicBlaring"] == True:
+        animatronicHandler["LoganProgress"] += 0.01
 
 def MaxMovement():
     pass
@@ -668,7 +669,7 @@ while running:
             
             #Space bar input for window (scaring off max)
             if event.key == pygame.K_SPACE:
-                if actions["State"] == "WINDOW" and animatronicHandler["MaxAttacking"]:
+                if actions["State"] == "WINDOW":
                     ScreamAtMax()
             #Arrow input for camera switching
             if event.key == pygame.K_RIGHT and actions["State"] == "CAMERA":
@@ -677,7 +678,7 @@ while running:
                 DownCameras()
         #Detecting keyup on the spacebar for the door
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE or actions["State"] != "DOOR":
                 actions["DoorClosed"] = False
     ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ### 
     if pygame.mouse.get_pressed()[0] and actions["State"] == "MENU":
