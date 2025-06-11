@@ -430,7 +430,7 @@ def NagraMovement():
 
 def NoahAttack():
     actions["State"] = "JUMPSCARE"
-    NoahAttackImage = pygame.image.load("Assets/Sprites/NoahAttack.png")
+    NoahAttackImage = pygame.image.load("Assets/Sprites/NoahJumpscare.png")
     NoahAttackImageRect = NoahAttackImage.get_rect()
     screen.blit(NoahAttackImage, NoahAttackImageRect)
     pygame.display.flip()
