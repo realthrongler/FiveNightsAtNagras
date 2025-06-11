@@ -22,13 +22,14 @@ HEIGHT = 720
 BGCOLOUR = BLACK ### CHANGE AS NEEDED ###
 CAPTION = "Five Nights at Mr.Thong's"
 pygame.mixer.set_num_channels(9)
+PHONE_CHANNEL = pygame.mixer.Channel(0) #For playing phone voicelines
 MUSIC_CHANNEL = pygame.mixer.Channel(1)  #For playing Logan's music
 JUMPSCARE_CHANNEL = pygame.mixer.Channel(2) #For playing any jumpscare sound (no way multiple of them happen at once)
 AMBIENCE_CHANNEL = pygame.mixer.Channel(3) #For playing the spooky ambience
 GLASS_CHANNEL = pygame.mixer.Channel(4) #For playing Max's glass tapping/glass breaking noises
 LOGAN_CHANNEL = pygame.mixer.Channel(5) #For playing Logan's voicelines
 STATIC_CHANNEL = pygame.mixer.Channel(6) #For playing Noah's static
-ACTIONS_CHANNEL = pygame.mixer.Channel(7) #For playing the footsteps sound effects when running and closing the door (those 2 things never coincide)
+ACTIONS_CHANNEL = pygame.mixer.Channel(7) #For playing sounds involved with player actions (they will never coincide)
 ENDING_CHANNEL = pygame.mixer.Channel(8) #For playing the winning music and also Mr.Nagra's rubble and voiceline sounds
 
 # initialize pygame, create window, start the clock
@@ -418,10 +419,11 @@ def ScreamAtMax():
     elif choice == 2 and ACTIONS_CHANNEL.get_busy() == False:
         ACTIONS_CHANNEL.play(Scream2)
     animatronicHandler["MaxAttacking"] = False
-
-def LoganMovement():
-    if actions["MusicBlaring"] == True:
-        animatronicHandler["LoganProgress"] += 0.01
+    
+def MaybePlayMusic():
+    chance = random.randint(0, 50)
+    if chance < animatronicHandler["LoganLevel"]:
+        PlayMusic()
 
 def MaxMovement():
     pass
@@ -429,7 +431,13 @@ def MaxMovement():
 def NagraMovement():
     pass
 
-def NoahAttack():
+def NoahCheckAttack():
+    chance = random.randint(0, 40)
+    if animatronicHandler["NoahLevel"] < chance:
+        #Noah start appearing here
+        pass
+
+def NoahJumpScare():
     actions["State"] = "JUMPSCARE"
     NoahAttackImage = pygame.image.load("Assets/Sprites/NoahJumpscare.png")
     NoahAttackImageRect = NoahAttackImage.get_rect()
@@ -459,13 +467,13 @@ def CheckInterval():
         NagraMovement()
     elif time >= animatronicHandler["LoganInterval"]: #15 second intervals
         animatronicHandler["LoganInterval"] += 15000
-        LoganMovement()
+        MaybePlayMusic()
     elif time >= animatronicHandler["MaxInterval"]: #10 second intervals
         animatronicHandler["MaxInterval"] += 10000
         MaxMovement()
     elif time >= animatronicHandler["NoahInterval"]: #15 second intervals
         animatronicHandler["NoahInterval"] += 15000
-        NoahAttack()
+        NoahCheckAttack()
 
 def MaxWindowBreak():
     animatronicHandler["WindowBroken"] = True
@@ -524,7 +532,7 @@ def CloseDoor():
 
 def ShutOffMusic():
     if actions["State"] == "CAMERA" and actions["CanDisableMusic"] == True and actions["ComputerOff"] == False:
-        #Stop music playing here, and rewind it so it starts at the beginning when the song is started over
+        LOGAN_CHANNEL.pause()
         actions["MusicBlaring"] = False
         
 def PlayMusic():
@@ -636,12 +644,15 @@ MenuSong = pygame.mixer_music.load("Assets/Audio/MenuTheme.mp3")
 # MAIN GAME LOOP
 running = True
 while running:  
+
     # keep loop running at the right speed 
     clock.tick(FPS)
+
     # process input (events)
     for event in pygame.event.get():
         if event.type == QUIT:
-            running = False   
+            running = False
+
         #Detecting space bar input for the door
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and actions["CanClose"] == True and actions["State"] == "DOOR":
@@ -657,9 +668,11 @@ while running:
             if event.key == pygame.K_DOWN:
                 if actions["State"] == "CAMERA":
                     DrawDeskScreen()
+
             #Space bar input for cameras
             if event.key == pygame.K_SPACE and actions["CanCamera"] == True and actions["State"] == "CAMERA":
                 OpenCameras()
+
             #X key input for turning off the cameras
             if event.key == pygame.K_x:
                 if actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
@@ -669,13 +682,19 @@ while running:
             
             #Space bar input for window (scaring off max)
             if event.key == pygame.K_SPACE:
-                if actions["State"] == "WINDOW":
+                if actions["State"] == "WINDOW" and animatronicHandler["MaxAttacking"] == True:
                     ScreamAtMax()
+
             #Arrow input for camera switching
             if event.key == pygame.K_RIGHT and actions["State"] == "CAMERA":
                 UpCameras()
             if event.key == pygame.K_LEFT and actions["State"] == "CAMERA":
                 DownCameras()
+            
+            #M key for shutting off music
+            if event.key == pygame.K_m and actions["MusicBlaring"] == True:
+                ShutOffMusic()
+
         #Detecting keyup on the spacebar for the door
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE or actions["State"] != "DOOR":
@@ -726,6 +745,14 @@ while running:
         RunToComputer()
     
     CheckWin()
+
+    #Logan's attack mechanic
+    if actions["MusicBlaring"] == True:
+        animatronicHandler["LoganProgress"] += 0.01
+    
+    #playing music if none is playing already and music is supposed to be blaring
+    if actions["MusicBlaring"] == True and LOGAN_CHANNEL.get_busy == False:
+        PlayMusic()
 
     if AMBIENCE_CHANNEL.get_busy() == False and actions["NightActive"] == True:
         song = random.randint(1, 2)
