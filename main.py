@@ -482,7 +482,16 @@ def ComputerPowerOn():
     actions["ComputerOff"] = False
 
 def NagraJumpscare():
-    pass
+    actions["State"] = "JUMPSCARE"
+    NagraJumpscareImage = pygame.image.load("Assets/Sprites/NagraJumpscareImage.png")
+    NagraJumpscareImageRect = NagraJumpscareImage.get_rect()
+    screen.blit(NagraJumpscareImage, NagraJumpscareImageRect)
+    pygame.display.flip()
+
+    NagraJumpscareSound = pygame.mixer.Sound("Assets/Audio/NagraJumpscare.mp3")
+    ACTIONS_CHANNEL.play(NagraJumpscareSound)
+    pygame.time.wait(int(NagraJumpscareSound.get_length()))
+    GameLoss()
 
 def CloseDoor():
     actions["CanCamera"] = False
