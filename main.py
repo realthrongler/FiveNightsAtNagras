@@ -314,6 +314,7 @@ def OpenCameras():
     actions["State"] = "CAMERA"
     actions["CanDoor"] = False
     actions["CanWindow"] = False
+    DrawCameras()
 
 def UpCameras():
     camera = actions["Camera"]
@@ -325,6 +326,7 @@ def UpCameras():
         pygame.display.flip()
 
 def DrawCameras():
+    screen.fill(BGCOLOUR)
     #Logan hall camera
     if actions["Camera"] == 1 and animatronicHandler["LoganLevel"] == 0: 
         image = pygame.image.load("Assets/Sprites/LoganHall1.png")
@@ -585,6 +587,15 @@ while running:
                 sound = pygame.mixer.Sound("Assets/Audio/DoorClose.mp3")
                 ACTIONS_CHANNEL.play(sound)
                 actions["DoorClosed"] = True
+            if event.key == pygame.K_SPACE:
+                if actions["State"] == "DESK" and actions["CanCamera"] == True:
+                    OpenCameras()
+            if event.key == pygame.K_DOWN:
+                if actions["State"] == "CAMERA":
+                    DrawDeskScreen()
+            #Space bar input for cameras
+            if event.key == pygame.K_SPACE and actions["CanCamera"] == True and actions["State"] == "CAMERA":
+                OpenCameras()
         #Detecting keyup on the spacebar for the door
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
@@ -618,7 +629,6 @@ while running:
         DrawAtDoor()
     
     if actions["State"] == "CAMERA":
-        print("Function triggered") #DEBUGGING PURPOSES WILL REMOVE LATER
         DrawCameras()
         
     # game loop updates (including movement)
@@ -636,10 +646,6 @@ while running:
         RunToComputer()
     
     #Camera system
-    if keys[K_SPACE] and actions["State"] == "DESK" and actions["CanCamera"] == True:
-        OpenCameras()
-    if keys[K_SPACE] and actions["State"] == "CAMERA":
-        DrawDeskScreen()
     if keys[K_LEFT] and actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
         DownCameras()
     if keys[K_RIGHT] and actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
