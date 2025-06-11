@@ -677,6 +677,15 @@ while running:
         RunToComputer()
     
     CheckWin()
+
+    if AMBIENCE_CHANNEL.get_busy() == False and actions["NightActive"] == True:
+        song = random.randint(1, 2)
+        if song == 1:
+            file = pygame.mixer.Sound("Assets/Audio/Ambience.mp3")
+            AMBIENCE_CHANNEL.play(file)
+        elif song == 2:
+            file = pygame.mixer.Sound("Assets/Audio/BoneChillingAmbience.mp3")
+            AMBIENCE_CHANNEL.play(file)
     # game loop drawing
     ### ADD ANY GAME LOOP DRAWINGS HERE ###
     
