@@ -417,6 +417,7 @@ def ScreamAtMax():
         ACTIONS_CHANNEL.play(Scream1)
     elif choice == 2 and ACTIONS_CHANNEL.get_busy() == False:
         ACTIONS_CHANNEL.play(Scream2)
+    animatronicHandler["MaxAttacking"] = False
 
 def LoganMovement():
     pass
@@ -660,7 +661,11 @@ while running:
                     ComputerShutoff()
                 elif actions["State"] == "DESK" and actions["ComputerOff"] == True:
                     ComputerPowerOn()
-
+            
+            #Space bar input for window (scaring off max)
+            if event.key == pygame.K_SPACE:
+                if actions["State"] == "WINDOW" and animatronicHandler["MaxAttacking"]:
+                    ScreamAtMax()
             #Arrow input for camera switching
             if event.key == pygame.K_RIGHT and actions["State"] == "CAMERA":
                 UpCameras()
