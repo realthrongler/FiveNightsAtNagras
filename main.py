@@ -461,7 +461,6 @@ def ComputerShutoff():
     ACTIONS_CHANNEL.play(ShutoffSound)
 
 def ComputerPowerOn():
-    
     actions["CanDoor"] = False
     actions["CanWindow"] = False
     StartSound1 = pygame.mixer.Sound("Assets/Audio/ComputerOn.mp3")
@@ -613,6 +612,11 @@ while running:
             #Space bar input for cameras
             if event.key == pygame.K_SPACE and actions["CanCamera"] == True and actions["State"] == "CAMERA":
                 OpenCameras()
+            #X key input for turning off the cameras
+            if event.key == pygame.K_x and actions["State"] == "CAMERA" and actions["ComputerOff"] != True:
+                ComputerShutoff()
+            elif event.key == pygame.K_x and actions["State"] == "DESK" and actions["ComputerOff"] == True:
+                ComputerPowerOn()
             
             #Arrow input for camera switching
             if event.key == pygame.K_RIGHT and actions["State"] == "CAMERA":
