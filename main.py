@@ -249,6 +249,7 @@ def StoryIntroduction():
             pygame.display.flip()
 
     NightStart(actions["Night"])
+
 def DrawDeskScreen():
     actions["State"] = "DESK"
     actions["CanCamera"] = True
@@ -273,17 +274,10 @@ def DrawWindow():
         image = pygame.image.load("Assets/Sprites/Window.png")
         rect = image.get_rect()
         screen.blit(image, rect)
-    elif animatronicHandler["MaxAttacking"] == True:
-        choice = random.randint(1, 2)
-        if choice == 1:
-            image = pygame.image.load("Assets/Sprites/Max_Jumpscare1.jpg")
-            rect = image.get_rect()
-            screen.blit(image, rect)
-        elif choice == 2:
-            image = pygame.image.load("Assets/Sprites/Max_Jumpscare2.jpg")
-            rect = image.get_rect()
-            screen.blit(image, rect)
-        #Draw either max jumpscare one or two here using random.randint() and an if statement, just like logan's song choice
+    if animatronicHandler["MaxAttacking"] == True:
+        image = pygame.image.load("Assets/Sprites/Max_Jumpscare2.jpg")
+        rect = image.get_rect()
+        screen.blit(image, rect)
     
 def RunToDoor():
     actions["State"] = "RUNNING"
@@ -424,7 +418,7 @@ def DrawCameras():
         image = pygame.image.load("Assets/Sprites/NagraChair3.png")
         rect = image.get_rect()
         screen.blit(image, rect)
-    elif actions["Camera"] == 5 and (animatronicHandler["NagraProgress"] == 100 or animatronicHandler["NagraProgress"] < 75):
+    elif actions["Camera"] == 5 and (animatronicHandler["NagraProgress"] >= 100 or animatronicHandler["NagraProgress"] < 75):
         image = pygame.image.load("Assets/Sprites/NagraChair1.png")
         rect = image.get_rect()
         screen.blit(image, rect)
@@ -480,9 +474,6 @@ def MaxMovement():
             sound = pygame.mixer.Sound("Assets/Audio/Glass_Knocking_2.mp3")
             GLASS_CHANNEL.play(sound)
         
-    
-        
-
 def NagraMovement():
     chance = random.randint(1, 40)
     if animatronicHandler["NagraAttacking"] == True and actions["DoorClosed"] == False:
