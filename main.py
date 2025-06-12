@@ -473,7 +473,13 @@ def MaxMovement():
             GLASS_CHANNEL.play(sound)
 
 def NagraMovement():
-    pass
+    chance = random.randint(1, 40)
+    if animatronicHandler["NagraAttacking"] == True and actions["DoorClosed"] == False:
+        NagraJumpscare()
+    if chance < animatronicHandler["NagraLevel"]:
+        animatronicHandler["NagraProgress"] += 26
+    if animatronicHandler["NagraProgress"] >= 100:
+        animatronicHandler["NagraAttacking"] = True
 
 def NoahCheckAttack():
     chance = random.randint(0, 40)
