@@ -501,8 +501,7 @@ def NoahCheckAttack():
         animatronicHandler["StaticStarted"] = True
     
 def NoahJumpScare():
-    print("noah very scary scare")
-    actions["State"] = "JUMPSCARE"
+    screen.fill(BGCOLOUR)
     NoahAttackImage = pygame.image.load("Assets/Sprites/NoahJumpscare.png")
     NoahAttackImageRect = NoahAttackImage.get_rect()
     screen.blit(NoahAttackImage, NoahAttackImageRect)
@@ -510,19 +509,17 @@ def NoahJumpScare():
 
     NoahAttackSound = pygame.mixer.Sound("Assets/Audio/Noah_Buildup.mp3")
     JUMPSCARE_CHANNEL.play(NoahAttackSound)
-    time.sleep(int(NoahAttackSound.get_length()))
-    GameLoss()
+    actions["State"] = "JUMPSCARE"
 
 def LoganJumpscare():
-    actions["State"] = "JUMPSCARE"
+    screen.fill(BGCOLOUR)
     image = pygame.image.load("Assets/Sprites/LoganJumpscare.png")
     rect = image.get_rect()
     screen.blit(image, rect)
     
     jumpscare = pygame.mixer.Sound("Assets/Audio/Logan_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
-    time.sleep(int(jumpscare.get_length()))
-    GameLoss()
+    actions["State"] = "JUMPSCARE"
 
 def CheckInterval():
     time = pygame.time.get_ticks()
@@ -546,15 +543,13 @@ def MaxWindowBreak():
     GLASS_CHANNEL.play(sound)
 
 def MaxJumpscare():
-    actions["State"] = "JUMPSCARE"
     image = pygame.image.load("Assets/Sprites/Max_Jumpscare4.png")
     rect = image.get_rect()
     screen.blit(image, rect)
     
     jumpscare = pygame.mixer.Sound("Assets/Audio/Max_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
-    time.sleep(int(jumpscare.get_length()))
-    GameLoss()
+    actions["State"] = "JUMPSCARE"
 
 def ComputerShutoff():
     actions["ComputerOff"] = True
@@ -578,7 +573,7 @@ def ComputerPowerOn():
     actions["ComputerOff"] = False
 
 def NagraJumpscare():
-    actions["State"] = "JUMPSCARE"
+
     NagraJumpscareImage = pygame.image.load("Assets/Sprites/NagraJumpscare.png")
     NagraJumpscareImageRect = NagraJumpscareImage.get_rect()
     screen.blit(NagraJumpscareImage, NagraJumpscareImageRect)
@@ -586,8 +581,7 @@ def NagraJumpscare():
 
     NagraJumpscareSound = pygame.mixer.Sound("Assets/Audio/Nagra_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(NagraJumpscareSound)
-    time.sleep(int(NagraJumpscareSound.get_length()))
-    GameLoss()
+    actions["State"] = "JUMPSCARE"
 
 def CloseDoor():
     actions["CanCamera"] = False
@@ -857,7 +851,7 @@ while running:
         
     #Logan's attack mechanic and jumpscare
     if actions["MusicBlaring"] == True:
-        animatronicHandler["LoganProgress"] += 0.69
+        animatronicHandler["LoganProgress"] += 0.2
         print(animatronicHandler["LoganProgress"])
         voice1 = pygame.mixer.Sound("Assets/Audio/Logan_Voiceline_Pt1.mp3")
         voice2 = pygame.mixer.Sound("Assets/Audio/Logan_Voiceline_Pt2.mp3")
@@ -888,6 +882,8 @@ while running:
     if animatronicHandler["LoganProgress"] > 90:
         animatronicHandler["LoganAtDoor"] = True
 
+    if actions["State"] == "JUMPSCARE":
+        time.sleep(9999)
     # game loop drawing
     ### ADD ANY GAME LOOP DRAWINGS HERE ###
     
