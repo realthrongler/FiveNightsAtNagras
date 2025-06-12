@@ -478,6 +478,7 @@ def NagraMovement():
         NagraJumpscare()
     elif animatronicHandler["NagraAttacking"] == True and actions["DoorClosed"] == True:
         animatronicHandler["NagraProgress"] = 0
+        animatronicHandler["NagraAttacking"] = False
         pygame.display.flip()
     if chance < animatronicHandler["NagraLevel"]:
         print("he moved")
@@ -579,7 +580,7 @@ def NagraJumpscare():
     screen.blit(NagraJumpscareImage, NagraJumpscareImageRect)
     pygame.display.flip()
 
-    NagraJumpscareSound = pygame.mixer.Sound("Assets/Audio/NagraJumpscare.mp3")
+    NagraJumpscareSound = pygame.mixer.Sound("Assets/Audio/Nagra_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(NagraJumpscareSound)
     pygame.time.wait(int(NagraJumpscareSound.get_length()))
     GameLoss()
@@ -615,6 +616,7 @@ def NightWin():
     actions["CanWindow"] = False
     actions["CanFlashlight"] = False
     actions["State"] = "WIN"
+    animatronicHandler["NagraProgress"] = 0
 
     win_image = pygame.image.load("Assets/Sprites/Win_clock.png")
     rect = win_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
@@ -625,7 +627,7 @@ def NightWin():
     flash_interval = 500  # ms (change to 100 for faster flashes)
     show = True
 
-    while pygame.time.get_ticks() - actions["StartTime"] < 10000:  # 10 seconds
+    while pygame.time.get_ticks() - actions["StartTime"] < 20000:  # 10 seconds
         screen.fill((0, 0, 0))
         if show:
             screen.blit(win_image, rect)
@@ -711,6 +713,7 @@ def GameLoss():
     actions["ComputerOff"] = False
     actions["CanWindow"] = False
     actions["CanDoor"] = False
+    animatronicHandler["NagraProgress"] = 0
 
 play_valve_intro()
 MenuSong = pygame.mixer_music.load("Assets/Audio/MenuTheme.mp3")
