@@ -835,7 +835,8 @@ while running:
         RunToComputer()
     
     CheckWin()
-    if PHONE_CHANNEL.get_busy == False:
+
+    if PHONE_CHANNEL.get_busy() == False:
         CheckInterval()
 
     #Logan's attack mechanic
