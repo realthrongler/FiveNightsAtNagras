@@ -41,3 +41,15 @@
 - Bug fixes of camera system
 - Added actual drawing when switching between screens
 - Added lore introduction and screen that displays what night you're on
+
+11/06/25
+- Added animatronic movement
+- small bug fixes involving door closing
+- Working on fixing animatronic mechanics for Logan and Noah
+- Added phone call voicelines
+
+12/06/25
+- fixed animatronic movement
+- more bug fixes for jumpscares
+- todo: work on timing of winning the night and telling the player what the controls are
+
