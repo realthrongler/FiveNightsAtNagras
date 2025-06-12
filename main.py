@@ -543,11 +543,11 @@ def MaxJumpscare():
     image = pygame.image.load("Assets/Sprites/Max_Jumpscare4.png")
     rect = image.get_rect()
     screen.blit(image, rect)
-    GameLoss()
     
     jumpscare = pygame.mixer.Sound("Assets/Audio/Max_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
     pygame.time.wait(int(jumpscare.get_length()))
+    GameLoss()
 
 def NoahAppear():
     AppearChance = random.randint(0, 40)
@@ -626,16 +626,17 @@ def NightWin():
     sound.play()
 
     start_time = pygame.time.get_ticks()
-    flash_interval = 500  # ms (change to 100 for faster flashes)
+    flash_interval = 500  # ms
     show = True
 
-    while pygame.time.get_ticks() - actions["StartTime"] < 20000:  # 10 seconds
+    while pygame.time.get_ticks() - start_time < 60000:  # 6 seconds
         screen.fill((0, 0, 0))
         if show:
             screen.blit(win_image, rect)
         pygame.display.flip()
         pygame.time.delay(flash_interval)
         show = not show
+
     NightStart(actions["Night"])
 
 def NightStart(night):
