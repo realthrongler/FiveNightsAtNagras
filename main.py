@@ -625,16 +625,17 @@ def NightWin():
     sound.play()
 
     start_time = pygame.time.get_ticks()
-    flash_interval = 500  # ms (change to 100 for faster flashes)
+    flash_interval = 500  # ms
     show = True
 
-    while pygame.time.get_ticks() - actions["StartTime"] < 20000:  # 10 seconds
+    while pygame.time.get_ticks() - start_time < 60000:  # 6 seconds
         screen.fill((0, 0, 0))
         if show:
             screen.blit(win_image, rect)
         pygame.display.flip()
         pygame.time.delay(flash_interval)
         show = not show
+
     NightStart(actions["Night"])
 
 def NightStart(night):
