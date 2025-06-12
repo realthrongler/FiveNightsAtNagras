@@ -347,6 +347,7 @@ def RunToWindow():
 
 def OpenCameras():
     actions["State"] = "CAMERA"
+    actions["CanDisableMusic"] = True
     actions["CanDoor"] = False
     actions["CanWindow"] = False
     DrawCameras()
@@ -459,7 +460,7 @@ def MaxMovement():
     chance = random.randint(0, 35) 
     print("max checked")
 
-    if animatronicHandler["MaxAttacking"] == True:
+    if animatronicHandler["MaxAttacking"] == True and actions["NightActive"] == True and actions["State"] != "MENU":
         MaxWindowBreak()
         pygame.time.wait(5000)
         MaxJumpscare()
@@ -524,13 +525,13 @@ def CheckInterval():
     if time >= animatronicHandler["NagraInterval"]: 
         animatronicHandler["NagraInterval"] += 7000 #7 second intervals
         NagraMovement()
-    elif time >= animatronicHandler["LoganInterval"]: 
+    elif time >= animatronicHandler["LoganInterval"] and actions["NightActive"] == True and actions["State"] != "MENU": 
         animatronicHandler["LoganInterval"] += 15000 #15 second intervals
         MaybePlayMusic()
-    elif time >= animatronicHandler["MaxInterval"]: 
+    elif time >= animatronicHandler["MaxInterval"] and actions["NightActive"] == True and actions["State"] != "MENU": 
         animatronicHandler["MaxInterval"] += 10000 #10 second intervals
         MaxMovement()
-    elif time >= animatronicHandler["NoahInterval"]: 
+    elif time >= animatronicHandler["NoahInterval"] and actions["NightActive"] == True and actions["State"] != "MENU": 
         animatronicHandler["NoahInterval"] += 15000 #15 second intervals
         NoahCheckAttack()
 
@@ -850,10 +851,10 @@ while running:
             LOGAN_CHANNEL.play(voice2)
     
     #playing music if none is playing already and music is supposed to be blaring
-    if actions["MusicBlaring"] == True and LOGAN_CHANNEL.get_busy == False:
+    if actions["MusicBlaring"] == True and LOGAN_CHANNEL.get_busy() == False:
         PlayMusic()
     #Noah static attack
-    if animatronicHandler["StaticStarted"] and STATIC_CHANNEL.get_busy() == False:
+    if animatronicHandler["StaticStarted"] == True and STATIC_CHANNEL.get_busy() == False and actions["NightActive"] == True:
         NoahJumpScare()
     #ambience playing
     if AMBIENCE_CHANNEL.get_busy() == False and actions["NightActive"] == True:
