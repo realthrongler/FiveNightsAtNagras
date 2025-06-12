@@ -504,22 +504,29 @@ def NoahJumpScare():
     screen.fill(BGCOLOUR)
     NoahAttackImage = pygame.image.load("Assets/Sprites/NoahJumpscare.png")
     NoahAttackImageRect = NoahAttackImage.get_rect()
-    screen.blit(NoahAttackImage, NoahAttackImageRect)
-    pygame.display.flip()
-
     NoahAttackSound = pygame.mixer.Sound("Assets/Audio/Noah_Buildup.mp3")
     JUMPSCARE_CHANNEL.play(NoahAttackSound)
+    for i in range(0, 5000):
+        screen.blit(NoahAttackImage, NoahAttackImageRect)
+        pygame.display.flip()
+
+    
     actions["State"] = "JUMPSCARE"
+    GameLoss()
 
 def LoganJumpscare():
     screen.fill(BGCOLOUR)
-    image = pygame.image.load("Assets/Sprites/LoganJumpscare.png")
-    rect = image.get_rect()
-    screen.blit(image, rect)
-    
     jumpscare = pygame.mixer.Sound("Assets/Audio/Logan_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
+    image = pygame.image.load("Assets/Sprites/LoganJumpscare.png")
+    rect = image.get_rect()
+    for i in range(0, 3000):
+        screen.blit(image, rect)
+        pygame.display.flip()
+    
+    
     actions["State"] = "JUMPSCARE"
+    GameLoss()
 
 def CheckInterval():
     time = pygame.time.get_ticks()
@@ -543,13 +550,17 @@ def MaxWindowBreak():
     GLASS_CHANNEL.play(sound)
 
 def MaxJumpscare():
+    screen.fill(BGCOLOUR)
     image = pygame.image.load("Assets/Sprites/Max_Jumpscare4.png")
     rect = image.get_rect()
-    screen.blit(image, rect)
-    
     jumpscare = pygame.mixer.Sound("Assets/Audio/Max_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
+    for i in range(0, 5000):
+        screen.blit(image, rect)
+        pygame.display.flip()
+    
     actions["State"] = "JUMPSCARE"
+    GameLoss()
 
 def ComputerShutoff():
     actions["ComputerOff"] = True
@@ -573,15 +584,18 @@ def ComputerPowerOn():
     actions["ComputerOff"] = False
 
 def NagraJumpscare():
-
+    screen.fill(BGCOLOUR)
     NagraJumpscareImage = pygame.image.load("Assets/Sprites/NagraJumpscare.png")
     NagraJumpscareImageRect = NagraJumpscareImage.get_rect()
-    screen.blit(NagraJumpscareImage, NagraJumpscareImageRect)
-    pygame.display.flip()
-
     NagraJumpscareSound = pygame.mixer.Sound("Assets/Audio/Nagra_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(NagraJumpscareSound)
+    pygame.display.flip()
+    for i in range(0, 5000):
+        screen.blit(NagraJumpscareImage, NagraJumpscareImageRect)
+        pygame.display.flip()
+    
     actions["State"] = "JUMPSCARE"
+    GameLoss()
 
 def CloseDoor():
     actions["CanCamera"] = False
