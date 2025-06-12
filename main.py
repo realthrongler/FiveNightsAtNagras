@@ -21,7 +21,7 @@ WIDTH = 1280
 HEIGHT = 720
 BGCOLOUR = BLACK ### CHANGE AS NEEDED ###
 CAPTION = "Thong mining simulator"
-pygame.mixer.set_num_channels(9)
+pygame.mixer.set_num_channels(10)
 PHONE_CHANNEL = pygame.mixer.Channel(0) #For playing phone voicelines
 MUSIC_CHANNEL = pygame.mixer.Channel(1)  #For playing Logan's music
 JUMPSCARE_CHANNEL = pygame.mixer.Channel(2) #For playing any jumpscare sound (no way multiple of them happen at once)
@@ -31,6 +31,7 @@ LOGAN_CHANNEL = pygame.mixer.Channel(5) #For playing Logan's voicelines
 STATIC_CHANNEL = pygame.mixer.Channel(6) #For playing Noah's static
 ACTIONS_CHANNEL = pygame.mixer.Channel(7) #For playing sounds involved with player actions (they will never coincide)
 ENDING_CHANNEL = pygame.mixer.Channel(8) #For playing the winning music and also Mr.Nagra's rubble and voiceline sounds
+MENUMUSIC_CHANNEL = pygame.mixer.Channel(9)
 
 # initialize pygame, create window, start the clock
 pygame.init()
@@ -99,7 +100,7 @@ animatronicHandler = {
     "NagraInterval": 0, #For example, Mr.Nagra's interval for checking movement is 5 seconds, so we'll take the time started and add 5000 milliseconds
     "LoganInterval": 0, #If the current time is equal to the interval or greater, roll for movement.
     "NoahInterval": 0,
-    "StaticStarted": True
+    "StaticStarted": False
 }
 
 def play_valve_intro():
@@ -216,9 +217,8 @@ def NewGamePressed():
     StoryIntroduction()
 
 def StoryIntroduction():
-    pygame.mixer_music.fadeout(2000)
-    pygame.mixer_music.unload()
-
+    MENUMUSIC_CHANNEL.fadeout(2000)
+    pygame.time.wait(2000)
     image = pygame.image.load("Assets/Sprites/Opening_Poster.png")
     screen.fill(BLACK)
     introposter_rect = image.get_rect()
@@ -491,13 +491,16 @@ def NagraMovement():
         animatronicHandler["NagraAttacking"] = True
 
 def NoahCheckAttack():
-    chance = random.randint(0, 40)
-    if chance < animatronicHandler["NoahLevel"] and actions["ComputerOff"] == False:
-        sound = pygame.mixer.Sound("Assets/Audio/Static.mp3")
-        STATIC_CHANNEL.play(sound)
+    print("noah checked")
+    chance = random.randint(1, 40)
+    print(chance < animatronicHandler["NoahLevel"])
+
+    print("static on: " + str(animatronicHandler["StaticStarted"]))
+    if chance < animatronicHandler["NoahLevel"]:
         animatronicHandler["StaticStarted"] = True
-        
+    
 def NoahJumpScare():
+    print("noah very scary scare")
     actions["State"] = "JUMPSCARE"
     NoahAttackImage = pygame.image.load("Assets/Sprites/NoahJumpscare.png")
     NoahAttackImageRect = NoahAttackImage.get_rect()
@@ -728,7 +731,8 @@ def GameLoss():
     animatronicHandler["NagraProgress"] = 0
 
 play_valve_intro()
-MenuSong = pygame.mixer_music.load("Assets/Audio/MenuTheme.mp3")
+MenuSong = pygame.mixer.Sound("Assets/Audio/MenuTheme.mp3")
+MENUMUSIC_CHANNEL.play(MenuSong)
 
 # MAIN GAME LOOP
 running = True
@@ -764,7 +768,7 @@ while running:
 
             #X key input for turning off the cameras
             if event.key == pygame.K_x:
-                if actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
+                if actions["State"] == "CAMERA":
                     animatronicHandler["StaticStarted"] = False
                     STATIC_CHANNEL.stop()
                     ComputerShutoff()
@@ -784,6 +788,7 @@ while running:
             
             #M key for shutting off music
             if event.key == pygame.K_m and actions["MusicBlaring"] == True:
+                print("music should shut off now")
                 ShutOffMusic()
 
         #Detecting keyup on the spacebar for the door
@@ -807,8 +812,8 @@ while running:
     if actions["State"] == "MENU":
         DrawMenuScreen()
     
-    if actions["State"] == "MENU" and pygame.mixer_music.get_busy() == False:
-        pygame.mixer_music.play()
+    if actions["State"] == "MENU" and MENUMUSIC_CHANNEL.get_busy() == False:
+        MENUMUSIC_CHANNEL.play(MenuSong)
 
     if actions["State"] == "DESK":
         DrawDeskScreen()
@@ -838,8 +843,13 @@ while running:
     
     CheckWin()
 
-    CheckInterval()
+    if actions["NightActive"] == True:
+        CheckInterval()
 
+    #Making sure static is playing if the file ends but static playing is true
+    if animatronicHandler["StaticStarted"] == True and STATIC_CHANNEL.get_busy() == False:
+        STATIC_CHANNEL.play(pygame.mixer.Sound("Assets/Audio/Static.mp3"))    
+        
     #Logan's attack mechanic
     if actions["MusicBlaring"] == True:
         animatronicHandler["LoganProgress"] += 0.01
@@ -854,8 +864,7 @@ while running:
     if actions["MusicBlaring"] == True and LOGAN_CHANNEL.get_busy() == False:
         PlayMusic()
     #Noah static attack
-    if animatronicHandler["StaticStarted"] == True and STATIC_CHANNEL.get_busy() == False and actions["NightActive"] == True:
-        NoahJumpScare()
+    
     #ambience playing
     if AMBIENCE_CHANNEL.get_busy() == False and actions["NightActive"] == True:
         song = random.randint(1, 2)
