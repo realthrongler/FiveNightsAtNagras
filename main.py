@@ -519,7 +519,7 @@ def LoganJumpscare():
 
 def CheckInterval():
     time = pygame.time.get_ticks()
-    
+
     if time >= animatronicHandler["NagraInterval"]: 
         animatronicHandler["NagraInterval"] += 7000 #7 second intervals
         NagraMovement()
@@ -841,10 +841,10 @@ while running:
 
     if PHONE_CHANNEL.get_busy() == False and actions["NightActive"] == True:
         #Updating initial intervals for animatronic movement checks, putting this in the night start function breaks the game when the call ends
-        animatronicHandler["MaxInterval"] = actions["StartTime"] + 10000
-        animatronicHandler["NagraInterval"] = actions["StartTime"] + 7000
-        animatronicHandler["LoganInterval"] = actions["StartTime"] + 15000
-        
+        animatronicHandler["MaxInterval"] = pygame.time.get_ticks() + 10000
+        animatronicHandler["NagraInterval"] = pygame.time.get_ticks() + 7000
+        animatronicHandler["LoganInterval"] = pygame.time.get_ticks() + 15000
+
     #Logan's attack mechanic
     if actions["MusicBlaring"] == True:
         animatronicHandler["LoganProgress"] += 0.01
