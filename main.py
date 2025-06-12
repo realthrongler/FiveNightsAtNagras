@@ -476,9 +476,14 @@ def NagraMovement():
     chance = random.randint(1, 40)
     if animatronicHandler["NagraAttacking"] == True and actions["DoorClosed"] == False:
         NagraJumpscare()
+    elif animatronicHandler["NagraAttacking"] == True and actions["DoorClosed"] == True:
+        animatronicHandler["NagraProgress"] = 0
+        pygame.display.flip()
     if chance < animatronicHandler["NagraLevel"]:
+        print("he moved")
         animatronicHandler["NagraProgress"] += 26
     if animatronicHandler["NagraProgress"] >= 100:
+        print("hes attacking")
         animatronicHandler["NagraAttacking"] = True
 
 def NoahCheckAttack():
@@ -512,8 +517,8 @@ def LoganJumpscare():
 def CheckInterval():
     time = pygame.time.get_ticks()
     
-    if time >= animatronicHandler["NagraInterval"]: #5 second intervals
-        animatronicHandler["NagraInterval"] += 5000
+    if time >= animatronicHandler["NagraInterval"]: #7 second intervals
+        animatronicHandler["NagraInterval"] += 7000
         NagraMovement()
     elif time >= animatronicHandler["LoganInterval"]: #15 second intervals
         animatronicHandler["LoganInterval"] += 15000
@@ -647,7 +652,7 @@ def NightStart(night):
     actions["StartTime"] = pygame.time.get_ticks()
     #Updating initial intervals for animatronic movement checks
     animatronicHandler["MaxInterval"] = actions["StartTime"] + 10000
-    animatronicHandler["NagraInterval"] = actions["StartTime"] + 5000
+    animatronicHandler["NagraInterval"] = actions["StartTime"] + 7000
     animatronicHandler["LoganInterval"] = actions["StartTime"] + 15000
     
     #Setting AI levels for each animatronic based on the night
