@@ -274,8 +274,16 @@ def DrawWindow():
         rect = image.get_rect()
         screen.blit(image, rect)
     elif animatronicHandler["MaxAttacking"] == True:
+        choice = random.randint(1, 2)
+        if choice == 1:
+            image = pygame.image.load("Assets/Sprites/Max_Jumpscare1.jpg")
+            rect = image.get_rect()
+            screen.blit(image, rect)
+        elif choice == 2:
+            image = pygame.image.load("Assets/Sprites/Max_Jumpscare2.jpg")
+            rect = image.get_rect()
+            screen.blit(image, rect)
         #Draw either max jumpscare one or two here using random.randint() and an if statement, just like logan's song choice
-        pass #<-- Delete this later
     
 def RunToDoor():
     actions["State"] = "RUNNING"
@@ -471,21 +479,12 @@ def MaxMovement():
         elif noisechoice == 2:
             sound = pygame.mixer.Sound("Assets/Audio/Glass_Knocking_2.mp3")
             GLASS_CHANNEL.play(sound)
+        
+    
+        
 
 def NagraMovement():
-    chance = random.randint(1, 40)
-    if animatronicHandler["NagraAttacking"] == True and actions["DoorClosed"] == False:
-        NagraJumpscare()
-    elif animatronicHandler["NagraAttacking"] == True and actions["DoorClosed"] == True:
-        animatronicHandler["NagraProgress"] = 0
-        animatronicHandler["NagraAttacking"] = False
-        pygame.display.flip()
-    if chance < animatronicHandler["NagraLevel"]:
-        print("he moved")
-        animatronicHandler["NagraProgress"] += 26
-    if animatronicHandler["NagraProgress"] >= 100:
-        print("hes attacking")
-        animatronicHandler["NagraAttacking"] = True
+    pass
 
 def NoahCheckAttack():
     chance = random.randint(0, 40)
@@ -518,8 +517,8 @@ def LoganJumpscare():
 def CheckInterval():
     time = pygame.time.get_ticks()
     
-    if time >= animatronicHandler["NagraInterval"]: #7 second intervals
-        animatronicHandler["NagraInterval"] += 7000
+    if time >= animatronicHandler["NagraInterval"]: #5 second intervals
+        animatronicHandler["NagraInterval"] += 5000
         NagraMovement()
     elif time >= animatronicHandler["LoganInterval"]: #15 second intervals
         animatronicHandler["LoganInterval"] += 15000
@@ -580,7 +579,7 @@ def NagraJumpscare():
     screen.blit(NagraJumpscareImage, NagraJumpscareImageRect)
     pygame.display.flip()
 
-    NagraJumpscareSound = pygame.mixer.Sound("Assets/Audio/Nagra_Jumpscare.mp3")
+    NagraJumpscareSound = pygame.mixer.Sound("Assets/Audio/NagraJumpscare.mp3")
     JUMPSCARE_CHANNEL.play(NagraJumpscareSound)
     pygame.time.wait(int(NagraJumpscareSound.get_length()))
     GameLoss()
@@ -616,10 +615,9 @@ def NightWin():
     actions["CanWindow"] = False
     actions["CanFlashlight"] = False
     actions["State"] = "WIN"
-    animatronicHandler["NagraProgress"] = 0
 
     win_image = pygame.image.load("Assets/Sprites/Win_clock.png")
-    rect = win_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+    rect = image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
     sound = pygame.mixer.Sound("Assets/Audio/Alarm_Clock.mp3")
     sound.play()
 
@@ -627,14 +625,13 @@ def NightWin():
     flash_interval = 500  # ms (change to 100 for faster flashes)
     show = True
 
-    while pygame.time.get_ticks() - actions["StartTime"] < 20000:  # 10 seconds
+    while pygame.time.get_ticks() - start_time < 10000:  # 10 seconds
         screen.fill((0, 0, 0))
         if show:
-            screen.blit(win_image, rect)
+            screen.blit(image, rect)
         pygame.display.flip()
         pygame.time.delay(flash_interval)
         show = not show
-    NightStart(actions["Night"])
 
 def NightStart(night):
     #Setting variables
@@ -654,7 +651,7 @@ def NightStart(night):
     actions["StartTime"] = pygame.time.get_ticks()
     #Updating initial intervals for animatronic movement checks
     animatronicHandler["MaxInterval"] = actions["StartTime"] + 10000
-    animatronicHandler["NagraInterval"] = actions["StartTime"] + 7000
+    animatronicHandler["NagraInterval"] = actions["StartTime"] + 5000
     animatronicHandler["LoganInterval"] = actions["StartTime"] + 15000
     
     #Setting AI levels for each animatronic based on the night
@@ -713,7 +710,6 @@ def GameLoss():
     actions["ComputerOff"] = False
     actions["CanWindow"] = False
     actions["CanDoor"] = False
-    animatronicHandler["NagraProgress"] = 0
 
 play_valve_intro()
 MenuSong = pygame.mixer_music.load("Assets/Audio/MenuTheme.mp3")
