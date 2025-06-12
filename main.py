@@ -20,7 +20,7 @@ FPS = 60
 WIDTH = 1280
 HEIGHT = 720
 BGCOLOUR = BLACK ### CHANGE AS NEEDED ###
-CAPTION = "Five Nights at Mr.Thong's"
+CAPTION = "Thong mining simulator"
 pygame.mixer.set_num_channels(9)
 PHONE_CHANNEL = pygame.mixer.Channel(0) #For playing phone voicelines
 MUSIC_CHANNEL = pygame.mixer.Channel(1)  #For playing Logan's music
