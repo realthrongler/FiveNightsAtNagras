@@ -520,17 +520,17 @@ def LoganJumpscare():
 def CheckInterval():
     time = pygame.time.get_ticks()
     
-    if time >= animatronicHandler["NagraInterval"]: #7 second intervals
-        animatronicHandler["NagraInterval"] += 7000
+    if time >= animatronicHandler["NagraInterval"] and PHONE_CHANNEL.get_busy() == False: 
+        animatronicHandler["NagraInterval"] += 7000 #7 second intervals
         NagraMovement()
-    elif time >= animatronicHandler["LoganInterval"]: #15 second intervals
-        animatronicHandler["LoganInterval"] += 15000
+    elif time >= animatronicHandler["LoganInterval"] and PHONE_CHANNEL.get_busy() == False: 
+        animatronicHandler["LoganInterval"] += 15000 #15 second intervals
         MaybePlayMusic()
-    elif time >= animatronicHandler["MaxInterval"]: #10 second intervals
-        animatronicHandler["MaxInterval"] += 10000
+    elif time >= animatronicHandler["MaxInterval"] and PHONE_CHANNEL.get_busy() == False: 
+        animatronicHandler["MaxInterval"] += 10000 #10 second intervals
         MaxMovement()
-    elif time >= animatronicHandler["NoahInterval"]: #15 second intervals
-        animatronicHandler["NoahInterval"] += 15000
+    elif time >= animatronicHandler["NoahInterval"] and PHONE_CHANNEL.get_busy() == False: 
+        animatronicHandler["NoahInterval"] += 15000 #15 second intervals
         NoahCheckAttack()
 
 def MaxWindowBreak():
@@ -644,6 +644,7 @@ def NightStart(night):
     actions["State"] = "DESK"
     actions["CanCamera"] = True
     actions["CanLook"] = True
+
     #Introduction to night
     screen.fill(BLACK)
     font = pygame.font.Font("Assets/Sprites/Sans.ttf", 24)
@@ -652,6 +653,17 @@ def NightStart(night):
     screen.blit(text7, text_rect7)
     pygame.display.flip()
     pygame.time.wait(5000)
+
+    FirstAudio = pygame.mixer.Sound("Assets/Audio/Night1Audio.mp3")
+    SecondAudio = pygame.mixer.Sound("Assets/Audio/Night2Audio.mp3")
+    ThirdAudio = pygame.mixer.Sound("Assets/Audio/Night3Audio.mp3")
+    if night == 1:
+        PHONE_CHANNEL.play(FirstAudio)
+    elif night == 2:
+        PHONE_CHANNEL.play(SecondAudio)
+    elif night == 3:
+        PHONE_CHANNEL.play(ThirdAudio)
+
     #Setting start time for tracking when the night is over (after 4 minutes and 30 seconds)
     actions["StartTime"] = pygame.time.get_ticks()
     #Updating initial intervals for animatronic movement checks
