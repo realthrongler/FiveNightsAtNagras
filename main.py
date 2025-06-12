@@ -595,7 +595,7 @@ def CloseDoor():
 
 def ShutOffMusic():
     if actions["State"] == "CAMERA" and actions["CanDisableMusic"] == True and actions["ComputerOff"] == False:
-        LOGAN_CHANNEL.pause()
+        MUSIC_CHANNEL.stop()
         actions["MusicBlaring"] = False
         
 def PlayMusic():
@@ -727,6 +727,8 @@ def GameLoss():
     actions["CanClose"] = False
     actions["MusicBlaring"] = False
     MUSIC_CHANNEL.stop()
+    animatronicHandler["StaticStarted"] = False
+    STATIC_CHANNEL.stop()
     actions["CanDisableMusic"] = False
     actions["ComputerOff"] = False
     actions["CanWindow"] = False
@@ -855,7 +857,7 @@ while running:
         
     #Logan's attack mechanic and jumpscare
     if actions["MusicBlaring"] == True:
-        animatronicHandler["LoganProgress"] += 0.15
+        animatronicHandler["LoganProgress"] += 0.69
         print(animatronicHandler["LoganProgress"])
         voice1 = pygame.mixer.Sound("Assets/Audio/Logan_Voiceline_Pt1.mp3")
         voice2 = pygame.mixer.Sound("Assets/Audio/Logan_Voiceline_Pt2.mp3")
@@ -871,6 +873,8 @@ while running:
     if actions["MusicBlaring"] == True and MUSIC_CHANNEL.get_busy() == False:
         PlayMusic()
     
+    if actions["MusicBlaring"] == False and MUSIC_CHANNEL.get_busy() == False:
+        MUSIC_CHANNEL.stop()
     #ambience playing
     if AMBIENCE_CHANNEL.get_busy() == False and actions["NightActive"] == True:
         song = random.randint(1, 2)
@@ -880,6 +884,10 @@ while running:
         elif song == 2:
             file = pygame.mixer.Sound("Assets/Audio/BoneChillingAmbience.mp3")
             AMBIENCE_CHANNEL.play(file)
+    
+    if animatronicHandler["LoganProgress"] > 90:
+        animatronicHandler["LoganAtDoor"] = True
+
     # game loop drawing
     ### ADD ANY GAME LOOP DRAWINGS HERE ###
     
