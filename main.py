@@ -494,7 +494,6 @@ def NoahCheckAttack():
         sound = pygame.mixer.Sound("Assets/Audio/Static.mp3")
         STATIC_CHANNEL.play(sound)
         
-
 def NoahJumpScare():
     actions["State"] = "JUMPSCARE"
     NoahAttackImage = pygame.image.load("Assets/Sprites/NoahJumpscare.png")
@@ -548,11 +547,6 @@ def MaxJumpscare():
     JUMPSCARE_CHANNEL.play(jumpscare)
     pygame.time.wait(int(jumpscare.get_length()))
     GameLoss()
-
-def NoahAppear():
-    AppearChance = random.randint(0, 40)
-    #put some stuff here future me
-    actions["CanCamera"] = False
 
 def ComputerShutoff():
     actions["ComputerOff"] = True
@@ -668,8 +662,10 @@ def NightStart(night):
     #Setting start time for tracking when the night is over (after 4 minutes and 30 seconds)
     actions["StartTime"] = pygame.time.get_ticks()
 
-    
-    
+    #Updating initial intervals for animatronic movement checks
+    animatronicHandler["MaxInterval"] = actions["StartTime"] + 10000
+    animatronicHandler["NagraInterval"] = actions["StartTime"] + 7000
+    animatronicHandler["LoganInterval"] = actions["StartTime"] + 15000
     #Setting AI levels for each animatronic based on the night
     if night == 1:
         animatronicHandler["NagraLevel"] = 5
@@ -836,14 +832,7 @@ while running:
     
     CheckWin()
 
-    if PHONE_CHANNEL.get_busy() == False:
-        CheckInterval()
-
-    if PHONE_CHANNEL.get_busy() == False and actions["NightActive"] == True:
-        #Updating initial intervals for animatronic movement checks, putting this in the night start function breaks the game when the call ends
-        animatronicHandler["MaxInterval"] = pygame.time.get_ticks() + 10000
-        animatronicHandler["NagraInterval"] = pygame.time.get_ticks() + 7000
-        animatronicHandler["LoganInterval"] = pygame.time.get_ticks() + 15000
+    CheckInterval()
 
     #Logan's attack mechanic
     if actions["MusicBlaring"] == True:
