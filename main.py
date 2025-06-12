@@ -360,7 +360,6 @@ def UpCameras():
         pygame.display.flip()
 
 def DrawCameras():
-    print(actions["Camera"])
     #Logan hall camera
     if actions["Camera"] == 1 and animatronicHandler["LoganLevel"] == 0: 
         image = pygame.image.load("Assets/Sprites/LoganHall1.png")
