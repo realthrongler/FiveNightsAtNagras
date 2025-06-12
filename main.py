@@ -98,7 +98,8 @@ animatronicHandler = {
     "MaxInterval": 0, #Empty numbers for storing the start time of the night (since it's relative) plus the attack intervals in milliseconds
     "NagraInterval": 0, #For example, Mr.Nagra's interval for checking movement is 5 seconds, so we'll take the time started and add 5000 milliseconds
     "LoganInterval": 0, #If the current time is equal to the interval or greater, roll for movement.
-    "NoahInterval": 0
+    "NoahInterval": 0,
+    "StaticStarted": True
 }
 
 def play_valve_intro():
@@ -490,9 +491,10 @@ def NagraMovement():
 
 def NoahCheckAttack():
     chance = random.randint(0, 40)
-    if chance < animatronicHandler["NoahLevel"]:
+    if chance < animatronicHandler["NoahLevel"] and actions["ComputerOff"] == False:
         sound = pygame.mixer.Sound("Assets/Audio/Static.mp3")
         STATIC_CHANNEL.play(sound)
+        animatronicHandler["StaticStarted"] = True
         
 def NoahJumpScare():
     actions["State"] = "JUMPSCARE"
@@ -762,6 +764,8 @@ while running:
             #X key input for turning off the cameras
             if event.key == pygame.K_x:
                 if actions["State"] == "CAMERA" and actions["ComputerOff"] == False:
+                    animatronicHandler["StaticStarted"] = False
+                    STATIC_CHANNEL.stop()
                     ComputerShutoff()
                 elif actions["State"] == "DESK" and actions["ComputerOff"] == True:
                     ComputerPowerOn()
@@ -785,6 +789,7 @@ while running:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE or actions["State"] != "DOOR":
                 actions["DoorClosed"] = False
+
     ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ### 
     if pygame.mouse.get_pressed()[0] and actions["State"] == "MENU":
         red = (200, 50, 0)
@@ -841,6 +846,9 @@ while running:
     #playing music if none is playing already and music is supposed to be blaring
     if actions["MusicBlaring"] == True and LOGAN_CHANNEL.get_busy == False:
         PlayMusic()
+
+    if animatronicHandler["StaticStarted"] and STATIC_CHANNEL.get_busy() == False:
+        NoahJumpScare()
 
     if AMBIENCE_CHANNEL.get_busy() == False and actions["NightActive"] == True:
         song = random.randint(1, 2)
