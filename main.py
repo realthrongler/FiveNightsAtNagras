@@ -519,16 +519,16 @@ def LoganJumpscare():
 def CheckInterval():
     time = pygame.time.get_ticks()
     
-    if time >= animatronicHandler["NagraInterval"] and PHONE_CHANNEL.get_busy() == False: 
+    if time >= animatronicHandler["NagraInterval"]: 
         animatronicHandler["NagraInterval"] += 7000 #7 second intervals
         NagraMovement()
-    elif time >= animatronicHandler["LoganInterval"] and PHONE_CHANNEL.get_busy() == False: 
+    elif time >= animatronicHandler["LoganInterval"]: 
         animatronicHandler["LoganInterval"] += 15000 #15 second intervals
         MaybePlayMusic()
-    elif time >= animatronicHandler["MaxInterval"] and PHONE_CHANNEL.get_busy() == False: 
+    elif time >= animatronicHandler["MaxInterval"]: 
         animatronicHandler["MaxInterval"] += 10000 #10 second intervals
         MaxMovement()
-    elif time >= animatronicHandler["NoahInterval"] and PHONE_CHANNEL.get_busy() == False: 
+    elif time >= animatronicHandler["NoahInterval"]: 
         animatronicHandler["NoahInterval"] += 15000 #15 second intervals
         NoahCheckAttack()
 
@@ -835,7 +835,8 @@ while running:
         RunToComputer()
     
     CheckWin()
-    CheckInterval()
+    if PHONE_CHANNEL.get_busy == False:
+        CheckInterval()
 
     #Logan's attack mechanic
     if actions["MusicBlaring"] == True:
