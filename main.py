@@ -78,7 +78,7 @@ actions = {"CanWindow": False,
 "ComputerOff": False,
 "State": "MENU", #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "WIN"
 "ComputerTime": 0, #Storing time that the computer startup started to check if the player can use the computer again
-"Night": 1,
+"Night": 4, #DEBUGGING CHANGE THIS BACK TO 1
 "Camera": 1, #Defaults to Logan's hall, 2 is storage room, 3 is just outside storage room, 4 is bench, 5 is mr.nagra chair
 "StartTime": 0.00} #Float for storing the time the night started in milliseconds
 
@@ -494,7 +494,8 @@ def NoahCheckAttack():
     print("noah checked")
     chance = random.randint(1, 40)
     print(chance < animatronicHandler["NoahLevel"])
-
+    if animatronicHandler["StaticStarted"] == True:
+        NoahJumpScare()
     print("static on: " + str(animatronicHandler["StaticStarted"]))
     if chance < animatronicHandler["NoahLevel"]:
         animatronicHandler["StaticStarted"] = True
@@ -509,7 +510,7 @@ def NoahJumpScare():
 
     NoahAttackSound = pygame.mixer.Sound("Assets/Audio/Noah_Buildup.mp3")
     JUMPSCARE_CHANNEL.play(NoahAttackSound)
-    pygame.time.wait(int(NoahAttackSound.get_length()))
+    time.sleep(int(NoahAttackSound.get_length()))
     GameLoss()
 
 def LoganJumpscare():
@@ -520,7 +521,8 @@ def LoganJumpscare():
     
     jumpscare = pygame.mixer.Sound("Assets/Audio/Logan_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
-    pygame.time.wait(int(jumpscare.get_length()))
+    time.sleep(int(jumpscare.get_length()))
+    GameLoss()
 
 def CheckInterval():
     time = pygame.time.get_ticks()
@@ -551,7 +553,7 @@ def MaxJumpscare():
     
     jumpscare = pygame.mixer.Sound("Assets/Audio/Max_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
-    pygame.time.wait(int(jumpscare.get_length()))
+    time.sleep(int(jumpscare.get_length()))
     GameLoss()
 
 def ComputerShutoff():
@@ -584,7 +586,7 @@ def NagraJumpscare():
 
     NagraJumpscareSound = pygame.mixer.Sound("Assets/Audio/Nagra_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(NagraJumpscareSound)
-    pygame.time.wait(int(NagraJumpscareSound.get_length()))
+    time.sleep(int(NagraJumpscareSound.get_length()))
     GameLoss()
 
 def CloseDoor():
@@ -601,10 +603,10 @@ def PlayMusic():
     musicNumber = random.randint(1,2)
     if musicNumber == 1:
         song = pygame.mixer.Sound("Assets/Audio/DJ_Toenail.mp3")
-        LOGAN_CHANNEL.play(song)
+        MUSIC_CHANNEL.play(song)
     elif musicNumber == 2:
         song = pygame.mixer.Sound("Assets/Audio/ThickOfIt.mp3")
-        LOGAN_CHANNEL.play(song)
+        MUSIC_CHANNEL.play(song)
 
 def NightWin():
     actions["NightActive"] = False
@@ -689,10 +691,10 @@ def NightStart(night):
         animatronicHandler["NoahLevel"] = 5
         animatronicHandler["LoganLevel"] = 10
     elif night == 4:
-        animatronicHandler["NagraLevel"] = 14
-        animatronicHandler["MaxLevel"] = 15
-        animatronicHandler["NoahLevel"] = 10
-        animatronicHandler["LoganLevel"] = 14
+        animatronicHandler["NagraLevel"] = 0 #DEBUGGING, 14 ORIGINALLY
+        animatronicHandler["MaxLevel"] = 0 #DEBUGGING, 15 ORIGINALLY
+        animatronicHandler["NoahLevel"] = 10 #DEBUGGING, 10 ORIGINALLY
+        animatronicHandler["LoganLevel"] = 60 #DEBUGGING, 14 ORIGINALLY
     elif night == 5:
         animatronicHandler["NagraLevel"] = 17
         animatronicHandler["MaxLevel"] = 17
@@ -850,18 +852,22 @@ while running:
     if animatronicHandler["StaticStarted"] == True and STATIC_CHANNEL.get_busy() == False:
         STATIC_CHANNEL.play(pygame.mixer.Sound("Assets/Audio/Static.mp3"))    
         
-    #Logan's attack mechanic
+    #Logan's attack mechanic and jumpscare
     if actions["MusicBlaring"] == True:
-        animatronicHandler["LoganProgress"] += 0.01
+        animatronicHandler["LoganProgress"] += 0.5
+        print(animatronicHandler["LoganProgress"])
         voice1 = pygame.mixer.Sound("Assets/Audio/Logan_Voiceline_Pt1.mp3")
         voice2 = pygame.mixer.Sound("Assets/Audio/Logan_Voiceline_Pt2.mp3")
         if animatronicHandler["LoganProgress"] == 25:
             LOGAN_CHANNEL.play(voice1)
         elif animatronicHandler["LoganProgress"] == 69:
             LOGAN_CHANNEL.play(voice2)
+        
+        if animatronicHandler["LoganProgress"] > 100:
+            LoganJumpscare()
     
     #playing music if none is playing already and music is supposed to be blaring
-    if actions["MusicBlaring"] == True and LOGAN_CHANNEL.get_busy() == False:
+    if actions["MusicBlaring"] == True and MUSIC_CHANNEL.get_busy() == False:
         PlayMusic()
     #Noah static attack
     
