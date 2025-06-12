@@ -842,14 +842,20 @@ while running:
     #Logan's attack mechanic
     if actions["MusicBlaring"] == True:
         animatronicHandler["LoganProgress"] += 0.01
+        voice1 = pygame.mixer.Sound("Assets/Audio/Logan_Voiceline_Pt1.mp3")
+        voice2 = pygame.mixer.Sound("Assets/Audio/Logan_Voiceline_Pt2.mp3")
+        if animatronicHandler["LoganProgress"] == 25:
+            LOGAN_CHANNEL.play(voice1)
+        elif animatronicHandler["LoganProgress"] == 69:
+            LOGAN_CHANNEL.play(voice2)
     
     #playing music if none is playing already and music is supposed to be blaring
     if actions["MusicBlaring"] == True and LOGAN_CHANNEL.get_busy == False:
         PlayMusic()
-
+    #Noah static attack
     if animatronicHandler["StaticStarted"] and STATIC_CHANNEL.get_busy() == False:
         NoahJumpScare()
-
+    #ambience playing
     if AMBIENCE_CHANNEL.get_busy() == False and actions["NightActive"] == True:
         song = random.randint(1, 2)
         if song == 1:
