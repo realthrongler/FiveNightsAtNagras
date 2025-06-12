@@ -542,11 +542,11 @@ def MaxJumpscare():
     image = pygame.image.load("Assets/Sprites/Max_Jumpscare4.png")
     rect = image.get_rect()
     screen.blit(image, rect)
-    GameLoss()
     
     jumpscare = pygame.mixer.Sound("Assets/Audio/Max_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
     pygame.time.wait(int(jumpscare.get_length()))
+    GameLoss()
 
 def NoahAppear():
     AppearChance = random.randint(0, 40)
