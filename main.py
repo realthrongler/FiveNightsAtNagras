@@ -726,6 +726,7 @@ def GameLoss():
     actions["CanCamera"] = False
     actions["CanClose"] = False
     actions["MusicBlaring"] = False
+    MUSIC_CHANNEL.stop()
     actions["CanDisableMusic"] = False
     actions["ComputerOff"] = False
     actions["CanWindow"] = False
@@ -854,7 +855,7 @@ while running:
         
     #Logan's attack mechanic and jumpscare
     if actions["MusicBlaring"] == True:
-        animatronicHandler["LoganProgress"] += 0.5
+        animatronicHandler["LoganProgress"] += 0.15
         print(animatronicHandler["LoganProgress"])
         voice1 = pygame.mixer.Sound("Assets/Audio/Logan_Voiceline_Pt1.mp3")
         voice2 = pygame.mixer.Sound("Assets/Audio/Logan_Voiceline_Pt2.mp3")
@@ -869,7 +870,6 @@ while running:
     #playing music if none is playing already and music is supposed to be blaring
     if actions["MusicBlaring"] == True and MUSIC_CHANNEL.get_busy() == False:
         PlayMusic()
-    #Noah static attack
     
     #ambience playing
     if AMBIENCE_CHANNEL.get_busy() == False and actions["NightActive"] == True:
