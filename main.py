@@ -20,7 +20,7 @@ FPS = 60
 WIDTH = 1280
 HEIGHT = 720
 BGCOLOUR = BLACK ### CHANGE AS NEEDED ###
-CAPTION = "Thong mining simulator"
+CAPTION = "Five Nights At Thong's"
 pygame.mixer.set_num_channels(10)
 PHONE_CHANNEL = pygame.mixer.Channel(0) #For playing phone voicelines
 MUSIC_CHANNEL = pygame.mixer.Channel(1)  #For playing Logan's music
@@ -506,7 +506,7 @@ def NoahJumpScare():
     NoahAttackImageRect = NoahAttackImage.get_rect()
     NoahAttackSound = pygame.mixer.Sound("Assets/Audio/Noah_Buildup.mp3")
     JUMPSCARE_CHANNEL.play(NoahAttackSound)
-    for i in range(0, 5000):
+    for i in range(0, 700):
         screen.blit(NoahAttackImage, NoahAttackImageRect)
         pygame.display.flip()
 
@@ -520,7 +520,7 @@ def LoganJumpscare():
     JUMPSCARE_CHANNEL.play(jumpscare)
     image = pygame.image.load("Assets/Sprites/LoganJumpscare.png")
     rect = image.get_rect()
-    for i in range(0, 3000):
+    for i in range(0, 700):
         screen.blit(image, rect)
         pygame.display.flip()
     
@@ -555,7 +555,7 @@ def MaxJumpscare():
     rect = image.get_rect()
     jumpscare = pygame.mixer.Sound("Assets/Audio/Max_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
-    for i in range(0, 5000):
+    for i in range(0, 800):
         screen.blit(image, rect)
         pygame.display.flip()
     
@@ -590,7 +590,8 @@ def NagraJumpscare():
     NagraJumpscareSound = pygame.mixer.Sound("Assets/Audio/Nagra_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(NagraJumpscareSound)
     pygame.display.flip()
-    for i in range(0, 5000):
+    for i in range(0, 200):
+        print(i)
         screen.blit(NagraJumpscareImage, NagraJumpscareImageRect)
         pygame.display.flip()
     
@@ -629,6 +630,9 @@ def NightWin():
     actions["CanFlashlight"] = False
     actions["State"] = "WIN"
     animatronicHandler["NagraProgress"] = 0
+    animatronicHandler["LoganAtDoor"] = False
+    animatronicHandler["LoganProgress"] = 0.00
+    AMBIENCE_CHANNEL.stop()
 
     win_image = pygame.image.load("Assets/Sprites/Win_clock.png")
     rect = win_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
@@ -639,7 +643,7 @@ def NightWin():
     flash_interval = 500  # ms
     show = True
 
-    while pygame.time.get_ticks() - start_time < 60000:  # 6 seconds
+    while pygame.time.get_ticks() - start_time < 6000:  # 6 seconds
         screen.fill((0, 0, 0))
         if show:
             screen.blit(win_image, rect)
@@ -706,7 +710,7 @@ def NightStart(night):
     elif night == 5:
         animatronicHandler["NagraLevel"] = 17
         animatronicHandler["MaxLevel"] = 17
-        animatronicHandler["NoahLevel"] = 16
+        animatronicHandler["NoahLevel"] = 17
         animatronicHandler["LoganLevel"] = 17
     DrawDeskScreen()
 
