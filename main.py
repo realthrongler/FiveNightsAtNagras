@@ -851,7 +851,7 @@ while running:
     keys = pygame.key.get_pressed()
     
     #Running around the room
-    if keys[K_LEFT] and actions["CanDoor"] == True:
+    if keys[K_LEFT] and actions["CanDoor"] == True and actions["State"] == "DESK":
         RunToDoor()
     if keys[K_UP] and actions["State"] == "DESK":
         RunToWindow()
