@@ -630,6 +630,7 @@ def NightWin():
     actions["CanFlashlight"] = False
     actions["State"] = "WIN"
     animatronicHandler["NagraProgress"] = 0
+    animatronicHandler["NagraAttacking"] = False
     animatronicHandler["LoganAtDoor"] = False
     animatronicHandler["LoganProgress"] = 0.00
     AMBIENCE_CHANNEL.stop()

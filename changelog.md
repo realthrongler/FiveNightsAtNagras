@@ -53,3 +53,10 @@
 - more bug fixes for jumpscares
 - todo: work on timing of winning the night and telling the player what the controls are
 
+13/06/25
+- I downloaded rainbow six siege because it was free access so I might as well try
+- In terms of game changes, timing issues fixed for jumpscares and winning the night
+- Fixed door issue where you could run to the door even though you're already at the door
+- Reset Logan's progress to 0 at the end of each night
+- Stopped ambience from playing over the alarm when you win
+- Preventing more bugs
