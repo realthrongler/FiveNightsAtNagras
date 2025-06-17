@@ -484,19 +484,15 @@ def NagraMovement():
         animatronicHandler["NagraAttacking"] = False
         pygame.display.flip()
     if chance < animatronicHandler["NagraLevel"]:
-        print("he moved")
         animatronicHandler["NagraProgress"] += 26
     if animatronicHandler["NagraProgress"] >= 100:
-        print("hes attacking")
         animatronicHandler["NagraAttacking"] = True
 
 def NoahCheckAttack():
-    print("noah checked")
     chance = random.randint(1, 40)
     print(chance < animatronicHandler["NoahLevel"])
     if animatronicHandler["StaticStarted"] == True:
         NoahJumpScare()
-    print("static on: " + str(animatronicHandler["StaticStarted"]))
     if chance < animatronicHandler["NoahLevel"]:
         animatronicHandler["StaticStarted"] = True
     
@@ -634,6 +630,11 @@ def NightWin():
     animatronicHandler["LoganAtDoor"] = False
     animatronicHandler["LoganProgress"] = 0.00
     AMBIENCE_CHANNEL.stop()
+    MUSIC_CHANNEL.stop()
+    PHONE_CHANNEL.stop()
+    ACTIONS_CHANNEL.stop()
+    PHONE_CHANNEL.stop()
+    LOGAN_CHANNEL.stop()
 
     win_image = pygame.image.load("Assets/Sprites/Win_clock.png")
     rect = win_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
@@ -747,6 +748,7 @@ def GameLoss():
     actions["CanWindow"] = False
     actions["CanDoor"] = False
     animatronicHandler["NagraProgress"] = 0
+    animatronicHandler["LoganProgress"] = 0.00
 
 play_valve_intro()
 MenuSong = pygame.mixer.Sound("Assets/Audio/MenuTheme.mp3")
