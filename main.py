@@ -81,7 +81,7 @@ actions = {"CanWindow": False,
 "ComputerOff": False,
 "State": "MENU", #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "WIN"
 "ComputerTime": 0, #Storing time that the computer startup started to check if the player can use the computer again
-"Night": 1, 
+"Night": 5, 
 "Camera": 1, #Defaults to Logan's hall, 2 is storage room, 3 is just outside storage room, 4 is bench, 5 is mr.nagra chair
 "StartTime": 0.00} #Float for storing the time the night started in milliseconds
 
@@ -465,7 +465,7 @@ def MaxMovement():
 
     if animatronicHandler["MaxAttacking"] == True and actions["NightActive"] == True and actions["State"] != "MENU":
         MaxWindowBreak()
-        pygame.time.wait(5000)
+        pygame.time.wait(2000)
         MaxJumpscare()
 
     if chance < animatronicHandler["MaxLevel"] and animatronicHandler["MaxAttacking"] == False:
@@ -554,7 +554,7 @@ def MaxJumpscare():
     rect = image.get_rect()
     jumpscare = pygame.mixer.Sound("Assets/Audio/Max_Jumpscare.mp3")
     JUMPSCARE_CHANNEL.play(jumpscare)
-    for i in range(0, 800):
+    for i in range(0, 700):
         screen.blit(image, rect)
         pygame.display.flip()
     
@@ -626,7 +626,6 @@ def NightWin():
     actions["CanDoor"] = False
     actions["CanWindow"] = False
     actions["CanFlashlight"] = False
-    actions["State"] = "WIN"
     animatronicHandler["NagraProgress"] = 0
     animatronicHandler["NagraAttacking"] = False
     animatronicHandler["LoganAtDoor"] = False
@@ -655,12 +654,14 @@ def NightWin():
         pygame.time.delay(flash_interval)
         show = not show
     if actions["Night"] + 1 == 6:
-        DrawUltimateSuperCoolSigmaWin()
+        actions["State"] = "WIN"
     elif actions["Night"] + 1 != 6:
         actions["Night"] += 1
         NightStart(actions["Night"])
 
 def NightStart(night):
+    #Setting start time for tracking when the night is over (after 4 minutes and 30 seconds)
+    actions["StartTime"] = pygame.time.get_ticks()
     #Setting variables
     actions["NightActive"] = True
     actions["State"] = "DESK"
@@ -685,9 +686,6 @@ def NightStart(night):
         PHONE_CHANNEL.play(SecondAudio)
     elif night == 3:
         PHONE_CHANNEL.play(ThirdAudio)
-
-    #Setting start time for tracking when the night is over (after 4 minutes and 30 seconds)
-    actions["StartTime"] = pygame.time.get_ticks()
 
     #Updating initial intervals for animatronic movement checks
     animatronicHandler["MaxInterval"] = actions["StartTime"] + 10000
@@ -722,7 +720,7 @@ def NightStart(night):
     DrawDeskScreen()
 
 def CheckWin():
-    if pygame.time.get_ticks() >= actions["StartTime"] + 270000:
+    if pygame.time.get_ticks() >= actions["StartTime"] + 5000 and actions["NightActive"] == True: #Originally 270000
         NightWin()
 
 def Running_transition():
@@ -756,7 +754,11 @@ def GameLoss():
     animatronicHandler["LoganProgress"] = 0.00
 
 def DrawUltimateSuperCoolSigmaWin():
-    pass
+    image = pygame.image.load("Assets/Sprites/Ending_Poster.png")
+    rect = image.get_rect()
+
+    screen.blit(image, rect)
+    pygame.display.flip()
     
 
 play_valve_intro()
@@ -824,6 +826,16 @@ while running:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE or actions["State"] != "DOOR":
                 actions["DoorClosed"] = False
+        
+        if event.type == pygame.MOUSEBUTTONDOWN and actions["State"] == "WIN":
+            Rubble = pygame.mixer.Sound("Assets/Audio/rubble.mp3")
+            Voiceline = pygame.mixer.Sound("Assets/Audio/Nagra_Voiceline#2.mp3")
+            pygame.time.wait(5000)
+            ENDING_CHANNEL.play(Rubble)
+            pygame.time.wait(2700)
+            ENDING_CHANNEL.play(Voiceline)
+            pygame.time.wait(2500)
+            actions["State"] = "MENU"
 
     ### ADD ANY OTHER EVENTS HERE (KEYS, MOUSE, ETC.) ### 
     if pygame.mouse.get_pressed()[0] and actions["State"] == "MENU":
@@ -912,6 +924,8 @@ while running:
     if animatronicHandler["LoganProgress"] > 90:
         animatronicHandler["LoganAtDoor"] = True
 
+    if actions["State"] == "WIN":
+        DrawUltimateSuperCoolSigmaWin()
     # game loop drawing
     ### ADD ANY GAME LOOP DRAWINGS HERE ###
     
