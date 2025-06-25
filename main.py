@@ -81,7 +81,7 @@ actions = {"CanWindow": False,
 "ComputerOff": False,
 "State": "MENU", #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "WIN"
 "ComputerTime": 0, #Storing time that the computer startup started to check if the player can use the computer again
-"Night": 5, 
+"Night": 1, 
 "Camera": 1, #Defaults to Logan's hall, 2 is storage room, 3 is just outside storage room, 4 is bench, 5 is mr.nagra chair
 "StartTime": 0.00} #Float for storing the time the night started in milliseconds
 
@@ -720,7 +720,7 @@ def NightStart(night):
     DrawDeskScreen()
 
 def CheckWin():
-    if pygame.time.get_ticks() >= actions["StartTime"] + 5000 and actions["NightActive"] == True: #Originally 270000
+    if pygame.time.get_ticks() >= actions["StartTime"] + 270000 and actions["NightActive"] == True:
         NightWin()
 
 def Running_transition():
@@ -828,9 +828,11 @@ while running:
                 actions["DoorClosed"] = False
         
         if event.type == pygame.MOUSEBUTTONDOWN and actions["State"] == "WIN":
+            screen.fill(BGCOLOUR)
+            pygame.display.flip()
             Rubble = pygame.mixer.Sound("Assets/Audio/rubble.mp3")
             Voiceline = pygame.mixer.Sound("Assets/Audio/Nagra_Voiceline#2.mp3")
-            pygame.time.wait(5000)
+            pygame.time.wait(3000)
             ENDING_CHANNEL.play(Rubble)
             pygame.time.wait(2700)
             ENDING_CHANNEL.play(Voiceline)
