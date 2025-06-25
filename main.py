@@ -1,6 +1,9 @@
 # Programmer(s): Noah, Logan, Max
 # Date: 29/05/25
 # Description: Five Night's at Freddy's but with Mr.Nagra and us
+
+#Thanks to Max for designing and creating all of the assets (and pixabay for the audio assets)
+#Thanks to Logan for programming
 import pygame
 from pygame import * # type: ignore
 from pygame.sprite import * # type: ignore
@@ -615,7 +618,6 @@ def PlayMusic():
 
 def NightWin():
     actions["NightActive"] = False
-    actions["Night"] += 1
     actions["CanLook"] = False
     actions["CanClose"] = False
     actions["CanCamera"] = False
@@ -652,8 +654,11 @@ def NightWin():
         pygame.display.flip()
         pygame.time.delay(flash_interval)
         show = not show
-
-    NightStart(actions["Night"])
+    if actions["Night"] + 1 == 6:
+        DrawUltimateSuperCoolSigmaWin()
+    elif actions["Night"] + 1 != 6:
+        actions["Night"] += 1
+        NightStart(actions["Night"])
 
 def NightStart(night):
     #Setting variables
@@ -749,6 +754,10 @@ def GameLoss():
     actions["CanDoor"] = False
     animatronicHandler["NagraProgress"] = 0
     animatronicHandler["LoganProgress"] = 0.00
+
+def DrawUltimateSuperCoolSigmaWin():
+    pass
+    
 
 play_valve_intro()
 MenuSong = pygame.mixer.Sound("Assets/Audio/MenuTheme.mp3")
