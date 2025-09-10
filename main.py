@@ -63,7 +63,7 @@ clock = pygame.time.Clock()
 
 #sprite = ImageSprite(x, y, "INSERT_IMAGE_FILENAME.jpg")
 
-# group sprites
+# group sprites but we don't even use ts lmao
 allSprites = pygame.sprite.Group()
 
 #Variables for determining whether the play can perform certain actions
@@ -107,6 +107,7 @@ animatronicHandler = {
 }
 
 def play_valve_intro():
+    #the wiki says you should do this stuff so it works properly
     pygame.init()
     pygame.mixer.init()
 
@@ -175,9 +176,10 @@ def play_valve_intro():
             running = False
 
         clock.tick(60)
-
+    #clear the music mixer
     pygame.mixer.music.pause()
     pygame.mixer_music.unload()
+    #reset volume so any other songs played are audible
     pygame.mixer_music.set_volume(1.0)
         
 def DrawMenuScreen():
