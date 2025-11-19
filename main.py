@@ -5,8 +5,7 @@
 #Thanks to Max for designing and creating all of the assets (and pixabay for the audio assets)
 #Thanks to Logan for programming
 import pygame
-from pygame import * # type: ignore
-from pygame.sprite import * # type: ignore
+from pygame import * 
 import time
 import random
 pygame.mixer.init()
@@ -42,29 +41,8 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption(CAPTION)
 clock = pygame.time.Clock()
 
-### ADD YOUR SPRITE CLASSES HERE ###
-
-#class ImageSprite(Sprite):
-#    def __init__(self, x, y, filename):                    # NEW sprite at (x,y)
-#        Sprite.__init__(self)                              # init the Sprite object
-#        self.image = image.load(filename).convert()        # loads the image from filename as the sprite  
-#        self.rect = self.image.get_rect()                  # creates the rectangle around the sprite
-#        self.rect.center = (x//2,y//2)                           
-
-#    # semi-optional part
-#    def update(self):
-#        ### ADD MOVEMENT MODIFIERS HERE ###
-#        self.rect.x += 5
-#        self.rect.y -= 2
-#        self.rect.center = (x//2,y//2)  
-        
-
-### ADD SPRITE INSTANCES HERE ###
-
-#sprite = ImageSprite(x, y, "INSERT_IMAGE_FILENAME.jpg")
-
 # group sprites but we don't even use ts lmao
-allSprites = pygame.sprite.Group()
+allSprites = pygame.sprite.Group() #Keeping the above comment because it's funny (the given template had sprite classes and stuff)
 
 #Variables for determining whether the play can perform certain actions
 actions = {"CanWindow": False,
