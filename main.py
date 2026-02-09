@@ -2,6 +2,11 @@
 # Date: 29/05/25
 # Description: Five Night's at Freddy's but with Mr.Nagra and us
 
+##### IMPORTANT #####
+#This code could be a lot better with object oriented programming, but I choose to keep it like this as a reminder
+#that we all start somewhere, and also that we did not have much time to work on this project
+#ongoing development is just small bug fixes and quality of life changes
+
 #Thanks to Max for designing and creating all of the assets (and pixabay for the audio assets)
 #Thanks to Logan for programming
 import pygame
