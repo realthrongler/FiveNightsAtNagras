@@ -445,7 +445,7 @@ def MaxMovement():
 
     if animatronicHandler["MaxAttacking"] == True and actions["NightActive"] == True and actions["State"] != "MENU":
         MaxWindowBreak()
-        pygame.time.wait(2000)
+        pygame.time.wait(1000)
         MaxJumpscare()
 
     if chance < animatronicHandler["MaxLevel"] and animatronicHandler["MaxAttacking"] == False:
@@ -496,6 +496,9 @@ def NoahJumpScare():
 def LoganJumpscare():
     screen.fill(BGCOLOUR)
     jumpscare = pygame.mixer.Sound("Assets/Audio/Logan_Jumpscare.mp3")
+    AMBIENCE_CHANNEL.stop()
+    LOGAN_CHANNEL.stop()
+    MUSIC_CHANNEL.stop()
     JUMPSCARE_CHANNEL.play(jumpscare)
     image = pygame.image.load("Assets/Sprites/LoganJumpscare.png")
     rect = image.get_rect()
@@ -533,8 +536,10 @@ def MaxJumpscare():
     image = pygame.image.load("Assets/Sprites/Max_Jumpscare4.png")
     rect = image.get_rect()
     jumpscare = pygame.mixer.Sound("Assets/Audio/Max_Jumpscare.mp3")
+    LOGAN_CHANNEL.stop()
+    AMBIENCE_CHANNEL.stop()
     JUMPSCARE_CHANNEL.play(jumpscare)
-    for i in range(0, 700):
+    for i in range(0, 300):
         screen.blit(image, rect)
         pygame.display.flip()
     
@@ -567,9 +572,11 @@ def NagraJumpscare():
     NagraJumpscareImage = pygame.image.load("Assets/Sprites/NagraJumpscare.png")
     NagraJumpscareImageRect = NagraJumpscareImage.get_rect()
     NagraJumpscareSound = pygame.mixer.Sound("Assets/Audio/Nagra_Jumpscare.mp3")
+    AMBIENCE_CHANNEL.stop()
+    LOGAN_CHANNEL.stop()
     JUMPSCARE_CHANNEL.play(NagraJumpscareSound)
     pygame.display.flip()
-    for i in range(0, 200):
+    for i in range(0, 150):
         print(i)
         screen.blit(NagraJumpscareImage, NagraJumpscareImageRect)
         pygame.display.flip()
