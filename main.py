@@ -64,7 +64,7 @@ actions = {"CanWindow": False,
 "ComputerOff": False,
 "State": "MENU", #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "WIN"
 "ComputerTime": 0, #Storing time that the computer startup started to check if the player can use the computer again
-"Night": 1, 
+"Night": 5, 
 "Camera": 1, #Defaults to Logan's hall, 2 is storage room, 3 is just outside storage room, 4 is bench, 5 is mr.nagra chair
 "StartTime": 0.00} #Float for storing the time the night started in milliseconds
 
@@ -479,9 +479,10 @@ def NagraMovement():
 def NoahCheckAttack():
     chance = random.randint(1, 40)
     print(chance < animatronicHandler["NoahLevel"])
-    if animatronicHandler["StaticStarted"] == True:
+
+    if animatronicHandler["StaticStarted"] == True and actions["ComputerOff"] == False:
         NoahJumpScare()
-    if chance < animatronicHandler["NoahLevel"]:
+    elif chance < animatronicHandler["NoahLevel"]:
         animatronicHandler["StaticStarted"] = True
     
 def NoahJumpScare():
@@ -490,11 +491,10 @@ def NoahJumpScare():
     NoahAttackImageRect = NoahAttackImage.get_rect()
     NoahAttackSound = pygame.mixer.Sound("Assets/Audio/Noah_Buildup.mp3")
     JUMPSCARE_CHANNEL.play(NoahAttackSound)
-    for i in range(0, 700):
+    for i in range(0, 200):
         screen.blit(NoahAttackImage, NoahAttackImageRect)
         pygame.display.flip()
 
-    
     actions["State"] = "JUMPSCARE"
     GameLoss()
 
@@ -552,6 +552,7 @@ def MaxJumpscare():
     GameLoss()
 
 def ComputerShutoff():
+    animatronicHandler["StaticStarted"] = False
     actions["ComputerOff"] = True
     actions["State"] = "DESK"
 
