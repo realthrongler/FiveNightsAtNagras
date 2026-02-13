@@ -478,11 +478,9 @@ def NagraMovement():
 
 def NoahCheckAttack():
     chance = random.randint(1, 40)
-    print(chance < animatronicHandler["NoahLevel"])
-
-    if animatronicHandler["StaticStarted"] == True and actions["ComputerOff"] == False:
-        NoahJumpScare()
-    elif chance < animatronicHandler["NoahLevel"]:
+    print("Static started: " + str(chance < animatronicHandler["NoahLevel"]))
+    
+    if chance < animatronicHandler["NoahLevel"]:
         animatronicHandler["StaticStarted"] = True
     
 def NoahJumpScare():
@@ -529,7 +527,10 @@ def CheckInterval():
         MaxMovement()
     elif time >= animatronicHandler["NoahInterval"] and actions["NightActive"] == True and actions["State"] != "MENU": 
         animatronicHandler["NoahInterval"] += 15000 #15 second intervals
-        NoahCheckAttack()
+        if animatronicHandler["StaticStarted"] == False:
+            NoahCheckAttack()
+        else:
+            NoahJumpScare()
 
 def MaxWindowBreak():
     animatronicHandler["WindowBroken"] = True
@@ -896,7 +897,6 @@ while running:
             LOGAN_CHANNEL.play(voice1)
         elif animatronicHandler["LoganProgress"] == 69:
             LOGAN_CHANNEL.play(voice2)
-        
         if animatronicHandler["LoganProgress"] > 100:
             LoganJumpscare()
     
