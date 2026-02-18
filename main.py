@@ -583,8 +583,7 @@ def NagraJumpscare():
     LOGAN_CHANNEL.stop()
     JUMPSCARE_CHANNEL.play(NagraJumpscareSound)
     pygame.display.flip()
-    for i in range(0, 150):
-        print(i)
+    for i in range(0, 100):
         screen.blit(NagraJumpscareImage, NagraJumpscareImageRect)
         pygame.display.flip()
     
@@ -685,6 +684,8 @@ def NightStart(night):
     animatronicHandler["MaxInterval"] = actions["StartTime"] + 10000
     animatronicHandler["NagraInterval"] = actions["StartTime"] + 7000
     animatronicHandler["LoganInterval"] = actions["StartTime"] + 15000
+    animatronicHandler["NoahInterval"] = actions["StartTime"] + 15000
+
     #Setting AI levels for each animatronic based on the night
     if night == 1:
         animatronicHandler["NagraLevel"] = 5
