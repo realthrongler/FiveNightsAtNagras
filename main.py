@@ -582,6 +582,7 @@ def NagraJumpscare():
     AMBIENCE_CHANNEL.stop()
     LOGAN_CHANNEL.stop()
     JUMPSCARE_CHANNEL.play(NagraJumpscareSound)
+    animatronicHandler["NagraProgress"] = 0
     pygame.display.flip()
     for i in range(0, 100):
         screen.blit(NagraJumpscareImage, NagraJumpscareImageRect)
@@ -714,7 +715,7 @@ def NightStart(night):
         animatronicHandler["LoganLevel"] = 17
     DrawDeskScreen()
 
-def CheckWin():
+def CheckWin(): 
     if pygame.time.get_ticks() >= actions["StartTime"] + 270000 and actions["NightActive"] == True:
         NightWin()
 
