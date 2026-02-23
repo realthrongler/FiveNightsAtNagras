@@ -624,6 +624,7 @@ def NightWin():
     animatronicHandler["NagraAttacking"] = False
     animatronicHandler["LoganAtDoor"] = False
     animatronicHandler["LoganProgress"] = 0.00
+    animatronicHandler["StaticStarted"] = False
     AMBIENCE_CHANNEL.stop()
     MUSIC_CHANNEL.stop()
     PHONE_CHANNEL.stop()
@@ -891,7 +892,7 @@ while running:
         
     #Logan's attack mechanic and jumpscare
     if actions["MusicBlaring"] == True:
-        animatronicHandler["LoganProgress"] += 0.2
+        animatronicHandler["LoganProgress"] += 0.3
         print(animatronicHandler["LoganProgress"])
         voice1 = pygame.mixer.Sound("Assets/Audio/Logan_Voiceline_Pt1.mp3")
         voice2 = pygame.mixer.Sound("Assets/Audio/Logan_Voiceline_Pt2.mp3")
