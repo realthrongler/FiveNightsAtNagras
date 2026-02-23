@@ -64,7 +64,7 @@ actions = {"CanWindow": False,
 "ComputerOff": False,
 "State": "MENU", #Variable for determining player location, including "WINDOW", "DOOR", "DESK", "CAMERA", "MENU", "WIN"
 "ComputerTime": 0, #Storing time that the computer startup started to check if the player can use the computer again
-"Night": 5, 
+"Night": 1, 
 "Camera": 1, #Defaults to Logan's hall, 2 is storage room, 3 is just outside storage room, 4 is bench, 5 is mr.nagra chair
 "StartTime": 0.00} #Float for storing the time the night started in milliseconds
 
